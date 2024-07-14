@@ -2,7 +2,7 @@
 % Please edit documentation in R/as_sgs.R
 \name{as_sgs}
 \alias{as_sgs}
-\title{fits the adaptively scaled SGS model (AS-SGS)}
+\title{Fits the adaptively scaled SGS model (AS-SGS).}
 \usage{
 as_sgs(
   X,
@@ -55,10 +55,29 @@ as_sgs(
 An object of type \code{"sgs"} containing model fit information (see \code{\link[=fit_sgs]{fit_sgs()}}).
 }
 \description{
-Fits an SGS model using the noise estimation procedure, termed adaptively scaled SGS (Algorithm 2 from Feser et al (2023)).
+Fits an SGS model using the noise estimation procedure, termed adaptively scaled SGS (Algorithm 2 from Feser and Evangelou (2023)).
 This adaptively estimates \eqn{\lambda} and then fits the model using the estimated value. It is an alternative approach to
 cross-validation (\code{\link[=fit_sgs_cv]{fit_sgs_cv()}}). The approach is only compatible with the SGS penalties.
 }
 \references{
-F. Feser, M. Evangelou \emph{Sparse-group SLOPE: adaptive bi-level selection with FDR-control}, \url{https://arxiv.org/abs/2305.09467}
+Feser, F., Evangelou, M. (2023). \emph{Sparse-group SLOPE: adaptive bi-level selection with FDR-control}, \url{https://arxiv.org/abs/2305.09467}
 }
+\seealso{
+\code{\link[=scaled_sgs]{scaled_sgs()}}
+
+Other model-selection: 
+\code{\link{fit_gslope_cv}()},
+\code{\link{fit_sgs_cv}()},
+\code{\link{scaled_sgs}()}
+
+Other SGS-methods: 
+\code{\link{coef.sgs}()},
+\code{\link{fit_sgs}()},
+\code{\link{fit_sgs_cv}()},
+\code{\link{plot.sgs}()},
+\code{\link{predict.sgs}()},
+\code{\link{print.sgs}()},
+\code{\link{scaled_sgs}()}
+}
+\concept{SGS-methods}
+\concept{model-selection}

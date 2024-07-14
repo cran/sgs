@@ -18,14 +18,14 @@
 #
 ###############################################################################
 
-#' Fit an SGS model.
+#' Fit a gSLOPE model.
 #' 
-#' Sparse-group SLOPE (SGS) main fitting function. Supports both linear and logistic regression, both with dense and sparse matrix implementations.
+#' Group SLOPE (gSLOPE) main fitting function. Supports both linear and logistic regression, both with dense and sparse matrix implementations.
 #' 
-#' \code{fit_sgs()} fits an SGS model using adaptive three operator splitting (ATOS). SGS is a sparse-group method, so that it selects both variables and groups. Unlike group selection approaches, not every variable within a group is set as active.
+#' \code{fit_gslope()} fits a gSLOPE model using adaptive three operator splitting (ATOS). gSLOPE is a sparse-group method, so that it selects both variables and groups. Unlike group selection approaches, not every variable within a group is set as active.
 #' It solves the convex optimisation problem given by 
 #' \deqn{
-#'   \frac{1}{2n} f(b ; y, \mathbf{X}) + \lambda \alpha \sum_{i=1}^{p}v_i |b|_{(i)} + \lambda (1-\alpha)\sum_{g=1}^{m}w_g \sqrt{p_g} \|b^{(g)}\|_2,
+#'   \frac{1}{2n} f(b ; y, \mathbf{X}) + \lambda \sum_{g=1}^{m}w_g \sqrt{p_g} \|b^{(g)}\|_2,
 #' }
 #' where the penalty sequences are sorted and \eqn{f(\cdot)} is the loss function. In the case of the linear model, the loss function is given by the mean-squared error loss:
 #' \deqn{
@@ -39,8 +39,7 @@
 #' \deqn{
 #'  \mathcal{L}(b; y, \mathbf{X}) = \sum_{i=1}^{n}\left\{y_i b^\intercal x_i - \log(1+\exp(b^\intercal x_i)) \right\}.
 #' }
-#' SGS can be seen to be a convex combination of SLOPE and gSLOPE, balanced through \code{alpha}, such that it reduces to SLOPE for \code{alpha = 0} and to gSLOPE for \code{alpha = 1}. 
-#' The penalty parameters in SGS are sorted so that the largest coefficients are matched with the largest penalties, to reduce the FDR.
+#' The penalty parameters in gSLOPE are sorted so that the largest group effects are matched with the largest penalties, to reduce the group FDR.
 #'
 #' @param X Input matrix of dimensions \eqn{n \times p}{n*p}. Can be a sparse matrix (using class \code{"sparseMatrix"} from the \code{Matrix} package).
 #' @param y Output vector of dimension \eqn{n}. For \code{type="linear"} should be continuous and for \code{type="logistic"} should be a binary variable.
@@ -50,14 +49,11 @@
 #'   - \code{"path"} computes a path of regularisation parameters of length \code{"path_length"}. The path will begin just above the value at which the first predictor enters the model and will terminate at the value determined by \code{"min_frac"}.
 #'   - User-specified single value or sequence. Internal scaling is applied based on the type of standardisation. The returned \code{"lambda"} value will be the original unscaled value(s).
 #' @param path_length The number of \eqn{\lambda} values to fit the model for. If \code{"lambda"} is user-specified, this is ignored.
-#' @param min_frac Smallest value of \eqn{\lambda} as a fraction of the maximum value. That is, the final \eqn{\lambda} will be \code{"min_frac"} of the first \eqn{\lambda} value.
-#' @param alpha The value of \eqn{\alpha}, which defines the convex balance between SLOPE and gSLOPE. Must be between 0 and 1. Recommended value is 0.95.
-#' @param vFDR Defines the desired variable false discovery rate (FDR) level, which determines the shape of the variable penalties. Must be between 0 and 1.
+#' @param min_frac Defines the termination point of the pathwise solution, so that \eqn{\lambda_\text{min} = min_frac \cdot \lambda_\text{max}}.
 #' @param gFDR Defines the desired group false discovery rate (FDR) level, which determines the shape of the group penalties. Must be between 0 and 1.
-#' @param pen_method The type of penalty sequences to use (see Feser and Evangelou (2023)):
-#'   - \code{"1"} uses the vMean SGS and gMean gSLOPE sequences. 
-#'   - \code{"2"} uses the vMax SGS and gMean gSLOPE sequences.
-#'   - \code{"3"} uses the BH SLOPE and gMean gSLOPE sequences, also known as SGS Original.
+#' @param pen_method The type of penalty sequences to use (see Brzyski et al. (2019)):
+#'   - \code{"1"} uses the gMean gSLOPE sequence. 
+#'   - \code{"2"} uses the gMax gSLOPE sequence. 
 #' @param max_iter Maximum number of ATOS iterations to perform. 
 #' @param backtracking The backtracking parameter, \eqn{\tau}, as defined in Pedregosa et. al. (2018).
 #' @param max_iter_backtracking Maximum number of backtracking line search iterations to perform per global iteration.
@@ -70,40 +66,53 @@
 #' @param intercept Logical flag for whether to fit an intercept.
 #' @param screen Logical flag for whether to apply screening rules (see Feser and Evangelou (2024)). Screening discards irrelevant groups before fitting, greatly improving speed.
 #' @param verbose Logical flag for whether to print fitting information.
-#' @param v_weights Optional vector for the variable penalty weights. Overrides the penalties from \code{pen_method} if specified. When entering custom weights, these are multiplied internally by \eqn{\lambda} and \eqn{\alpha}. To void this behaviour, set \eqn{\lambda = 2} and \eqn{\alpha = 0.5}.
 #' @param w_weights Optional vector for the group penalty weights. Overrides the penalties from \code{pen_method} if specified. When entering custom weights, these are multiplied internally by \eqn{\lambda} and \eqn{1-\alpha}. To void this behaviour, set \eqn{\lambda = 2} and \eqn{\alpha = 0.5}.
-#' 
+#'
 #' @return A list containing:
 #' \item{beta}{The fitted values from the regression. Taken to be the more stable fit between \code{x} and \code{z}, which is usually the former. A filter is applied to remove very small values, where ATOS has not been able to shrink exactly to zero. Check this against \code{x} and \code{z}.}
+#' \item{group_effects}{The group values from the regression. Taken by applying the \eqn{\ell_2} norm within each group on \code{beta}.}
+#' \item{selected_var}{A list containing the indicies of the active/selected variables for each \code{"lambda"} value.}
+#' \item{selected_grp}{A list containing the indicies of the active/selected groups for each \code{"lambda"} value.}
+#' \item{pen_gslope}{Vector of the group penalty sequence.}
+#' \item{lambda}{Value(s) of \eqn{\lambda} used to fit the model.}
+#' \item{type}{Indicates which type of regression was performed.}
+#' \item{standardise}{Type of standardisation used.} 
+#' \item{intercept}{Logical flag indicating whether an intercept was fit.}
+#' \item{num_it}{Number of iterations performed. If convergence is not reached, this will be \code{max_iter}.}
+#' \item{success}{Logical flag indicating whether ATOS converged, according to \code{tol}.}
+#' \item{certificate}{Final value of convergence criteria.} 
 #' \item{x}{The solution to the original problem (see Pedregosa et. al. (2018)).}
 #' \item{u}{The solution to the dual problem (see Pedregosa et. al. (2018)).}
 #' \item{z}{The updated values from applying the first proximal operator (see Pedregosa et. al. (2018)).}
-#' \item{type}{Indicates which type of regression was performed.}
-#' \item{pen_slope}{Vector of the variable penalty sequence.}
-#' \item{pen_gslope}{Vector of the group penalty sequence.}
-#' \item{lambda}{Value(s) of \eqn{\lambda} used to fit the model.}
-#' \item{success}{Logical flag indicating whether ATOS converged, according to \code{tol}.}
-#' \item{num_it}{Number of iterations performed. If convergence is not reached, this will be \code{max_iter}.}
-#' \item{certificate}{Final value of convergence criteria.}
-#' \item{intercept}{Logical flag indicating whether an intercept was fit.}
-#'
-#' @family SGS-methods
+#' \item{screen_set}{List of groups that were kept after screening step for each \code{"lambda"} value. (corresponds to \eqn{\mathcal{S}} in Feser and Evangelou (2024)).}
+#' \item{epsilon_set}{List of groups that were used for fitting after screening for each \code{"lambda"} value. (corresponds to \eqn{\mathcal{E}} in Feser and Evangelou (2024)).}
+#' \item{kkt_violations}{List of groups that violated the KKT conditions each \code{"lambda"} value. (corresponds to \eqn{\mathcal{K}} in Feser and Evangelou (2024)).}  
+#' \item{screen}{Logical flag indicating whether screening was applied.}
+#' 
+#' @family gSLOPE-methods
 #' 
 #' @examples
 #' # specify a grouping structure
 #' groups = c(1,1,1,2,2,3,3,3,4,4)
 #' # generate data
 #' data =  gen_toy_data(p=10, n=5, groups = groups, seed_id=3,group_sparsity=1)
-#' # run SGS 
-#' model = fit_sgs(X = data$X, y = data$y, groups = groups, type="linear", path_length = 5, alpha=0.95, 
-#' vFDR=0.1, gFDR=0.1, standardise = "l2", intercept = TRUE, verbose=FALSE)
-#' @references Feser, F., Evangelou, M. (2023). \emph{Sparse-group SLOPE: adaptive bi-level selection with FDR-control}, \url{https://arxiv.org/abs/2305.09467}
-#' @references Feser, F., Evangelou, M. (2024). \emph{Strong screening rules for group-based SLOPE models}, \url{https://arxiv.org/abs/2405.15357}
+#' # run gSLOPE 
+#' model = fit_gslope(X = data$X, y = data$y, groups = groups, type="linear", path_length = 5, 
+#' gFDR=0.1, standardise = "l2", intercept = TRUE, verbose=FALSE)
+#' @references Brzyski, D., Gossmann, A., Su, W., Bodgan, M. (2019). \emph{Group SLOPE – Adaptive Selection of Groups of Predictors}, \url{https://www.tandfonline.com/doi/full/10.1080/01621459.2017.1411269}
+#' @references Feser, F., Evangelou, M. (2024). \emph{Strong screening rules for group-based SLOPE models}, \url{https://proceedings.mlr.press/v80/pedregosa18a.html}
 #' @references Pedregosa, F., Gidel, G. (2018). \emph{Adaptive Three Operator Splitting}, \url{https://proceedings.mlr.press/v80/pedregosa18a.html}
 #' @export
 
-fit_sgs <- function(X, y, groups, type="linear", lambda="path", path_length=20, min_frac=0.05, alpha=0.95, vFDR=0.1, gFDR=0.1, pen_method=1, max_iter=5000, backtracking=0.7, max_iter_backtracking=100, tol=1e-5, standardise="l2", intercept=TRUE, screen=TRUE, verbose=FALSE, w_weights=NULL, v_weights=NULL){
-  out = general_fit(X, y, groups, "sgs", gen_path_sgs, sgs_var_screen, sgs_grp_screen, sgs_kkt_check, type, lambda, path_length, alpha, vFDR, gFDR, pen_method, 
-                      backtracking, max_iter, max_iter_backtracking, tol, min_frac, standardise, intercept, v_weights, w_weights, screen, verbose, FALSE, FALSE)
+fit_gslope <- function(X, y, groups, type="linear", lambda="path", path_length=20, min_frac=0.05, gFDR=0.1, pen_method=1, max_iter=5000, backtracking=0.7, max_iter_backtracking=100, tol=1e-5, standardise="l2", intercept=TRUE, screen=TRUE, verbose=FALSE, w_weights=NULL){
+  if (pen_method == 1){
+    pen_method_gslope = 3
+  } else if (pen_method == 2){
+    pen_method_gslope = 4
+  } else {
+    stop("pen_method choice not valid")
+  }
+  out = general_fit(X, y, groups, "gslope", gen_path_gslope, NULL, gslope_grp_screen, gslope_kkt_check, type, lambda, path_length, 0, 0.1, gFDR, pen_method_gslope, 
+                      backtracking, max_iter, max_iter_backtracking, tol, min_frac, standardise, intercept, NULL, w_weights, screen, verbose, FALSE, FALSE)
   return(out)
 }

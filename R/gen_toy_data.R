@@ -18,7 +18,7 @@
 #
 ###############################################################################
 
-#' generate toy data
+#' Generate toy data.
 #'
 #' Generates different types of datasets, which can then be fitted using sparse-group SLOPE. 
 #'
@@ -29,7 +29,7 @@
 #' @param rho Correlation coefficient. Must be in range \eqn{[0,1]}.
 #' @param seed_id Seed to be used to generate the data matrix \eqn{X}.
 #' @param grouped A logical flag indicating whether grouped data is required.
-#' @param groups If item{grouped=TRUE}, the grouping structure is required. Each input variable should have a group id.
+#' @param groups If \code{grouped=TRUE}, the grouping structure is required. Each input variable should have a group id.
 #' @param noise_level Defines the level of noise (\eqn{sigma}) to be used in generating the response vector \eqn{y}.
 #' @param group_sparsity Defines the level of group sparsity. Must be in the range \eqn{[0,1]}.
 #' @param var_sparsity Defines the level of variable sparsity. Must be in the range \eqn{[0,1]}. If \code{grouped=TRUE}, this defines the level of sparsity within each group, not globally.
@@ -43,7 +43,7 @@
 #' \item{y}{The response vector.}
 #' \item{X}{The input matrix.}
 #' \item{true_beta}{The true values of \eqn{beta} used to generate the response.}
-#' \item{true_grp_id}{Indices of which groups are non-zero in item{true_beta}.}
+#' \item{true_grp_id}{Indices of which groups are non-zero in `true_beta`.}
 #'
 #' @examples
 #' # specify a grouping structure
@@ -53,11 +53,11 @@
 #'           rep(61:80, each=6),
 #'           rep(81:100, each=7))
 #' # generate data
-#' data = generate_toy_data(p=500, n=400, groups = groups, seed_id=3)
+#' data =  gen_toy_data(p=500, n=400, groups = groups, seed_id=3)
 #'
 #' @export
 
-generate_toy_data <- function(p, n, rho=0, seed_id=2, grouped=TRUE, groups, noise_level = 1, group_sparsity = 0.1, var_sparsity = 0.5,orthogonal = FALSE,
+gen_toy_data <- function(p, n, rho=0, seed_id=2, grouped=TRUE, groups, noise_level = 1, group_sparsity = 0.1, var_sparsity = 0.5,orthogonal = FALSE,
   data_mean = 0,data_sd = 1,signal_mean = 0,signal_sd = sqrt(10)){
 
   # Generates normally distributed toy datasets

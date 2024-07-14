@@ -18,20 +18,21 @@
 #
 ###############################################################################
 
-#' generate penalty sequences for SGS
+#' Generate penalty sequences for SGS.
 #'
 #' Generates variable and group penalties for SGS.
 #'
-#' The vMean and vMax SGS sequences are variable sequences derived specifically to give variable false discovery rate (FDR) control for SGS under orthogonal designs (see Feser et al. (2023)).
+#' The vMean and vMax SGS sequences are variable sequences derived specifically to give variable false discovery rate (FDR) control for SGS under orthogonal designs (see Feser and Evangelou (2023)).
 #' The BH SLOPE sequence is derived in Bodgan et. al. (2015) and has links to the Benjamini-Hochberg critical values. The sequence provides variable FDR-control for SLOPE under orthogonal designs.
 #' The gMean gSLOPE sequence is derived in Brzyski et. al. (2015) and provides group FDR-control for gSLOPE under orthogonal designs.
 #'
 #' @param vFDR Defines the desired variable false discovery rate (FDR) level, which determines the shape of the variable penalties.
 #' @param gFDR Defines the desired group false discovery rate (FDR) level, which determines the shape of the group penalties.
-#' @param pen_method The type of penalty sequences to use (see Feser et al. (2023)):
+#' @param pen_method The type of penalty sequences to use (see Feser and Evangelou (2023)):
 #'   - \code{"1"} uses the vMean SGS and gMean gSLOPE sequences. 
 #'   - \code{"2"} uses the vMax SGS and gMean gSLOPE sequences.
 #'   - \code{"3"} uses the BH SLOPE and gMean gSLOPE sequences, also known as SGS Original.
+#'   - \code{"4"} uses the gMax gSLOPE sequence. For a gSLOPE model only.
 #' @param groups A grouping structure for the input data. Should take the form of a vector of group indices.
 #' @param alpha The value of \eqn{\alpha}, defines the convex balance between SLOPE and gSLOPE.
 #' 
@@ -47,14 +48,14 @@
 #'           rep(61:80, each=6),
 #'           rep(81:100, each=7))
 #' # generate sequences
-#' sequences = generate_penalties(gFDR=0.1, vFDR=0.1, pen_method=1, groups=groups, alpha=0.5)
+#' sequences = gen_pens(gFDR=0.1, vFDR=0.1, pen_method=1, groups=groups, alpha=0.5)
 #' 
-#' @references F. Feser, M. Evangelou \emph{Sparse-group SLOPE: adaptive bi-level selection with FDR-control}, \url{https://arxiv.org/abs/2305.09467}
-#' @references M. Bogdan, E. Van den Berg, C. Sabatti, W. Su, E. Candes (2015) \emph{SLOPE — Adaptive variable selection via convex optimization}, \url{https://projecteuclid.org/journals/annals-of-applied-statistics/volume-9/issue-3/SLOPEAdaptive-variable-selection-via-convex-optimization/10.1214/15-AOAS842.full}
-#' @references D. Brzyski, W. Su, M. Bodgdan (2015) \emph{Group SLOPE - adaptive selection of groups of predictors}, \url{https://arxiv.org/abs/1511.09078}
+#' @references Bogdan, M., Van den Berg, E., Sabatti, C., Su, W., Candes, E. (2015). \emph{SLOPE — Adaptive variable selection via convex optimization}, \url{https://projecteuclid.org/journals/annals-of-applied-statistics/volume-9/issue-3/SLOPEAdaptive-variable-selection-via-convex-optimization/10.1214/15-AOAS842.full}
+#' @references Brzyski, D., Gossmann, A., Su, W., Bodgan, M. (2019). \emph{Group SLOPE – Adaptive Selection of Groups of Predictors}, \url{https://www.tandfonline.com/doi/full/10.1080/01621459.2017.1411269}
+#' @references Feser, F., Evangelou, M. (2023). \emph{Sparse-group SLOPE: adaptive bi-level selection with FDR-control}, \url{https://arxiv.org/abs/2305.09467}
 #' @export
 
-generate_penalties <- function(gFDR, vFDR, pen_method, groups, alpha){
+gen_pens <- function(gFDR, vFDR, pen_method, groups, alpha){
   num_vars = length(groups)
   group_ids = getGroupID(groups) 
   len_each_grp = sapply(group_ids, length)
@@ -75,6 +76,10 @@ generate_penalties <- function(gFDR, vFDR, pen_method, groups, alpha){
     pen_gslope_org = lambdaChiOrtho(fdr=gFDR, n.group=num_groups, wt=wt_per_grp,
                            group.sizes=len_each_grp, method="mean")
     pen_slope_org = BH_sequence(q=vFDR,p=num_vars)
+  } else if (pen_method == 4){ # gslope max
+    pen_gslope_org = lambdaChiOrtho(fdr=gFDR, n.group=num_groups, wt=wt_per_grp,
+                           group.sizes=len_each_grp, method="max")
+    pen_slope_org = rep(0,num_vars)
   } else {stop("method choice not valid")}
 out=c()
 out$pen_slope_org = pen_slope_org

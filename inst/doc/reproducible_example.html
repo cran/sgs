@@ -12,9 +12,9 @@
 
 <meta name="author" content="Fabio Feser" />
 
-<meta name="date" content="2023-08-21" />
+<meta name="date" content="2024-07-13" />
 
-<title>SGS reproducible example</title>
+<title>sgs reproducible example</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -51,7 +51,7 @@ overflow: visible;
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -338,37 +338,44 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<h1 class="title toc-ignore">SGS reproducible example</h1>
+<h1 class="title toc-ignore">sgs reproducible example</h1>
 <h4 class="author">Fabio Feser</h4>
-<h4 class="date">2023-08-21</h4>
+<h4 class="date">2024-07-13</h4>
 
 
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
+<p>The <code>sgs</code> R package fits sparse-group SLOPE (SGS) and
+group SLOPE (gSLOPE) models. The package has implementations for linear
+and logisitic regression, both of which are demonstrated here. The
+package also uses strong screening rules to speed up computational time,
+described in detail in <a href="https://arxiv.org/abs/2405.15357">F.
+Feser, M. Evangelou (2024) “Strong Screening Rules for Group-based SLOPE
+Models”</a>. Screening rules are applied by default here. However, the
+impact of screening is demonstrated in the Screening section at the
+end.</p>
+</div>
+<div id="sparse-group-slope" class="section level1">
+<h1>Sparse-group SLOPE</h1>
 <p>Sparse-group SLOPE (SGS) is a penalised regression approach that
 performs bi-level selection with FDR control under orthogonal designs.
-SGS is described in detail in .</p>
-<p>The method is implemented in the <code>sgs</code> R package. The
-package has implementations for Gaussian and Binomial responses, both of
-which are demonstrated here.</p>
-</div>
-<div id="gaussian-response" class="section level1">
-<h1>Gaussian response</h1>
+SGS is described in detail in <a href="https://arxiv.org/abs/2305.09467">F. Feser, M. Evangelou (2023)
+“Sparse-group SLOPE: adaptive bi-level selection with
+FDR-control”</a>.</p>
+<div id="linear-regression" class="section level2">
+<h2>Linear regression</h2>
 <div id="data" class="section level3">
 <h3>Data</h3>
-<p>For this example, a <span class="math inline">\(400\times
+<p>For this example, a <span class="math inline">\(400 \times
 500\)</span> input matrix is used with a simple grouping structure,
 sampled from a multivariate Gaussian distribution with no
 correlation.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(sgs)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>groups <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="at">each=</span><span class="dv">3</span>),</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>           <span class="fu">rep</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">40</span>, <span class="at">each=</span><span class="dv">4</span>),</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>           <span class="fu">rep</span>(<span class="dv">41</span><span class="sc">:</span><span class="dv">60</span>, <span class="at">each=</span><span class="dv">5</span>),</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>           <span class="fu">rep</span>(<span class="dv">61</span><span class="sc">:</span><span class="dv">80</span>, <span class="at">each=</span><span class="dv">6</span>),</span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>           <span class="fu">rep</span>(<span class="dv">81</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">each=</span><span class="dv">7</span>))</span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">generate_toy_data</span>(<span class="at">p=</span><span class="dv">500</span>, <span class="at">n=</span><span class="dv">400</span>, <span class="at">groups =</span> groups, <span class="at">seed_id=</span><span class="dv">3</span>)</span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>groups <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="at">each =</span> <span class="dv">3</span>), <span class="fu">rep</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">40</span>, <span class="at">each =</span> <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">41</span><span class="sc">:</span><span class="dv">60</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>    <span class="at">each =</span> <span class="dv">5</span>), <span class="fu">rep</span>(<span class="dv">61</span><span class="sc">:</span><span class="dv">80</span>, <span class="at">each =</span> <span class="dv">6</span>), <span class="fu">rep</span>(<span class="dv">81</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">each =</span> <span class="dv">7</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">gen_toy_data</span>(<span class="at">p =</span> <span class="dv">500</span>, <span class="at">n =</span> <span class="dv">400</span>, <span class="at">groups =</span> groups, <span class="at">seed_id =</span> <span class="dv">3</span>)</span></code></pre></div>
 </div>
 <div id="fitting-an-sgs-model" class="section level3">
 <h3>Fitting an SGS model</h3>
@@ -378,9 +385,17 @@ particular importance is the <span class="math inline">\(\lambda\)</span> parame
 level of sparsity in the model. First, we select this manually and then
 next use cross-validation to tune it. The other parameters we leave as
 their default values, although they can easily be changed.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>model <span class="ot">=</span> <span class="fu">fit_sgs</span>(<span class="at">X =</span> data<span class="sc">$</span>X, <span class="at">y =</span> data<span class="sc">$</span>y, <span class="at">groups =</span> groups, <span class="at">type=</span><span class="st">&quot;linear&quot;</span>, <span class="at">lambda =</span> <span class="dv">1</span>, <span class="at">alpha=</span><span class="fl">0.95</span>, <span class="at">vFDR=</span><span class="fl">0.1</span>, <span class="at">gFDR=</span><span class="fl">0.1</span>, <span class="at">standardise =</span> <span class="st">&quot;l2&quot;</span>, <span class="at">intercept =</span> <span class="cn">TRUE</span>, <span class="at">verbose=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>model <span class="ot">=</span> <span class="fu">fit_sgs</span>(<span class="at">X =</span> data<span class="sc">$</span>X, <span class="at">y =</span> data<span class="sc">$</span>y, <span class="at">groups =</span> groups, <span class="at">type =</span> <span class="st">&quot;linear&quot;</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>    <span class="at">lambda =</span> <span class="fl">0.5</span>, <span class="at">alpha =</span> <span class="fl">0.95</span>, <span class="at">vFDR =</span> <span class="fl">0.1</span>, <span class="at">gFDR =</span> <span class="fl">0.1</span>, <span class="at">standardise =</span> <span class="st">&quot;l2&quot;</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>, <span class="at">screen =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Note: we have fit an intercept and applied <span class="math inline">\(\ell_2\)</span> standardisation. This is the
-recommended usage when applying SGS.</p>
+recommended usage when applying SGS with linear regression. The lambda
+values can also be calculated automatically, starting at the null model
+and continuing as specified by and :</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>model_path <span class="ot">=</span> <span class="fu">fit_sgs</span>(<span class="at">X =</span> data<span class="sc">$</span>X, <span class="at">y =</span> data<span class="sc">$</span>y, <span class="at">groups =</span> groups,</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;linear&quot;</span>, <span class="at">lambda =</span> <span class="st">&quot;path&quot;</span>, <span class="at">path_length =</span> <span class="dv">5</span>, <span class="at">min_frac =</span> <span class="fl">0.1</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.95</span>, <span class="at">vFDR =</span> <span class="fl">0.1</span>, <span class="at">gFDR =</span> <span class="fl">0.1</span>, <span class="at">standardise =</span> <span class="st">&quot;l2&quot;</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>, <span class="at">screen =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 <div id="output-of-model" class="section level3">
 <h3>Output of model</h3>
@@ -388,125 +403,316 @@ recommended usage when applying SGS.</p>
 The vector shows the fitted values (note the intercept). We can also
 recover the indices of the non-zero variables and groups, which are
 indexed from the first variable, not the intercept.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>model<span class="sc">$</span>beta[model<span class="sc">$</span>selected_var<span class="sc">+</span><span class="dv">1</span>,]</span></code></pre></div>
-<pre><code>##       v100       v136       v234       v334 
-##  1.2211478  3.0393493  2.4211141 -0.4108451</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>model<span class="sc">$</span>group.effects[model<span class="sc">$</span>selected_group,]</span></code></pre></div>
-<pre><code>##       G30       G39       G59       G76 
-## 1.2211478 3.0393493 2.4211141 0.4108451</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>model<span class="sc">$</span>selected_var</span></code></pre></div>
-<pre><code>## [1] 100 136 234 334</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>model<span class="sc">$</span>selected_group</span></code></pre></div>
-<pre><code>## [1] 30 39 59 76</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>model<span class="sc">$</span>beta[model<span class="sc">$</span>selected_var <span class="sc">+</span> <span class="dv">1</span>]  <span class="co"># the +1 is to account for the intercept</span></span></code></pre></div>
+<pre><code>##  [1] -1.6734720 -1.4893849  3.1678789  1.6350236  5.0369209 -1.4619740
+##  [7]  1.2779414 -0.9364065  4.9809334 -0.6548784 -1.4470782 -2.2343330
+## [13]  1.6188817 -1.6665858 -0.7298015</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>model<span class="sc">$</span>group_effects[model<span class="sc">$</span>selected_grp]</span></code></pre></div>
+<pre><code>## [1] 3.879978 5.295647 1.461974 1.277941 5.068190 1.588364 2.234333 2.435343</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>model<span class="sc">$</span>selected_var</span></code></pre></div>
+<pre><code>##  [1]  97  99 100 133 136 170 217 231 234 260 263 334 391 393 394</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>model<span class="sc">$</span>selected_grp</span></code></pre></div>
+<pre><code>## [1] 30 39 46 56 59 64 76 85</code></pre>
 <p>Defining a function that lets us calculate various metrics (including
 the FDR and sensitivity):</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>fdr_sensitivity <span class="ot">=</span> <span class="cf">function</span>(fitted_ids, true_ids,num_coef){</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="co"># calculates FDR, FPR, and sensitivity</span></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  num_true <span class="ot">=</span> <span class="fu">length</span>(<span class="fu">intersect</span>(fitted_ids,true_ids))</span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  num_false <span class="ot">=</span> <span class="fu">length</span>(fitted_ids) <span class="sc">-</span> num_true</span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  num_missed <span class="ot">=</span> <span class="fu">length</span>(true_ids) <span class="sc">-</span> num_true</span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  num_true_negatives <span class="ot">=</span> num_coef <span class="sc">-</span> <span class="fu">length</span>(true_ids)</span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  out<span class="ot">=</span><span class="fu">c</span>()</span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>  out<span class="sc">$</span>fdr <span class="ot">=</span> num_false <span class="sc">/</span> (num_true <span class="sc">+</span> num_false)</span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.nan</span>(out<span class="sc">$</span>fdr)){out<span class="sc">$</span>fdr <span class="ot">=</span> <span class="dv">0</span>}</span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>  out<span class="sc">$</span>sensitivity <span class="ot">=</span> num_true <span class="sc">/</span> <span class="fu">length</span>(true_ids)</span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(true_ids) <span class="sc">==</span> <span class="dv">0</span>){</span>
-<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a>    out<span class="sc">$</span>sensitivity <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a>  }</span>
-<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a>  out<span class="sc">$</span>fpr <span class="ot">=</span> num_false <span class="sc">/</span> num_true_negatives</span>
-<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a>  out<span class="sc">$</span>f1 <span class="ot">=</span> (<span class="dv">2</span><span class="sc">*</span>num_true)<span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span>num_true <span class="sc">+</span> num_false <span class="sc">+</span> num_missed)</span>
-<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.nan</span>(out<span class="sc">$</span>f1)){out<span class="sc">$</span>f1 <span class="ot">=</span> <span class="dv">1</span>}</span>
-<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
-<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>fdr_sensitivity <span class="ot">=</span> <span class="cf">function</span>(fitted_ids, true_ids, num_coef) {</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>    <span class="co"># calculates FDR, FPR, and sensitivity</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>    num_true <span class="ot">=</span> <span class="fu">length</span>(<span class="fu">intersect</span>(fitted_ids, true_ids))</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>    num_false <span class="ot">=</span> <span class="fu">length</span>(fitted_ids) <span class="sc">-</span> num_true</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>    num_missed <span class="ot">=</span> <span class="fu">length</span>(true_ids) <span class="sc">-</span> num_true</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>    num_true_negatives <span class="ot">=</span> num_coef <span class="sc">-</span> <span class="fu">length</span>(true_ids)</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>    out <span class="ot">=</span> <span class="fu">c</span>()</span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>    out<span class="sc">$</span>fdr <span class="ot">=</span> num_false<span class="sc">/</span>(num_true <span class="sc">+</span> num_false)</span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.nan</span>(out<span class="sc">$</span>fdr)) {</span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>        out<span class="sc">$</span>fdr <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>    }</span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a>    out<span class="sc">$</span>sensitivity <span class="ot">=</span> num_true<span class="sc">/</span><span class="fu">length</span>(true_ids)</span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(true_ids) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a>        out<span class="sc">$</span>sensitivity <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a>    }</span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a>    out<span class="sc">$</span>fpr <span class="ot">=</span> num_false<span class="sc">/</span>num_true_negatives</span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a>    out<span class="sc">$</span>f1 <span class="ot">=</span> (<span class="dv">2</span> <span class="sc">*</span> num_true)<span class="sc">/</span>(<span class="dv">2</span> <span class="sc">*</span> num_true <span class="sc">+</span> num_false <span class="sc">+</span> num_missed)</span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.nan</span>(out<span class="sc">$</span>f1)) {</span>
+<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a>        out<span class="sc">$</span>f1 <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a>    }</span>
+<span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a>    <span class="fu">return</span>(out)</span>
+<span id="cb12-22"><a href="#cb12-22" tabindex="-1"></a>}</span></code></pre></div>
 <p>Calculating relevant metrics give</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">fdr_sensitivity</span>(<span class="at">fitted_ids =</span> model<span class="sc">$</span>selected_var, <span class="at">true_ids =</span> data<span class="sc">$</span>true_var_id, <span class="at">num_coef =</span> <span class="dv">500</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">fdr_sensitivity</span>(<span class="at">fitted_ids =</span> model<span class="sc">$</span>selected_var, <span class="at">true_ids =</span> data<span class="sc">$</span>true_var_id,</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>    <span class="at">num_coef =</span> <span class="dv">500</span>)</span></code></pre></div>
 <pre><code>## $fdr
 ## [1] 0
 ## 
 ## $sensitivity
-## [1] 0.1428571
+## [1] 0.5357143
 ## 
 ## $fpr
 ## [1] 0
 ## 
 ## $f1
-## [1] 0.25</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">fdr_sensitivity</span>(<span class="at">fitted_ids =</span> model<span class="sc">$</span>selected_group, <span class="at">true_ids =</span> data<span class="sc">$</span>true_grp_id, <span class="at">num_coef =</span> <span class="dv">100</span>)</span></code></pre></div>
+## [1] 0.6976744</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">fdr_sensitivity</span>(<span class="at">fitted_ids =</span> model<span class="sc">$</span>selected_grp, <span class="at">true_ids =</span> data<span class="sc">$</span>true_grp_id,</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>    <span class="at">num_coef =</span> <span class="dv">100</span>)</span></code></pre></div>
 <pre><code>## $fdr
 ## [1] 0
 ## 
 ## $sensitivity
-## [1] 0.4
+## [1] 0.8
 ## 
 ## $fpr
 ## [1] 0
 ## 
 ## $f1
-## [1] 0.5714286</code></pre>
+## [1] 0.8888889</code></pre>
 <p>The model is currently too sparse, as our choice of <span class="math inline">\(\lambda\)</span> is too high. We can instead use
 cross-validation.</p>
 </div>
 <div id="cross-validation" class="section level3">
 <h3>Cross validation</h3>
 <p>Cross-validation is used to fit SGS models along a <span class="math inline">\(\lambda\)</span> path of length <span class="math inline">\(20\)</span>. The first value, <span class="math inline">\(\lambda_\text{max}\)</span>, is chosen to give the
-null model and the path is terminated at <span class="math inline">\(\lambda_\text{min} = min_frac \dot
-\lambda_\text{max}\)</span>. The 1se rule (as in the package) is used to
-choose the optimal model.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>cv_model <span class="ot">=</span> <span class="fu">fit_sgs_cv</span>(<span class="at">X =</span> data<span class="sc">$</span>X, <span class="at">y =</span> data<span class="sc">$</span>y, <span class="at">groups=</span>groups, <span class="at">type =</span> <span class="st">&quot;linear&quot;</span>, <span class="at">nlambda =</span> <span class="dv">20</span>, <span class="at">nfolds=</span><span class="dv">10</span>, <span class="at">alpha =</span> <span class="fl">0.95</span>, <span class="at">vFDR =</span> <span class="fl">0.1</span>, <span class="at">gFDR =</span> <span class="fl">0.1</span>, <span class="at">min_frac =</span> <span class="fl">0.05</span>, <span class="at">standardise=</span><span class="st">&quot;l2&quot;</span>,<span class="at">intercept=</span><span class="cn">TRUE</span>,<span class="at">verbose=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## [1] &quot;Lambda 1/20 done. Lambda: 1.8388. Number of non-zero: 0. Error: 9522.47623165794. Avg iter: 7&quot;
-## [1] &quot;Lambda 2/20 done. Lambda: 1.5706. Number of non-zero: 1. Error: 9121.87427456379. Avg iter: 26&quot;
-## [1] &quot;Lambda 3/20 done. Lambda: 1.3415. Number of non-zero: 2. Error: 8348.10001181521. Avg iter: 31&quot;
-## [1] &quot;Lambda 4/20 done. Lambda: 1.1458. Number of non-zero: 3. Error: 7525.33322733818. Avg iter: 35&quot;
-## [1] &quot;Lambda 5/20 done. Lambda: 0.9787. Number of non-zero: 8. Error: 6706.42167334536. Avg iter: 35&quot;
-## [1] &quot;Lambda 6/20 done. Lambda: 0.8359. Number of non-zero: 14. Error: 5509.29608346792. Avg iter: 44&quot;
-## [1] &quot;Lambda 7/20 done. Lambda: 0.714. Number of non-zero: 15. Error: 4256.09986924448. Avg iter: 37&quot;
-## [1] &quot;Lambda 8/20 done. Lambda: 0.6098. Number of non-zero: 15. Error: 3281.14251906525. Avg iter: 37&quot;
-## [1] &quot;Lambda 9/20 done. Lambda: 0.5209. Number of non-zero: 15. Error: 2559.14833615298. Avg iter: 37&quot;
-## [1] &quot;Lambda 10/20 done. Lambda: 0.4449. Number of non-zero: 19. Error: 2011.70593862728. Avg iter: 36&quot;
-## [1] &quot;Lambda 11/20 done. Lambda: 0.38. Number of non-zero: 22. Error: 1552.91875758507. Avg iter: 39&quot;
-## [1] &quot;Lambda 12/20 done. Lambda: 0.3246. Number of non-zero: 22. Error: 1179.20560203183. Avg iter: 33&quot;
-## [1] &quot;Lambda 13/20 done. Lambda: 0.2772. Number of non-zero: 22. Error: 892.913519340801. Avg iter: 32&quot;
-## [1] &quot;Lambda 14/20 done. Lambda: 0.2368. Number of non-zero: 22. Error: 682.816068341828. Avg iter: 34&quot;
-## [1] &quot;Lambda 15/20 done. Lambda: 0.2022. Number of non-zero: 24. Error: 525.918317926705. Avg iter: 36&quot;
-## [1] &quot;Lambda 16/20 done. Lambda: 0.1727. Number of non-zero: 24. Error: 405.623243053464. Avg iter: 37&quot;
-## [1] &quot;Lambda 17/20 done. Lambda: 0.1475. Number of non-zero: 26. Error: 314.722794039507. Avg iter: 39&quot;
-## [1] &quot;Lambda 18/20 done. Lambda: 0.126. Number of non-zero: 26. Error: 244.495442693249. Avg iter: 39&quot;
-## [1] &quot;Lambda 19/20 done. Lambda: 0.1076. Number of non-zero: 27. Error: 192.736115731821. Avg iter: 40&quot;
-## [1] &quot;Lambda 20/20 done. Lambda: 0.0919. Number of non-zero: 27. Error: 154.39418403602. Avg iter: 41&quot;</code></pre>
+null model and the path is terminated at <span class="math inline">\(\lambda_\text{min} = \delta
+\lambda_\text{max}\)</span>, where <span class="math inline">\(\delta\)</span> is some value between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> (given by in the function). The 1se
+rule (as in the package) is used to choose the optimal model.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>cv_model <span class="ot">=</span> <span class="fu">fit_sgs_cv</span>(<span class="at">X =</span> data<span class="sc">$</span>X, <span class="at">y =</span> data<span class="sc">$</span>y, <span class="at">groups =</span> groups,</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;linear&quot;</span>, <span class="at">path_length =</span> <span class="dv">20</span>, <span class="at">nfolds =</span> <span class="dv">10</span>, <span class="at">alpha =</span> <span class="fl">0.95</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>    <span class="at">vFDR =</span> <span class="fl">0.1</span>, <span class="at">gFDR =</span> <span class="fl">0.1</span>, <span class="at">min_frac =</span> <span class="fl">0.05</span>, <span class="at">standardise =</span> <span class="st">&quot;l2&quot;</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">TRUE</span>, <span class="at">screen =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>##  [1] &quot;Fold 1/10 done. Error: 10556.1875568791&quot;
+##  [2] &quot;Fold 1/10 done. Error: 10176.3075312482&quot;
+##  [3] &quot;Fold 1/10 done. Error: 9594.76270583567&quot;
+##  [4] &quot;Fold 1/10 done. Error: 8927.68806554738&quot;
+##  [5] &quot;Fold 1/10 done. Error: 8258.45089987855&quot;
+##  [6] &quot;Fold 1/10 done. Error: 7300.23189665579&quot;
+##  [7] &quot;Fold 1/10 done. Error: 5632.95350477924&quot;
+##  [8] &quot;Fold 1/10 done. Error: 4297.15577778921&quot;
+##  [9] &quot;Fold 1/10 done. Error: 3297.94689016112&quot;
+## [10] &quot;Fold 1/10 done. Error: 2552.59512158659&quot;
+## [11] &quot;Fold 1/10 done. Error: 1966.64378517332&quot;
+## [12] &quot;Fold 1/10 done. Error: 1488.63381602324&quot;
+## [13] &quot;Fold 1/10 done. Error: 1117.25280329421&quot;
+## [14] &quot;Fold 1/10 done. Error: 846.029195120426&quot;
+## [15] &quot;Fold 1/10 done. Error: 648.663435142151&quot;
+## [16] &quot;Fold 1/10 done. Error: 491.946844991723&quot;
+## [17] &quot;Fold 1/10 done. Error: 372.100964214661&quot;
+## [18] &quot;Fold 1/10 done. Error: 283.271603105957&quot;
+## [19] &quot;Fold 1/10 done. Error: 220.055000961875&quot;
+## [20] &quot;Fold 1/10 done. Error: 173.002145611579&quot;
+##  [1] &quot;Fold 2/10 done. Error: 9701.5337813471&quot; 
+##  [2] &quot;Fold 2/10 done. Error: 9327.9632666549&quot; 
+##  [3] &quot;Fold 2/10 done. Error: 8515.37096726923&quot;
+##  [4] &quot;Fold 2/10 done. Error: 7730.98407526827&quot;
+##  [5] &quot;Fold 2/10 done. Error: 6954.61096532999&quot;
+##  [6] &quot;Fold 2/10 done. Error: 6084.91002790858&quot;
+##  [7] &quot;Fold 2/10 done. Error: 4640.4911961945&quot; 
+##  [8] &quot;Fold 2/10 done. Error: 3518.28844172758&quot;
+##  [9] &quot;Fold 2/10 done. Error: 2682.35798174033&quot;
+## [10] &quot;Fold 2/10 done. Error: 2074.0985691893&quot; 
+## [11] &quot;Fold 2/10 done. Error: 1600.0457464207&quot; 
+## [12] &quot;Fold 2/10 done. Error: 1201.21077110527&quot;
+## [13] &quot;Fold 2/10 done. Error: 907.519555401387&quot;
+## [14] &quot;Fold 2/10 done. Error: 693.062982682486&quot;
+## [15] &quot;Fold 2/10 done. Error: 532.020606657758&quot;
+## [16] &quot;Fold 2/10 done. Error: 414.085312963308&quot;
+## [17] &quot;Fold 2/10 done. Error: 325.101634094595&quot;
+## [18] &quot;Fold 2/10 done. Error: 255.817644750413&quot;
+## [19] &quot;Fold 2/10 done. Error: 204.450581281332&quot;
+## [20] &quot;Fold 2/10 done. Error: 165.863886563115&quot;
+##  [1] &quot;Fold 3/10 done. Error: 8933.04777724514&quot;
+##  [2] &quot;Fold 3/10 done. Error: 8570.34645083006&quot;
+##  [3] &quot;Fold 3/10 done. Error: 7787.05616993491&quot;
+##  [4] &quot;Fold 3/10 done. Error: 6950.61817164697&quot;
+##  [5] &quot;Fold 3/10 done. Error: 6165.5026457958&quot; 
+##  [6] &quot;Fold 3/10 done. Error: 5012.13323372854&quot;
+##  [7] &quot;Fold 3/10 done. Error: 3999.42239272502&quot;
+##  [8] &quot;Fold 3/10 done. Error: 3123.6709338521&quot; 
+##  [9] &quot;Fold 3/10 done. Error: 2465.4201557276&quot; 
+## [10] &quot;Fold 3/10 done. Error: 1965.61776389263&quot;
+## [11] &quot;Fold 3/10 done. Error: 1548.0319946035&quot; 
+## [12] &quot;Fold 3/10 done. Error: 1184.69549543653&quot;
+## [13] &quot;Fold 3/10 done. Error: 912.275358953856&quot;
+## [14] &quot;Fold 3/10 done. Error: 709.432475321353&quot;
+## [15] &quot;Fold 3/10 done. Error: 557.533573418488&quot;
+## [16] &quot;Fold 3/10 done. Error: 430.036049657087&quot;
+## [17] &quot;Fold 3/10 done. Error: 330.342085692851&quot;
+## [18] &quot;Fold 3/10 done. Error: 253.391638672593&quot;
+## [19] &quot;Fold 3/10 done. Error: 195.043122409481&quot;
+## [20] &quot;Fold 3/10 done. Error: 152.408529288772&quot;
+##  [1] &quot;Fold 4/10 done. Error: 10447.1219276337&quot;
+##  [2] &quot;Fold 4/10 done. Error: 10160.9993436738&quot;
+##  [3] &quot;Fold 4/10 done. Error: 9563.86072998723&quot;
+##  [4] &quot;Fold 4/10 done. Error: 8826.81026023373&quot;
+##  [5] &quot;Fold 4/10 done. Error: 7889.70074457788&quot;
+##  [6] &quot;Fold 4/10 done. Error: 6741.96561308748&quot;
+##  [7] &quot;Fold 4/10 done. Error: 5374.76551609077&quot;
+##  [8] &quot;Fold 4/10 done. Error: 4182.3609752351&quot; 
+##  [9] &quot;Fold 4/10 done. Error: 3264.44160220578&quot;
+## [10] &quot;Fold 4/10 done. Error: 2573.51835514238&quot;
+## [11] &quot;Fold 4/10 done. Error: 2039.20607228275&quot;
+## [12] &quot;Fold 4/10 done. Error: 1592.21708242753&quot;
+## [13] &quot;Fold 4/10 done. Error: 1198.30261062227&quot;
+## [14] &quot;Fold 4/10 done. Error: 910.928513043909&quot;
+## [15] &quot;Fold 4/10 done. Error: 693.396868636509&quot;
+## [16] &quot;Fold 4/10 done. Error: 533.675122500809&quot;
+## [17] &quot;Fold 4/10 done. Error: 416.531934070464&quot;
+## [18] &quot;Fold 4/10 done. Error: 318.765958323353&quot;
+## [19] &quot;Fold 4/10 done. Error: 246.79697595908&quot; 
+## [20] &quot;Fold 4/10 done. Error: 193.907644941551&quot;
+##  [1] &quot;Fold 5/10 done. Error: 7348.93447972298&quot;
+##  [2] &quot;Fold 5/10 done. Error: 7084.02742456543&quot;
+##  [3] &quot;Fold 5/10 done. Error: 6484.93419843303&quot;
+##  [4] &quot;Fold 5/10 done. Error: 5710.58799293503&quot;
+##  [5] &quot;Fold 5/10 done. Error: 5032.16053019211&quot;
+##  [6] &quot;Fold 5/10 done. Error: 4093.52749333715&quot;
+##  [7] &quot;Fold 5/10 done. Error: 3192.87606426484&quot;
+##  [8] &quot;Fold 5/10 done. Error: 2503.55047741129&quot;
+##  [9] &quot;Fold 5/10 done. Error: 2005.57925174851&quot;
+## [10] &quot;Fold 5/10 done. Error: 1644.10226091624&quot;
+## [11] &quot;Fold 5/10 done. Error: 1285.41228246945&quot;
+## [12] &quot;Fold 5/10 done. Error: 1006.42768966073&quot;
+## [13] &quot;Fold 5/10 done. Error: 759.301423714843&quot;
+## [14] &quot;Fold 5/10 done. Error: 578.076488783258&quot;
+## [15] &quot;Fold 5/10 done. Error: 444.607646100111&quot;
+## [16] &quot;Fold 5/10 done. Error: 339.87419820333&quot; 
+## [17] &quot;Fold 5/10 done. Error: 263.086500284417&quot;
+## [18] &quot;Fold 5/10 done. Error: 204.145389120758&quot;
+## [19] &quot;Fold 5/10 done. Error: 160.79435990752&quot; 
+## [20] &quot;Fold 5/10 done. Error: 128.764425644495&quot;
+##  [1] &quot;Fold 6/10 done. Error: 11876.2011690611&quot;
+##  [2] &quot;Fold 6/10 done. Error: 11584.1155930641&quot;
+##  [3] &quot;Fold 6/10 done. Error: 11041.8870591511&quot;
+##  [4] &quot;Fold 6/10 done. Error: 9964.99368626758&quot;
+##  [5] &quot;Fold 6/10 done. Error: 8950.04746639382&quot;
+##  [6] &quot;Fold 6/10 done. Error: 7485.12307515559&quot;
+##  [7] &quot;Fold 6/10 done. Error: 5870.82801499167&quot;
+##  [8] &quot;Fold 6/10 done. Error: 4642.42850063496&quot;
+##  [9] &quot;Fold 6/10 done. Error: 3718.24939933727&quot;
+## [10] &quot;Fold 6/10 done. Error: 3019.80647995502&quot;
+## [11] &quot;Fold 6/10 done. Error: 2407.43347297786&quot;
+## [12] &quot;Fold 6/10 done. Error: 1865.49907660826&quot;
+## [13] &quot;Fold 6/10 done. Error: 1425.59039541041&quot;
+## [14] &quot;Fold 6/10 done. Error: 1099.87311555504&quot;
+## [15] &quot;Fold 6/10 done. Error: 854.062276685889&quot;
+## [16] &quot;Fold 6/10 done. Error: 666.747537258937&quot;
+## [17] &quot;Fold 6/10 done. Error: 526.701048800189&quot;
+## [18] &quot;Fold 6/10 done. Error: 414.174683252046&quot;
+## [19] &quot;Fold 6/10 done. Error: 327.372999613192&quot;
+## [20] &quot;Fold 6/10 done. Error: 262.561009883553&quot;
+##  [1] &quot;Fold 7/10 done. Error: 10049.7155169484&quot;
+##  [2] &quot;Fold 7/10 done. Error: 9740.24047520683&quot;
+##  [3] &quot;Fold 7/10 done. Error: 8906.86209977837&quot;
+##  [4] &quot;Fold 7/10 done. Error: 8044.07831496467&quot;
+##  [5] &quot;Fold 7/10 done. Error: 7033.63538123545&quot;
+##  [6] &quot;Fold 7/10 done. Error: 5823.40115836027&quot;
+##  [7] &quot;Fold 7/10 done. Error: 4428.58306914515&quot;
+##  [8] &quot;Fold 7/10 done. Error: 3327.11000137871&quot;
+##  [9] &quot;Fold 7/10 done. Error: 2524.13716080726&quot;
+## [10] &quot;Fold 7/10 done. Error: 1924.9606420577&quot; 
+## [11] &quot;Fold 7/10 done. Error: 1423.63263296581&quot;
+## [12] &quot;Fold 7/10 done. Error: 1040.4532686365&quot; 
+## [13] &quot;Fold 7/10 done. Error: 765.319912646728&quot;
+## [14] &quot;Fold 7/10 done. Error: 568.862001569514&quot;
+## [15] &quot;Fold 7/10 done. Error: 424.744842531921&quot;
+## [16] &quot;Fold 7/10 done. Error: 322.723240003498&quot;
+## [17] &quot;Fold 7/10 done. Error: 249.844629559846&quot;
+## [18] &quot;Fold 7/10 done. Error: 195.736838599198&quot;
+## [19] &quot;Fold 7/10 done. Error: 156.695072359077&quot;
+## [20] &quot;Fold 7/10 done. Error: 127.699521295209&quot;
+##  [1] &quot;Fold 8/10 done. Error: 8398.02089705292&quot;
+##  [2] &quot;Fold 8/10 done. Error: 8057.58572752561&quot;
+##  [3] &quot;Fold 8/10 done. Error: 7199.67225395134&quot;
+##  [4] &quot;Fold 8/10 done. Error: 6567.96505373682&quot;
+##  [5] &quot;Fold 8/10 done. Error: 5986.43402477515&quot;
+##  [6] &quot;Fold 8/10 done. Error: 5070.2112726879&quot; 
+##  [7] &quot;Fold 8/10 done. Error: 3964.99476337378&quot;
+##  [8] &quot;Fold 8/10 done. Error: 3092.5870482136&quot; 
+##  [9] &quot;Fold 8/10 done. Error: 2431.62606021511&quot;
+## [10] &quot;Fold 8/10 done. Error: 1916.1887879502&quot; 
+## [11] &quot;Fold 8/10 done. Error: 1498.56344382699&quot;
+## [12] &quot;Fold 8/10 done. Error: 1143.15792873192&quot;
+## [13] &quot;Fold 8/10 done. Error: 875.22284327683&quot; 
+## [14] &quot;Fold 8/10 done. Error: 678.831028531544&quot;
+## [15] &quot;Fold 8/10 done. Error: 532.332734739539&quot;
+## [16] &quot;Fold 8/10 done. Error: 409.717175846945&quot;
+## [17] &quot;Fold 8/10 done. Error: 314.806027294298&quot;
+## [18] &quot;Fold 8/10 done. Error: 245.302334713172&quot;
+## [19] &quot;Fold 8/10 done. Error: 194.111722075755&quot;
+## [20] &quot;Fold 8/10 done. Error: 156.213909406013&quot;
+##  [1] &quot;Fold 9/10 done. Error: 9906.21445729386&quot;
+##  [2] &quot;Fold 9/10 done. Error: 9673.5778494729&quot; 
+##  [3] &quot;Fold 9/10 done. Error: 8706.89778059913&quot;
+##  [4] &quot;Fold 9/10 done. Error: 7584.62067191002&quot;
+##  [5] &quot;Fold 9/10 done. Error: 6647.70010944011&quot;
+##  [6] &quot;Fold 9/10 done. Error: 5364.96198079038&quot;
+##  [7] &quot;Fold 9/10 done. Error: 4073.04118845149&quot;
+##  [8] &quot;Fold 9/10 done. Error: 3091.26225184671&quot;
+##  [9] &quot;Fold 9/10 done. Error: 2363.48436038567&quot;
+## [10] &quot;Fold 9/10 done. Error: 1809.92401484567&quot;
+## [11] &quot;Fold 9/10 done. Error: 1354.2041418273&quot; 
+## [12] &quot;Fold 9/10 done. Error: 1005.11124242728&quot;
+## [13] &quot;Fold 9/10 done. Error: 746.035216936631&quot;
+## [14] &quot;Fold 9/10 done. Error: 558.360925053933&quot;
+## [15] &quot;Fold 9/10 done. Error: 420.292826392314&quot;
+## [16] &quot;Fold 9/10 done. Error: 319.054427302379&quot;
+## [17] &quot;Fold 9/10 done. Error: 242.538120035674&quot;
+## [18] &quot;Fold 9/10 done. Error: 182.15600632965&quot; 
+## [19] &quot;Fold 9/10 done. Error: 139.192579186823&quot;
+## [20] &quot;Fold 9/10 done. Error: 107.500742305331&quot;
+##  [1] &quot;Fold 10/10 done. Error: 8020.37927493245&quot;
+##  [2] &quot;Fold 10/10 done. Error: 7697.88346726543&quot;
+##  [3] &quot;Fold 10/10 done. Error: 7031.12374296387&quot;
+##  [4] &quot;Fold 10/10 done. Error: 6294.32718409467&quot;
+##  [5] &quot;Fold 10/10 done. Error: 5615.5007155595&quot; 
+##  [6] &quot;Fold 10/10 done. Error: 4459.8208525311&quot; 
+##  [7] &quot;Fold 10/10 done. Error: 3321.47838394126&quot;
+##  [8] &quot;Fold 10/10 done. Error: 2497.98978127158&quot;
+##  [9] &quot;Fold 10/10 done. Error: 1915.64625146079&quot;
+## [10] &quot;Fold 10/10 done. Error: 1487.13968831616&quot;
+## [11] &quot;Fold 10/10 done. Error: 1124.67389999549&quot;
+## [12] &quot;Fold 10/10 done. Error: 847.217759120669&quot;
+## [13] &quot;Fold 10/10 done. Error: 644.045437152742&quot;
+## [14] &quot;Fold 10/10 done. Error: 497.475319279266&quot;
+## [15] &quot;Fold 10/10 done. Error: 387.312978726709&quot;
+## [16] &quot;Fold 10/10 done. Error: 306.915855797651&quot;
+## [17] &quot;Fold 10/10 done. Error: 246.216858492722&quot;
+## [18] &quot;Fold 10/10 done. Error: 196.936936931074&quot;
+## [19] &quot;Fold 10/10 done. Error: 160.103168436104&quot;
+## [20] &quot;Fold 10/10 done. Error: 133.417302410296&quot;</code></pre>
 <p>The fitting verbose contains useful information, showing the error
-for each <span class="math inline">\(\lambda\)</span> values, as well as
-the number of non-zero parameters. Aside from the fitting verbose, we
-can see a more succinct summary by using the function</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">print</span>(cv_model)</span></code></pre></div>
+for each fold. Aside from the fitting verbose, we can see a more
+succinct summary by using the function</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">print</span>(cv_model)</span></code></pre></div>
 <pre><code>## 
-##  regression type:  linear 
+##  regression type:  
 ## 
 ##          lambda     error estimated_non_zero
-##  [1,] 1.8387781 9522.4762                  0
-##  [2,] 1.5705583 9121.8743                  1
-##  [3,] 1.3414633 8348.1000                  2
-##  [4,] 1.1457860 7525.3332                  3
-##  [5,] 0.9786519 6706.4217                  8
-##  [6,] 0.8358975 5509.2961                 14
-##  [7,] 0.7139663 4256.0999                 15
-##  [8,] 0.6098211 3281.1425                 15
-##  [9,] 0.5208674 2559.1483                 15
-## [10,] 0.4448893 2011.7059                 19
-## [11,] 0.3799940 1552.9188                 22
-## [12,] 0.3245648 1179.2056                 22
-## [13,] 0.2772210  892.9135                 22
-## [14,] 0.2367832  682.8161                 22
-## [15,] 0.2022440  525.9183                 24
-## [16,] 0.1727430  405.6232                 24
-## [17,] 0.1475452  314.7228                 26
-## [18,] 0.1260230  244.4954                 26
-## [19,] 0.1076402  192.7361                 27
-## [20,] 0.0919389  154.3942                 27</code></pre>
-<p>The best model is found to be the one at the end of the path.
-Checking the metrics again, we see how CV has generated a model with the
-correct amount of sparsity that gives FDR levels below the specified
+##  [1,] 1.8885960 9523.7357                  0
+##  [2,] 1.6131093 9207.3047                  1
+##  [3,] 1.3778075 8483.2428                  2
+##  [4,] 1.1768288 7660.2673                  3
+##  [5,] 1.0051665 6853.3743                  4
+##  [6,] 0.8585444 5743.6287                 14
+##  [7,] 0.7333098 4449.9434                 15
+##  [8,] 0.6263430 3427.6404                 15
+##  [9,] 0.5349793 2666.8889                 15
+## [10,] 0.4569427 2096.7952                 16
+## [11,] 0.3902891 1624.7847                 22
+## [12,] 0.3333582 1237.4624                 22
+## [13,] 0.2847318  935.0866                 22
+## [14,] 0.2431984  714.0932                 22
+## [15,] 0.2077234  549.4968                 24
+## [16,] 0.1774231  423.4776                 24
+## [17,] 0.1515426  328.7270                 26
+## [18,] 0.1294373  254.9699                 26
+## [19,] 0.1105565  200.4616                 27
+## [20,] 0.0944298  160.1339                 27</code></pre>
+<p>The best model is found to be the one at the end of the path:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>cv_model<span class="sc">$</span>best_lambda_id</span></code></pre></div>
+<pre><code>## [1] 20</code></pre>
+<p>Checking the metrics again, we see how CV has generated a model with
+the correct amount of sparsity that gives FDR levels below the specified
 values.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">fdr_sensitivity</span>(<span class="at">fitted_ids =</span> cv_model<span class="sc">$</span>fit<span class="sc">$</span>selected_var, <span class="at">true_ids =</span> data<span class="sc">$</span>true_var_id, <span class="at">num_coef =</span> <span class="dv">500</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">fdr_sensitivity</span>(<span class="at">fitted_ids =</span> cv_model<span class="sc">$</span>fit<span class="sc">$</span>selected_var, <span class="at">true_ids =</span> data<span class="sc">$</span>true_var_id,</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>    <span class="at">num_coef =</span> <span class="dv">500</span>)</span></code></pre></div>
 <pre><code>## $fdr
 ## [1] 0.03703704
 ## 
@@ -518,7 +724,8 @@ values.</p>
 ## 
 ## $f1
 ## [1] 0.9454545</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">fdr_sensitivity</span>(<span class="at">fitted_ids =</span> cv_model<span class="sc">$</span>fit<span class="sc">$</span>selected_group, <span class="at">true_ids =</span> data<span class="sc">$</span>true_grp_id, <span class="at">num_coef =</span> <span class="dv">100</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">fdr_sensitivity</span>(<span class="at">fitted_ids =</span> cv_model<span class="sc">$</span>fit<span class="sc">$</span>selected_grp, <span class="at">true_ids =</span> data<span class="sc">$</span>true_grp_id,</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>    <span class="at">num_coef =</span> <span class="dv">100</span>)</span></code></pre></div>
 <pre><code>## $fdr
 ## [1] 0.09090909
 ## 
@@ -533,74 +740,324 @@ values.</p>
 </div>
 <div id="plot" class="section level3">
 <h3>Plot</h3>
-<p>We can visualise the solution using the plot function</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">plot</span>(cv_model,<span class="at">how_many =</span> <span class="dv">10</span>)</span></code></pre></div>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>We can visualise the solution using the plot function:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">plot</span>(cv_model, <span class="at">how_many =</span> <span class="dv">10</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
 </div>
 <div id="prediction" class="section level3">
 <h3>Prediction</h3>
-<p>The package has an implemented predict function, to allow for easy
-prediction</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">predict</span>(model,data<span class="sc">$</span>X,<span class="at">type=</span><span class="st">&quot;linear&quot;</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code></pre></div>
-<pre><code>## [1]  2.79322803  0.03135326  5.00188815  4.00179438 -2.74987113</code></pre>
+<p>The package has an implemented predict function to allow for easy
+prediction. The predict function can be used on regular and CV model
+fits.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">predict</span>(model, data<span class="sc">$</span>X)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code></pre></div>
+<pre><code>## [1]  7.5631945 -2.5428616  7.8497662  0.8790488 -4.8362971</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">dim</span>(<span class="fu">predict</span>(cv_model, data<span class="sc">$</span>X))</span></code></pre></div>
+<pre><code>## [1] 400  20</code></pre>
 </div>
 </div>
-<div id="logistic-regression" class="section level1">
-<h1>Logistic regression</h1>
-<p>As mentioned, the package can also be used to fit SGS to a Binomial
-response. First, we generate some Binomial data. We can use the same
-input matrix, <span class="math inline">\(X\)</span>, and true <span class="math inline">\(\beta\)</span> as before.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>sigmoid <span class="ot">=</span> <span class="cf">function</span>(x) {</span>
-<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>   <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>x))</span>
-<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>}</span>
-<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">ifelse</span>(<span class="fu">sigmoid</span>(data<span class="sc">$</span>X <span class="sc">%*%</span> data<span class="sc">$</span>true_beta <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">400</span>))<span class="sc">&gt;</span><span class="fl">0.5</span>,<span class="dv">1</span>,<span class="dv">0</span>)</span>
-<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a>train_y <span class="ot">=</span> y[<span class="dv">1</span><span class="sc">:</span><span class="dv">350</span>] </span>
-<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a>test_y <span class="ot">=</span> y[<span class="dv">351</span><span class="sc">:</span><span class="dv">400</span>]</span>
-<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a>train_X <span class="ot">=</span> data<span class="sc">$</span>X[<span class="dv">1</span><span class="sc">:</span><span class="dv">350</span>,] </span>
-<span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a>test_X <span class="ot">=</span> data<span class="sc">$</span>X[<span class="dv">351</span><span class="sc">:</span><span class="dv">400</span>,]</span></code></pre></div>
+<div id="logistic-regression" class="section level2">
+<h2>Logistic regression</h2>
+<p>As mentioned, the package can also be used to fit SGS to a binary
+response. First, we generate some binary data. We can use the same input
+matrix, <span class="math inline">\(X\)</span>, and true <span class="math inline">\(\beta\)</span> as before. We split the data into
+train and test to test the models classification performance.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>sigmoid <span class="ot">=</span> <span class="cf">function</span>(x) {</span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>    <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>x))</span>
+<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>}</span>
+<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">ifelse</span>(<span class="fu">sigmoid</span>(data<span class="sc">$</span>X <span class="sc">%*%</span> data<span class="sc">$</span>true_beta <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">400</span>)) <span class="sc">&gt;</span></span>
+<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>    <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a>train_y <span class="ot">=</span> y[<span class="dv">1</span><span class="sc">:</span><span class="dv">350</span>]</span>
+<span id="cb32-7"><a href="#cb32-7" tabindex="-1"></a>test_y <span class="ot">=</span> y[<span class="dv">351</span><span class="sc">:</span><span class="dv">400</span>]</span>
+<span id="cb32-8"><a href="#cb32-8" tabindex="-1"></a>train_X <span class="ot">=</span> data<span class="sc">$</span>X[<span class="dv">1</span><span class="sc">:</span><span class="dv">350</span>, ]</span>
+<span id="cb32-9"><a href="#cb32-9" tabindex="-1"></a>test_X <span class="ot">=</span> data<span class="sc">$</span>X[<span class="dv">351</span><span class="sc">:</span><span class="dv">400</span>, ]</span></code></pre></div>
 <div id="fitting-and-prediction" class="section level3">
 <h3>Fitting and prediction</h3>
 <p>We can again apply CV.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>cv_model <span class="ot">=</span> <span class="fu">fit_sgs_cv</span>(<span class="at">X =</span> train_X, <span class="at">y =</span> train_y, <span class="at">groups=</span>groups, <span class="at">type =</span> <span class="st">&quot;logistic&quot;</span>, <span class="at">nlambda =</span> <span class="dv">20</span>, <span class="at">nfolds=</span><span class="dv">10</span>, <span class="at">alpha =</span> <span class="fl">0.95</span>, <span class="at">vFDR =</span> <span class="fl">0.1</span>, <span class="at">gFDR =</span> <span class="fl">0.1</span>, <span class="at">min_frac =</span> <span class="fl">0.05</span>, <span class="at">standardise=</span><span class="st">&quot;l2&quot;</span>,<span class="at">intercept=</span><span class="cn">FALSE</span>,<span class="at">verbose=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## [1] &quot;Lambda 1/20 done. Lambda: 0.0486. Number of non-zero: 0. Misclassification error: 0.437142857142857. Avg iter: 2&quot;
-## [1] &quot;Lambda 2/20 done. Lambda: 0.0415. Number of non-zero: 1. Misclassification error: 0.351428571428571. Avg iter: 4&quot;
-## [1] &quot;Lambda 3/20 done. Lambda: 0.0355. Number of non-zero: 2. Misclassification error: 0.331428571428571. Avg iter: 5&quot;
-## [1] &quot;Lambda 4/20 done. Lambda: 0.0303. Number of non-zero: 2. Misclassification error: 0.314285714285714. Avg iter: 7&quot;
-## [1] &quot;Lambda 5/20 done. Lambda: 0.0259. Number of non-zero: 9. Misclassification error: 0.28. Avg iter: 11&quot;
-## [1] &quot;Lambda 6/20 done. Lambda: 0.0221. Number of non-zero: 11. Misclassification error: 0.222857142857143. Avg iter: 9&quot;
-## [1] &quot;Lambda 7/20 done. Lambda: 0.0189. Number of non-zero: 13. Misclassification error: 0.208571428571429. Avg iter: 11&quot;
-## [1] &quot;Lambda 8/20 done. Lambda: 0.0161. Number of non-zero: 23. Misclassification error: 0.177142857142857. Avg iter: 15&quot;
-## [1] &quot;Lambda 9/20 done. Lambda: 0.0138. Number of non-zero: 34. Misclassification error: 0.14. Avg iter: 19&quot;
-## [1] &quot;Lambda 10/20 done. Lambda: 0.0118. Number of non-zero: 43. Misclassification error: 0.134285714285714. Avg iter: 20&quot;
-## [1] &quot;Lambda 11/20 done. Lambda: 0.0101. Number of non-zero: 57. Misclassification error: 0.131428571428571. Avg iter: 21&quot;
-## [1] &quot;Lambda 12/20 done. Lambda: 0.0086. Number of non-zero: 80. Misclassification error: 0.142857142857143. Avg iter: 21&quot;
-## [1] &quot;Lambda 13/20 done. Lambda: 0.0073. Number of non-zero: 102. Misclassification error: 0.14. Avg iter: 22&quot;
-## [1] &quot;Lambda 14/20 done. Lambda: 0.0063. Number of non-zero: 113. Misclassification error: 0.148571428571429. Avg iter: 26&quot;
-## [1] &quot;Lambda 15/20 done. Lambda: 0.0054. Number of non-zero: 120. Misclassification error: 0.145714285714286. Avg iter: 30&quot;
-## [1] &quot;Lambda 16/20 done. Lambda: 0.0046. Number of non-zero: 124. Misclassification error: 0.145714285714286. Avg iter: 36&quot;
-## [1] &quot;Lambda 17/20 done. Lambda: 0.0039. Number of non-zero: 132. Misclassification error: 0.145714285714286. Avg iter: 45&quot;
-## [1] &quot;Lambda 18/20 done. Lambda: 0.0033. Number of non-zero: 136. Misclassification error: 0.137142857142857. Avg iter: 55&quot;
-## [1] &quot;Lambda 19/20 done. Lambda: 0.0028. Number of non-zero: 154. Misclassification error: 0.148571428571429. Avg iter: 67&quot;
-## [1] &quot;Lambda 20/20 done. Lambda: 0.0024. Number of non-zero: 164. Misclassification error: 0.148571428571429. Avg iter: 81&quot;</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>cv_model <span class="ot">=</span> <span class="fu">fit_sgs_cv</span>(<span class="at">X =</span> train_X, <span class="at">y =</span> train_y, <span class="at">groups =</span> groups,</span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;logistic&quot;</span>, <span class="at">path_length =</span> <span class="dv">20</span>, <span class="at">nfolds =</span> <span class="dv">10</span>, <span class="at">alpha =</span> <span class="fl">0.95</span>,</span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>    <span class="at">vFDR =</span> <span class="fl">0.1</span>, <span class="at">gFDR =</span> <span class="fl">0.1</span>, <span class="at">min_frac =</span> <span class="fl">0.05</span>, <span class="at">standardise =</span> <span class="st">&quot;l2&quot;</span>,</span>
+<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">FALSE</span>, <span class="at">verbose =</span> <span class="cn">TRUE</span>, <span class="at">screen =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>##  [1] &quot;Fold 1/10 done. Error: 0.457142857142857&quot;
+##  [2] &quot;Fold 1/10 done. Error: 0.342857142857143&quot;
+##  [3] &quot;Fold 1/10 done. Error: 0.314285714285714&quot;
+##  [4] &quot;Fold 1/10 done. Error: 0.285714285714286&quot;
+##  [5] &quot;Fold 1/10 done. Error: 0.285714285714286&quot;
+##  [6] &quot;Fold 1/10 done. Error: 0.171428571428571&quot;
+##  [7] &quot;Fold 1/10 done. Error: 0.142857142857143&quot;
+##  [8] &quot;Fold 1/10 done. Error: 0.114285714285714&quot;
+##  [9] &quot;Fold 1/10 done. Error: 0.114285714285714&quot;
+## [10] &quot;Fold 1/10 done. Error: 0.114285714285714&quot;
+## [11] &quot;Fold 1/10 done. Error: 0.142857142857143&quot;
+## [12] &quot;Fold 1/10 done. Error: 0.142857142857143&quot;
+## [13] &quot;Fold 1/10 done. Error: 0.171428571428571&quot;
+## [14] &quot;Fold 1/10 done. Error: 0.171428571428571&quot;
+## [15] &quot;Fold 1/10 done. Error: 0.2&quot;              
+## [16] &quot;Fold 1/10 done. Error: 0.228571428571429&quot;
+## [17] &quot;Fold 1/10 done. Error: 0.228571428571429&quot;
+## [18] &quot;Fold 1/10 done. Error: 0.2&quot;              
+## [19] &quot;Fold 1/10 done. Error: 0.2&quot;              
+## [20] &quot;Fold 1/10 done. Error: 0.2&quot;              
+##  [1] &quot;Fold 2/10 done. Error: 0.4&quot;              
+##  [2] &quot;Fold 2/10 done. Error: 0.4&quot;              
+##  [3] &quot;Fold 2/10 done. Error: 0.342857142857143&quot;
+##  [4] &quot;Fold 2/10 done. Error: 0.285714285714286&quot;
+##  [5] &quot;Fold 2/10 done. Error: 0.285714285714286&quot;
+##  [6] &quot;Fold 2/10 done. Error: 0.314285714285714&quot;
+##  [7] &quot;Fold 2/10 done. Error: 0.285714285714286&quot;
+##  [8] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
+##  [9] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
+## [10] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
+## [11] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
+## [12] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
+## [13] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
+## [14] &quot;Fold 2/10 done. Error: 0.171428571428571&quot;
+## [15] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
+## [16] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
+## [17] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
+## [18] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
+## [19] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
+## [20] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
+##  [1] &quot;Fold 3/10 done. Error: 0.514285714285714&quot; 
+##  [2] &quot;Fold 3/10 done. Error: 0.314285714285714&quot; 
+##  [3] &quot;Fold 3/10 done. Error: 0.314285714285714&quot; 
+##  [4] &quot;Fold 3/10 done. Error: 0.285714285714286&quot; 
+##  [5] &quot;Fold 3/10 done. Error: 0.314285714285714&quot; 
+##  [6] &quot;Fold 3/10 done. Error: 0.257142857142857&quot; 
+##  [7] &quot;Fold 3/10 done. Error: 0.228571428571429&quot; 
+##  [8] &quot;Fold 3/10 done. Error: 0.171428571428571&quot; 
+##  [9] &quot;Fold 3/10 done. Error: 0.142857142857143&quot; 
+## [10] &quot;Fold 3/10 done. Error: 0.114285714285714&quot; 
+## [11] &quot;Fold 3/10 done. Error: 0.0857142857142857&quot;
+## [12] &quot;Fold 3/10 done. Error: 0.0857142857142857&quot;
+## [13] &quot;Fold 3/10 done. Error: 0.0857142857142857&quot;
+## [14] &quot;Fold 3/10 done. Error: 0.0857142857142857&quot;
+## [15] &quot;Fold 3/10 done. Error: 0.0857142857142857&quot;
+## [16] &quot;Fold 3/10 done. Error: 0.0857142857142857&quot;
+## [17] &quot;Fold 3/10 done. Error: 0.0857142857142857&quot;
+## [18] &quot;Fold 3/10 done. Error: 0.114285714285714&quot; 
+## [19] &quot;Fold 3/10 done. Error: 0.142857142857143&quot; 
+## [20] &quot;Fold 3/10 done. Error: 0.142857142857143&quot; 
+##  [1] &quot;Fold 4/10 done. Error: 0.542857142857143&quot;
+##  [2] &quot;Fold 4/10 done. Error: 0.314285714285714&quot;
+##  [3] &quot;Fold 4/10 done. Error: 0.285714285714286&quot;
+##  [4] &quot;Fold 4/10 done. Error: 0.342857142857143&quot;
+##  [5] &quot;Fold 4/10 done. Error: 0.314285714285714&quot;
+##  [6] &quot;Fold 4/10 done. Error: 0.257142857142857&quot;
+##  [7] &quot;Fold 4/10 done. Error: 0.285714285714286&quot;
+##  [8] &quot;Fold 4/10 done. Error: 0.257142857142857&quot;
+##  [9] &quot;Fold 4/10 done. Error: 0.257142857142857&quot;
+## [10] &quot;Fold 4/10 done. Error: 0.285714285714286&quot;
+## [11] &quot;Fold 4/10 done. Error: 0.257142857142857&quot;
+## [12] &quot;Fold 4/10 done. Error: 0.257142857142857&quot;
+## [13] &quot;Fold 4/10 done. Error: 0.257142857142857&quot;
+## [14] &quot;Fold 4/10 done. Error: 0.257142857142857&quot;
+## [15] &quot;Fold 4/10 done. Error: 0.228571428571429&quot;
+## [16] &quot;Fold 4/10 done. Error: 0.228571428571429&quot;
+## [17] &quot;Fold 4/10 done. Error: 0.228571428571429&quot;
+## [18] &quot;Fold 4/10 done. Error: 0.228571428571429&quot;
+## [19] &quot;Fold 4/10 done. Error: 0.2&quot;              
+## [20] &quot;Fold 4/10 done. Error: 0.2&quot;              
+##  [1] &quot;Fold 5/10 done. Error: 0.485714285714286&quot; 
+##  [2] &quot;Fold 5/10 done. Error: 0.314285714285714&quot; 
+##  [3] &quot;Fold 5/10 done. Error: 0.314285714285714&quot; 
+##  [4] &quot;Fold 5/10 done. Error: 0.314285714285714&quot; 
+##  [5] &quot;Fold 5/10 done. Error: 0.228571428571429&quot; 
+##  [6] &quot;Fold 5/10 done. Error: 0.171428571428571&quot; 
+##  [7] &quot;Fold 5/10 done. Error: 0.2&quot;               
+##  [8] &quot;Fold 5/10 done. Error: 0.171428571428571&quot; 
+##  [9] &quot;Fold 5/10 done. Error: 0.0857142857142857&quot;
+## [10] &quot;Fold 5/10 done. Error: 0.114285714285714&quot; 
+## [11] &quot;Fold 5/10 done. Error: 0.114285714285714&quot; 
+## [12] &quot;Fold 5/10 done. Error: 0.142857142857143&quot; 
+## [13] &quot;Fold 5/10 done. Error: 0.114285714285714&quot; 
+## [14] &quot;Fold 5/10 done. Error: 0.142857142857143&quot; 
+## [15] &quot;Fold 5/10 done. Error: 0.142857142857143&quot; 
+## [16] &quot;Fold 5/10 done. Error: 0.142857142857143&quot; 
+## [17] &quot;Fold 5/10 done. Error: 0.142857142857143&quot; 
+## [18] &quot;Fold 5/10 done. Error: 0.142857142857143&quot; 
+## [19] &quot;Fold 5/10 done. Error: 0.142857142857143&quot; 
+## [20] &quot;Fold 5/10 done. Error: 0.142857142857143&quot; 
+##  [1] &quot;Fold 6/10 done. Error: 0.4&quot;               
+##  [2] &quot;Fold 6/10 done. Error: 0.4&quot;               
+##  [3] &quot;Fold 6/10 done. Error: 0.314285714285714&quot; 
+##  [4] &quot;Fold 6/10 done. Error: 0.257142857142857&quot; 
+##  [5] &quot;Fold 6/10 done. Error: 0.228571428571429&quot; 
+##  [6] &quot;Fold 6/10 done. Error: 0.171428571428571&quot; 
+##  [7] &quot;Fold 6/10 done. Error: 0.142857142857143&quot; 
+##  [8] &quot;Fold 6/10 done. Error: 0.142857142857143&quot; 
+##  [9] &quot;Fold 6/10 done. Error: 0.114285714285714&quot; 
+## [10] &quot;Fold 6/10 done. Error: 0.0857142857142857&quot;
+## [11] &quot;Fold 6/10 done. Error: 0.0857142857142857&quot;
+## [12] &quot;Fold 6/10 done. Error: 0.0857142857142857&quot;
+## [13] &quot;Fold 6/10 done. Error: 0.0857142857142857&quot;
+## [14] &quot;Fold 6/10 done. Error: 0.0857142857142857&quot;
+## [15] &quot;Fold 6/10 done. Error: 0.0857142857142857&quot;
+## [16] &quot;Fold 6/10 done. Error: 0.0857142857142857&quot;
+## [17] &quot;Fold 6/10 done. Error: 0.0857142857142857&quot;
+## [18] &quot;Fold 6/10 done. Error: 0.114285714285714&quot; 
+## [19] &quot;Fold 6/10 done. Error: 0.114285714285714&quot; 
+## [20] &quot;Fold 6/10 done. Error: 0.114285714285714&quot; 
+##  [1] &quot;Fold 7/10 done. Error: 0.428571428571429&quot; 
+##  [2] &quot;Fold 7/10 done. Error: 0.285714285714286&quot; 
+##  [3] &quot;Fold 7/10 done. Error: 0.285714285714286&quot; 
+##  [4] &quot;Fold 7/10 done. Error: 0.314285714285714&quot; 
+##  [5] &quot;Fold 7/10 done. Error: 0.228571428571429&quot; 
+##  [6] &quot;Fold 7/10 done. Error: 0.2&quot;               
+##  [7] &quot;Fold 7/10 done. Error: 0.2&quot;               
+##  [8] &quot;Fold 7/10 done. Error: 0.171428571428571&quot; 
+##  [9] &quot;Fold 7/10 done. Error: 0.0571428571428572&quot;
+## [10] &quot;Fold 7/10 done. Error: 0.0571428571428572&quot;
+## [11] &quot;Fold 7/10 done. Error: 0.0857142857142857&quot;
+## [12] &quot;Fold 7/10 done. Error: 0.0857142857142857&quot;
+## [13] &quot;Fold 7/10 done. Error: 0.0857142857142857&quot;
+## [14] &quot;Fold 7/10 done. Error: 0.114285714285714&quot; 
+## [15] &quot;Fold 7/10 done. Error: 0.0857142857142857&quot;
+## [16] &quot;Fold 7/10 done. Error: 0.0857142857142857&quot;
+## [17] &quot;Fold 7/10 done. Error: 0.0857142857142857&quot;
+## [18] &quot;Fold 7/10 done. Error: 0.0857142857142857&quot;
+## [19] &quot;Fold 7/10 done. Error: 0.114285714285714&quot; 
+## [20] &quot;Fold 7/10 done. Error: 0.0857142857142857&quot;
+##  [1] &quot;Fold 8/10 done. Error: 0.457142857142857&quot; 
+##  [2] &quot;Fold 8/10 done. Error: 0.314285714285714&quot; 
+##  [3] &quot;Fold 8/10 done. Error: 0.371428571428571&quot; 
+##  [4] &quot;Fold 8/10 done. Error: 0.371428571428571&quot; 
+##  [5] &quot;Fold 8/10 done. Error: 0.342857142857143&quot; 
+##  [6] &quot;Fold 8/10 done. Error: 0.257142857142857&quot; 
+##  [7] &quot;Fold 8/10 done. Error: 0.2&quot;               
+##  [8] &quot;Fold 8/10 done. Error: 0.171428571428571&quot; 
+##  [9] &quot;Fold 8/10 done. Error: 0.142857142857143&quot; 
+## [10] &quot;Fold 8/10 done. Error: 0.142857142857143&quot; 
+## [11] &quot;Fold 8/10 done. Error: 0.142857142857143&quot; 
+## [12] &quot;Fold 8/10 done. Error: 0.142857142857143&quot; 
+## [13] &quot;Fold 8/10 done. Error: 0.114285714285714&quot; 
+## [14] &quot;Fold 8/10 done. Error: 0.0857142857142857&quot;
+## [15] &quot;Fold 8/10 done. Error: 0.0857142857142857&quot;
+## [16] &quot;Fold 8/10 done. Error: 0.0857142857142857&quot;
+## [17] &quot;Fold 8/10 done. Error: 0.0857142857142857&quot;
+## [18] &quot;Fold 8/10 done. Error: 0.0857142857142857&quot;
+## [19] &quot;Fold 8/10 done. Error: 0.114285714285714&quot; 
+## [20] &quot;Fold 8/10 done. Error: 0.114285714285714&quot; 
+##  [1] &quot;Fold 9/10 done. Error: 0.4&quot;              
+##  [2] &quot;Fold 9/10 done. Error: 0.4&quot;              
+##  [3] &quot;Fold 9/10 done. Error: 0.371428571428571&quot;
+##  [4] &quot;Fold 9/10 done. Error: 0.342857142857143&quot;
+##  [5] &quot;Fold 9/10 done. Error: 0.314285714285714&quot;
+##  [6] &quot;Fold 9/10 done. Error: 0.2&quot;              
+##  [7] &quot;Fold 9/10 done. Error: 0.228571428571429&quot;
+##  [8] &quot;Fold 9/10 done. Error: 0.2&quot;              
+##  [9] &quot;Fold 9/10 done. Error: 0.171428571428571&quot;
+## [10] &quot;Fold 9/10 done. Error: 0.171428571428571&quot;
+## [11] &quot;Fold 9/10 done. Error: 0.142857142857143&quot;
+## [12] &quot;Fold 9/10 done. Error: 0.142857142857143&quot;
+## [13] &quot;Fold 9/10 done. Error: 0.142857142857143&quot;
+## [14] &quot;Fold 9/10 done. Error: 0.171428571428571&quot;
+## [15] &quot;Fold 9/10 done. Error: 0.2&quot;              
+## [16] &quot;Fold 9/10 done. Error: 0.171428571428571&quot;
+## [17] &quot;Fold 9/10 done. Error: 0.171428571428571&quot;
+## [18] &quot;Fold 9/10 done. Error: 0.171428571428571&quot;
+## [19] &quot;Fold 9/10 done. Error: 0.171428571428571&quot;
+## [20] &quot;Fold 9/10 done. Error: 0.171428571428571&quot;
+##  [1] &quot;Fold 10/10 done. Error: 0.457142857142857&quot;
+##  [2] &quot;Fold 10/10 done. Error: 0.285714285714286&quot;
+##  [3] &quot;Fold 10/10 done. Error: 0.285714285714286&quot;
+##  [4] &quot;Fold 10/10 done. Error: 0.314285714285714&quot;
+##  [5] &quot;Fold 10/10 done. Error: 0.257142857142857&quot;
+##  [6] &quot;Fold 10/10 done. Error: 0.142857142857143&quot;
+##  [7] &quot;Fold 10/10 done. Error: 0.171428571428571&quot;
+##  [8] &quot;Fold 10/10 done. Error: 0.114285714285714&quot;
+##  [9] &quot;Fold 10/10 done. Error: 0.142857142857143&quot;
+## [10] &quot;Fold 10/10 done. Error: 0.142857142857143&quot;
+## [11] &quot;Fold 10/10 done. Error: 0.171428571428571&quot;
+## [12] &quot;Fold 10/10 done. Error: 0.2&quot;              
+## [13] &quot;Fold 10/10 done. Error: 0.2&quot;              
+## [14] &quot;Fold 10/10 done. Error: 0.2&quot;              
+## [15] &quot;Fold 10/10 done. Error: 0.2&quot;              
+## [16] &quot;Fold 10/10 done. Error: 0.2&quot;              
+## [17] &quot;Fold 10/10 done. Error: 0.2&quot;              
+## [18] &quot;Fold 10/10 done. Error: 0.171428571428571&quot;
+## [19] &quot;Fold 10/10 done. Error: 0.171428571428571&quot;
+## [20] &quot;Fold 10/10 done. Error: 0.171428571428571&quot;</code></pre>
 <p>and again, use the predict function</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>predictions <span class="ot">=</span> <span class="fu">predict</span>(cv_model<span class="sc">$</span>fit,test_X,<span class="at">type=</span><span class="st">&quot;logistic&quot;</span>)</span></code></pre></div>
-<p>In the Binomial case, the function returns both the predicted class
-probabilities (<code>response</code>) and the predicted class
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>predictions <span class="ot">=</span> <span class="fu">predict</span>(cv_model, test_X)</span></code></pre></div>
+<p>For logistic regression, the function returns both the predicted
+class probabilities (<code>response</code>) and the predicted class
 (<code>class</code>). We can use this to check the prediction accuracy,
-given as <span class="math inline">\(84\%\)</span>.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>predictions<span class="sc">$</span>response[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code></pre></div>
-<pre><code>## [1] 0.4085523 0.6480921 0.1706632 0.1489437 0.3894489</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>predictions<span class="sc">$</span>class[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code></pre></div>
+given as <span class="math inline">\(82\%\)</span>.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a>predictions<span class="sc">$</span>response[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, cv_model<span class="sc">$</span>best_lambda_id]</span></code></pre></div>
+<pre><code>## [1] 0.4090457 0.6485261 0.1668541 0.1466649 0.3901439</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a>predictions<span class="sc">$</span>class[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, cv_model<span class="sc">$</span>best_lambda_id]</span></code></pre></div>
 <pre><code>## [1] 0 1 0 0 0</code></pre>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="fu">sum</span>(predictions<span class="sc">$</span>class <span class="sc">==</span> test_y)<span class="sc">/</span><span class="fu">length</span>(test_y)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="fu">sum</span>(predictions<span class="sc">$</span>class[, cv_model<span class="sc">$</span>best_lambda_id] <span class="sc">==</span> test_y)<span class="sc">/</span><span class="fu">length</span>(test_y)</span></code></pre></div>
 <pre><code>## [1] 0.82</code></pre>
 </div>
+</div>
+</div>
+<div id="group-slope" class="section level1">
+<h1>Group SLOPE</h1>
+<p>Group SLOPE (gSLOPE) applies adaptive group penalisation to control
+the group FDR under orthogonal designs. gSLOPE is described in detail in
+<a href="https://doi.org/10.1080/01621459.2017.1411269">Brzyski, D.,
+Gossmann, A., Su, W., Bogdan, M. (2019). <em>Group SLOPE – Adaptive
+Selection of Groups of Predictors</em></a>. gSLOPE is implemented in the
+<code>sgs</code> package with the same features as SGS. Here, we briefly
+demonstrate how to fit a gSLOPE model.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a>groups <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="at">each =</span> <span class="dv">3</span>), <span class="fu">rep</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">40</span>, <span class="at">each =</span> <span class="dv">4</span>), <span class="fu">rep</span>(<span class="dv">41</span><span class="sc">:</span><span class="dv">60</span>,</span>
+<span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a>    <span class="at">each =</span> <span class="dv">5</span>), <span class="fu">rep</span>(<span class="dv">61</span><span class="sc">:</span><span class="dv">80</span>, <span class="at">each =</span> <span class="dv">6</span>), <span class="fu">rep</span>(<span class="dv">81</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">each =</span> <span class="dv">7</span>))</span>
+<span id="cb42-3"><a href="#cb42-3" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">gen_toy_data</span>(<span class="at">p =</span> <span class="dv">500</span>, <span class="at">n =</span> <span class="dv">400</span>, <span class="at">groups =</span> groups, <span class="at">seed_id =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a>model <span class="ot">=</span> <span class="fu">fit_gslope</span>(<span class="at">X =</span> data<span class="sc">$</span>X, <span class="at">y =</span> data<span class="sc">$</span>y, <span class="at">groups =</span> groups, <span class="at">type =</span> <span class="st">&quot;linear&quot;</span>,</span>
+<span id="cb43-2"><a href="#cb43-2" tabindex="-1"></a>    <span class="at">lambda =</span> <span class="fl">0.5</span>, <span class="at">gFDR =</span> <span class="fl">0.1</span>, <span class="at">standardise =</span> <span class="st">&quot;l2&quot;</span>, <span class="at">intercept =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb43-3"><a href="#cb43-3" tabindex="-1"></a>    <span class="at">verbose =</span> <span class="cn">FALSE</span>, <span class="at">screen =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+</div>
+<div id="screening" class="section level1">
+<h1>Screening</h1>
+<p>Screening rules allow the input dimensionality to be reduced before
+fitting. The strong screening rules for gSLOPE and SGS are described in
+detail in <a href="https://arxiv.org/abs/2405.15357">Feser, F.,
+Evangelou, M. (2024). <em>Strong Screening Rules for Group-based SLOPE
+Models</em></a>. Here, we demonstrate the effectiveness of screening
+rules by looking at the speed improvement they provide. For SGS:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a>screen_time <span class="ot">=</span> <span class="fu">system.time</span>(model_screen <span class="ot">&lt;-</span> <span class="fu">fit_sgs</span>(<span class="at">X =</span> data<span class="sc">$</span>X,</span>
+<span id="cb44-2"><a href="#cb44-2" tabindex="-1"></a>    <span class="at">y =</span> data<span class="sc">$</span>y, <span class="at">groups =</span> groups, <span class="at">type =</span> <span class="st">&quot;linear&quot;</span>, <span class="at">path_length =</span> <span class="dv">100</span>,</span>
+<span id="cb44-3"><a href="#cb44-3" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.95</span>, <span class="at">vFDR =</span> <span class="fl">0.1</span>, <span class="at">gFDR =</span> <span class="fl">0.1</span>, <span class="at">standardise =</span> <span class="st">&quot;l2&quot;</span>,</span>
+<span id="cb44-4"><a href="#cb44-4" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>, <span class="at">screen =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb44-5"><a href="#cb44-5" tabindex="-1"></a>no_screen_time <span class="ot">=</span> <span class="fu">system.time</span>(model_no_screen <span class="ot">&lt;-</span> <span class="fu">fit_sgs</span>(<span class="at">X =</span> data<span class="sc">$</span>X,</span>
+<span id="cb44-6"><a href="#cb44-6" tabindex="-1"></a>    <span class="at">y =</span> data<span class="sc">$</span>y, <span class="at">groups =</span> groups, <span class="at">type =</span> <span class="st">&quot;linear&quot;</span>, <span class="at">path_length =</span> <span class="dv">100</span>,</span>
+<span id="cb44-7"><a href="#cb44-7" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.95</span>, <span class="at">vFDR =</span> <span class="fl">0.1</span>, <span class="at">gFDR =</span> <span class="fl">0.1</span>, <span class="at">standardise =</span> <span class="st">&quot;l2&quot;</span>,</span>
+<span id="cb44-8"><a href="#cb44-8" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>, <span class="at">screen =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb44-9"><a href="#cb44-9" tabindex="-1"></a>screen_time</span></code></pre></div>
+<pre><code>##    user  system elapsed 
+##    8.67    0.16    9.18</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a>no_screen_time</span></code></pre></div>
+<pre><code>##    user  system elapsed 
+##   10.86    0.09   12.28</code></pre>
+<p>and for gSLOPE:</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a>screen_time <span class="ot">=</span> <span class="fu">system.time</span>(model_screen <span class="ot">&lt;-</span> <span class="fu">fit_gslope</span>(<span class="at">X =</span> data<span class="sc">$</span>X,</span>
+<span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a>    <span class="at">y =</span> data<span class="sc">$</span>y, <span class="at">groups =</span> groups, <span class="at">type =</span> <span class="st">&quot;linear&quot;</span>, <span class="at">path_length =</span> <span class="dv">100</span>,</span>
+<span id="cb48-3"><a href="#cb48-3" tabindex="-1"></a>    <span class="at">gFDR =</span> <span class="fl">0.1</span>, <span class="at">standardise =</span> <span class="st">&quot;l2&quot;</span>, <span class="at">intercept =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb48-4"><a href="#cb48-4" tabindex="-1"></a>    <span class="at">screen =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb48-5"><a href="#cb48-5" tabindex="-1"></a>no_screen_time <span class="ot">=</span> <span class="fu">system.time</span>(model_no_screen <span class="ot">&lt;-</span> <span class="fu">fit_gslope</span>(<span class="at">X =</span> data<span class="sc">$</span>X,</span>
+<span id="cb48-6"><a href="#cb48-6" tabindex="-1"></a>    <span class="at">y =</span> data<span class="sc">$</span>y, <span class="at">groups =</span> groups, <span class="at">type =</span> <span class="st">&quot;linear&quot;</span>, <span class="at">path_length =</span> <span class="dv">100</span>,</span>
+<span id="cb48-7"><a href="#cb48-7" tabindex="-1"></a>    <span class="at">gFDR =</span> <span class="fl">0.1</span>, <span class="at">standardise =</span> <span class="st">&quot;l2&quot;</span>, <span class="at">intercept =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb48-8"><a href="#cb48-8" tabindex="-1"></a>    <span class="at">screen =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb48-9"><a href="#cb48-9" tabindex="-1"></a>screen_time</span></code></pre></div>
+<pre><code>##    user  system elapsed 
+##    4.23    0.12    5.06</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a>no_screen_time</span></code></pre></div>
+<pre><code>##    user  system elapsed 
+##   11.25    0.13   12.13</code></pre>
 <div id="reference" class="section level2">
 <h2>Reference</h2>
 <ul>
+<li><a href="https://doi.org/10.1080/01621459.2017.1411269">Brzyski, D.,
+Gossmann, A., Su, W., Bogdan, M. (2019). <em>Group SLOPE – Adaptive
+Selection of Groups of Predictors</em></a>.</li>
 <li><a href="https://arxiv.org/abs/2305.09467">Feser, F., Evangelou, M.
 (2023). <em>Sparse-group SLOPE: adaptive bi-level selection with
 FDR-control</em></a>.</li>
+<li><a href="https://arxiv.org/abs/2405.15357">Feser, F., Evangelou, M.
+(2024). <em>Strong screening rules for group-based SLOPE
+models</em></a>.</li>
 </ul>
 </div>
 </div>
