@@ -18,14 +18,14 @@
 #
 ###############################################################################
 
-#' Print a \code{"sgs"} object.
+#' Prints information for one of the following object types: `"sgs"`, `"sgs_cv"`, `"gslope"`, `"gslope_cv"`.
 #'
-#' Performs prediction from an [fit_sgs()] model fit.
+#' Prints out useful metric from a model fit.
 #'
-#' @param x Object an object of class \code{"sgs"} from a call to [fit_sgs()] or [fit_sgs_cv()].
+#' @param x Object of one of the following classes: \code{"sgs"}, \code{"sgs_cv"}, \code{"gslope"}, \code{"gslope_cv"}.
 #' @param ... further arguments passed to base function.
 #' 
-#' @seealso [fit_sgs()], [fit_sgs_cv()], [fit_gslope()], [fit_gslope_cv()]
+#' @seealso [fit_sgs()], [fit_sgs_cv()], [fit_gslope()], [fit_gslope_cv()], [fit_sgo()], [fit_sgo_cv()], [fit_goscar()], [fit_goscar_cv()]
 #' @family SGS-methods
 #' @family gSLOPE-methods
 #' 
@@ -51,14 +51,14 @@
 print.sgs <- function(x, ...){ 
   num.nonzero <- if(x$intercept){apply(x$beta,2, function(z){sum(z != 0)-1})}else{apply(x$beta,2, function(z){sum(z != 0)})}
   cat("\n regression type: ", x$type, "\n\n")
-  print(cbind(lambdas = x$lambdas, num.nonzero = num.nonzero, convergence = x$success))
+  print(cbind(lambda = x$lambdas, num.nonzero = num.nonzero, convergence = x$success))
 }
 
 #' @method print sgs_cv
 #' @export
 print.sgs_cv <- function(x, ...){ 
   cat("\n regression type: ", x$type, "\n\n")
-  print(cbind(lambda = x$errors$lambda, error = x$errors$error_criteria, estimated_non_zero = x$errors$num_non_zero))
+  print(cbind(lambda = x$errors$lambda, error = x$errors$error_criteria, num.nonzero = x$errors$num_non_zero))
 }
 
 #' @method print gslope
@@ -66,12 +66,12 @@ print.sgs_cv <- function(x, ...){
 print.gslope <- function(x, ...){ 
   num.nonzero <- if(x$intercept){apply(x$beta,2, function(z){sum(z != 0)-1})}else{apply(x$beta,2, function(z){sum(z != 0)})}
   cat("\n regression type: ", x$type, "\n\n")
-  print(cbind(lambdas = x$lambdas, num.nonzero = num.nonzero, convergence = x$success))
+  print(cbind(lambda = x$lambdas, num.nonzero = num.nonzero, convergence = x$success))
 }
 
 #' @method print gslope_cv
 #' @export
 print.gslope_cv <- function(x, ...){ 
   cat("\n regression type: ", x$type, "\n\n")
-  print(cbind(lambda = x$errors$lambda, error = x$errors$error_criteria, estimated_non_zero = x$errors$num_non_zero))
+  print(cbind(lambda = x$errors$lambda, error = x$errors$error_criteria, num.nonzero = x$errors$num_non_zero))
 }

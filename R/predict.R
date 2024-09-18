@@ -20,13 +20,13 @@
 
 #' Predict using one of the following object types: `"sgs"`, `"sgs_cv"`, `"gslope"`, `"gslope_cv"`.
 #'
-#' Performs prediction from one of the following fits: [fit_sgs()], [fit_sgs_cv()], [fit_gslope()], [fit_gslope_cv()]. The predictions are calculated for each \code{"lambda"} value in the path.
+#' Performs prediction from one of the following fits: [fit_sgs()], [fit_sgs_cv()], [fit_gslope()], [fit_gslope_cv()], [fit_sgo()], [fit_sgo_cv()], [fit_goscar()], [fit_goscar_cv()]. The predictions are calculated for each \code{"lambda"} value in the path.
 #'
 #' @param object Object of one of the following classes: \code{"sgs"}, \code{"sgs_cv"}, \code{"gslope"}, \code{"gslope_cv"}.
 #' @param x Input data to use for prediction.
 #' @param ... further arguments passed to stats function.
 #' 
-#' @seealso [fit_sgs()], [fit_sgs_cv()], [fit_gslope()], [fit_gslope_cv()]
+#' @seealso [fit_sgs()], [fit_sgs_cv()], [fit_gslope()], [fit_gslope_cv()], [fit_sgo()], [fit_sgo_cv()], [fit_goscar()], [fit_goscar_cv()]
 #' @family SGS-methods
 #' @family gSLOPE-methods
 #' 

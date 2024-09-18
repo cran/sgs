@@ -20,13 +20,13 @@
 
 #' Plot models of the following object types: `"sgs"`, `"sgs_cv"`, `"gslope"`, `"gslope_cv"`.
 #'
-#' Plots the pathwise solution of a cross-validation fit, from a call to one of the following: [fit_sgs()], [fit_sgs_cv()], [fit_gslope()], [fit_gslope_cv()].
+#' Plots the pathwise solution of a cross-validation fit, from a call to one of the following: [fit_sgs()], [fit_sgs_cv()], [fit_gslope()], [fit_gslope_cv()], [fit_sgo()], [fit_sgo_cv()], [fit_goscar()], [fit_goscar_cv()].
 #'
 #' @param x Object of one of the following classes: \code{"sgs"}, \code{"sgs_cv"}, \code{"gslope"}, \code{"gslope_cv"}.
 #' @param how_many Defines how many predictors to plot. Plots the predictors in decreasing order of largest absolute value.
 #' @param ... further arguments passed to base function.
 #' 
-#' @seealso [fit_sgs()], [fit_sgs_cv()], [fit_gslope()], [fit_gslope_cv()]
+#' @seealso [fit_sgs()], [fit_sgs_cv()], [fit_gslope()], [fit_gslope_cv()], [fit_sgo()], [fit_sgo_cv()], [fit_goscar()], [fit_goscar_cv()]
 #' @family SGS-methods
 #' @family gSLOPE-methods
 #' 

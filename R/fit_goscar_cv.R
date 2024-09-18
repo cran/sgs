@@ -18,11 +18,11 @@
 #
 ###############################################################################
 
-#' Fit a gSLOPE model using k-fold cross-validation.
+#' Fit a gOSCAR model using k-fold cross-validation.
 #'
-#' Function to fit a pathwise solution of group SLOPE (gSLOPE) models using k-fold cross-validation. Supports both linear and logistic regression, both with dense and sparse matrix implementations.
+#' Function to fit a pathwise solution of group OSCAR (gOSCAR) models using k-fold cross-validation. Supports both linear and logistic regression, both with dense and sparse matrix implementations.
 #'
-#' Fits gSLOPE models under a pathwise solution using adaptive three operator splitting (ATOS), picking the 1se model as optimum. Warm starts are implemented.
+#' Fits gOSCAR models under a pathwise solution using adaptive three operator splitting (ATOS), picking the 1se model as optimum. Warm starts are implemented.
 #'
 #' @param X Input matrix of dimensions \eqn{n \times p}{n*p}. Can be a sparse matrix (using class \code{"sparseMatrix"} from the \code{Matrix} package).
 #' @param y Output vector of dimension \eqn{n}. For \code{type="linear"} should be continuous and for \code{type="logistic"} should be a binary variable.
@@ -34,10 +34,6 @@
 #' @param path_length The number of \eqn{\lambda} values to fit the model for. If \code{"lambda"} is user-specified, this is ignored.
 #' @param min_frac Smallest value of \eqn{\lambda} as a fraction of the maximum value. That is, the final \eqn{\lambda} will be \code{"min_frac"} of the first \eqn{\lambda} value.
 #' @param nfolds The number of folds to use in cross-validation.
-#' @param gFDR Defines the desired group false discovery rate (FDR) level, which determines the shape of the penalties. Must be between 0 and 1.
-#' @param pen_method The type of penalty sequences to use (see Brzyski et al. (2019)):
-#'   - \code{"1"} uses the gMean gSLOPE sequence. 
-#'   - \code{"2"} uses the gMax gSLOPE sequence. 
 #' @param max_iter Maximum number of ATOS iterations to perform. 
 #' @param backtracking The backtracking parameter, \eqn{\tau}, as defined in Pedregosa and Gidel (2018).
 #' @param max_iter_backtracking Maximum number of backtracking line search iterations to perform per global iteration.
@@ -51,7 +47,7 @@
 #' @param error_criteria The criteria used to discriminate between models along the path. Supported values are: \code{"mse"} (mean squared error) and \code{"mae"} (mean absolute error).
 #' @param screen Logical flag for whether to apply screening rules (see Feser and Evangelou (2024)). Screening discards irrelevant groups before fitting, greatly improving speed.
 #' @param verbose Logical flag for whether to print fitting information.
-#' @param w_weights Optional vector for the group penalty weights. Overrides the penalties from \code{pen_method} if specified. When entering custom weights, these are multiplied internally by \eqn{\lambda}. To void this behaviour, set \eqn{\lambda = 1}.
+#' @param w_weights Optional vector for the group penalty weights. Overrides the OSCAR penalties when specified. When entering custom weights, these are multiplied internally by \eqn{\lambda}. To void this behaviour, set \eqn{\lambda = 1}.
 #'
 #' @return A list containing:
 #' \item{errors}{A table containing fitting information about the models on the path.}
@@ -60,7 +56,7 @@
 #' \item{best_lambda}{The value of \eqn{\lambda} which generated the chosen model.}
 #' \item{best_lambda_id}{The path index for the chosen model.}
 #'
-#' @seealso [fit_gslope()]
+#' @seealso [fit_goscar()]
 #' @family gSLOPE-methods
 #' @family model-selection
 #' 
@@ -69,22 +65,22 @@
 #' groups = c(1,1,1,2,2,3,3,3,4,4)
 #' # generate data
 #' data =  gen_toy_data(p=10, n=5, groups = groups, seed_id=3,group_sparsity=1)
-#' # run gSLOPE with cross-validation
-#' cv_model = fit_gslope_cv(X = data$X, y = data$y, groups=groups, type = "linear", path_length = 5, 
-#' nfolds=5, gFDR = 0.1, min_frac = 0.05, standardise="l2",intercept=TRUE,verbose=TRUE)
-#' @references Brzyski, D., Gossmann, A., Su, W., Bodgan, M. (2019). \emph{Group SLOPE – Adaptive Selection of Groups of Predictors}, \url{https://www.tandfonline.com/doi/full/10.1080/01621459.2017.1411269}
+#' # run gOSCAR with cross-validation
+#' cv_model = fit_goscar_cv(X = data$X, y = data$y, groups=groups, type = "linear", path_length = 5, 
+#' nfolds=5, min_frac = 0.05, standardise="l2",intercept=TRUE,verbose=TRUE)
+#' @references Bao, R., Gu B., Huang, H. (2020). \emph{Fast OSCAR and OWL Regression via Safe Screening Rules}, \url{https://proceedings.mlr.press/v119/bao20b}
 #' @references Feser, F., Evangelou, M. (2024). \emph{Strong screening rules for group-based SLOPE models}, \url{https://proceedings.mlr.press/v80/pedregosa18a.html}
 #' @export
 
-fit_gslope_cv = function(X, y, groups, type = "linear", lambda = "path", path_length = 20, min_frac = 0.05, nfolds=10, gFDR = 0.1, pen_method=1, backtracking = 0.7, max_iter = 5000, max_iter_backtracking = 100, tol = 1e-5, standardise= "l2", intercept = TRUE, error_criteria = "mse", screen=TRUE, verbose = FALSE, w_weights = NULL){
-  if (pen_method == 1){
-    pen_method_gslope = 3
-  } else if (pen_method == 2){
-    pen_method_gslope = 4
-  } else {
-    stop("pen_method choice not valid")
+fit_goscar_cv = function(X, y, groups, type = "linear", lambda = "path", path_length = 20, min_frac = 0.05, nfolds=10, backtracking = 0.7, max_iter = 5000, max_iter_backtracking = 100, tol = 1e-5, standardise= "l2", intercept = TRUE, error_criteria = "mse", screen=TRUE, verbose = FALSE, w_weights = NULL){
+  if (is.null(w_weights)){
+    # create pen weights
+    m = length(unique(groups))
+    sigma_1 = exp(-2)*norm(t(X)%*%y,type="I")
+    sigma_3 = sigma_1/m
+    w_weights = sapply(1:m, function(x) sigma_1 + sigma_3*(m-x))
   }
-  out = general_fit_cv(X, y, groups, "gslope", gen_path_gslope, type, lambda, path_length, nfolds, 0, 0.1, gFDR, pen_method_gslope, 
+  out = general_fit_cv(X, y, groups, "gslope", gen_path_gslope, type, lambda, path_length, nfolds, 0, 0.1, 0.1, 3, 
                       backtracking, max_iter, max_iter_backtracking, tol, min_frac, standardise, intercept, NULL, w_weights, 
                       error_criteria, screen, verbose, FALSE, FALSE)
   return(out)

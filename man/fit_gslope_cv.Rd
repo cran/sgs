@@ -44,7 +44,7 @@ fit_gslope_cv(
 
 \item{path_length}{The number of \eqn{\lambda} values to fit the model for. If \code{"lambda"} is user-specified, this is ignored.}
 
-\item{min_frac}{Defines the termination point of the pathwise solution, so that \eqn{\lambda_\text{min} = min_frac \cdot \lambda_\text{max}}.}
+\item{min_frac}{Smallest value of \eqn{\lambda} as a fraction of the maximum value. That is, the final \eqn{\lambda} will be \code{"min_frac"} of the first \eqn{\lambda} value.}
 
 \item{nfolds}{The number of folds to use in cross-validation.}
 
@@ -56,7 +56,7 @@ fit_gslope_cv(
 \item \code{"2"} uses the gMax gSLOPE sequence.
 }}
 
-\item{backtracking}{The backtracking parameter, \eqn{\tau}, as defined in Pedregosa et. al. (2018).}
+\item{backtracking}{The backtracking parameter, \eqn{\tau}, as defined in Pedregosa and Gidel (2018).}
 
 \item{max_iter}{Maximum number of ATOS iterations to perform.}
 
@@ -80,7 +80,7 @@ fit_gslope_cv(
 
 \item{verbose}{Logical flag for whether to print fitting information.}
 
-\item{w_weights}{Optional vector for the group penalty weights. Overrides the penalties from pen_method if specified. When entering custom weights, these are multiplied internally by \eqn{\lambda}. To void this behaviour, set \eqn{\lambda = 1} or scale it accordingly.}
+\item{w_weights}{Optional vector for the group penalty weights. Overrides the penalties from \code{pen_method} if specified. When entering custom weights, these are multiplied internally by \eqn{\lambda}. To void this behaviour, set \eqn{\lambda = 1}.}
 }
 \value{
 A list containing:
@@ -101,7 +101,7 @@ Fits gSLOPE models under a pathwise solution using adaptive three operator split
 groups = c(1,1,1,2,2,3,3,3,4,4)
 # generate data
 data =  gen_toy_data(p=10, n=5, groups = groups, seed_id=3,group_sparsity=1)
-# run gSLOPE with cross-validation (the proximal functions can be found in utils.R)
+# run gSLOPE with cross-validation
 cv_model = fit_gslope_cv(X = data$X, y = data$y, groups=groups, type = "linear", path_length = 5, 
 nfolds=5, gFDR = 0.1, min_frac = 0.05, standardise="l2",intercept=TRUE,verbose=TRUE)
 }
@@ -115,6 +115,8 @@ Feser, F., Evangelou, M. (2024). \emph{Strong screening rules for group-based SL
 
 Other gSLOPE-methods: 
 \code{\link{coef.sgs}()},
+\code{\link{fit_goscar}()},
+\code{\link{fit_goscar_cv}()},
 \code{\link{fit_gslope}()},
 \code{\link{plot.sgs}()},
 \code{\link{predict.sgs}()},
@@ -122,6 +124,8 @@ Other gSLOPE-methods:
 
 Other model-selection: 
 \code{\link{as_sgs}()},
+\code{\link{fit_goscar_cv}()},
+\code{\link{fit_sgo_cv}()},
 \code{\link{fit_sgs_cv}()},
 \code{\link{scaled_sgs}()}
 }

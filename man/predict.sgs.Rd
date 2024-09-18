@@ -19,7 +19,7 @@ A list containing:
 \item{class}{The predicted class assignments. Only returned if type = "logistic" in the \code{"sgs"} object.}
 }
 \description{
-Performs prediction from one of the following fits: \code{\link[=fit_sgs]{fit_sgs()}}, \code{\link[=fit_sgs_cv]{fit_sgs_cv()}}, \code{\link[=fit_gslope]{fit_gslope()}}, \code{\link[=fit_gslope_cv]{fit_gslope_cv()}}. The predictions are calculated for each \code{"lambda"} value in the path.
+Performs prediction from one of the following fits: \code{\link[=fit_sgs]{fit_sgs()}}, \code{\link[=fit_sgs_cv]{fit_sgs_cv()}}, \code{\link[=fit_gslope]{fit_gslope()}}, \code{\link[=fit_gslope_cv]{fit_gslope_cv()}}, \code{\link[=fit_sgo]{fit_sgo()}}, \code{\link[=fit_sgo_cv]{fit_sgo_cv()}}, \code{\link[=fit_goscar]{fit_goscar()}}, \code{\link[=fit_goscar_cv]{fit_goscar_cv()}}. The predictions are calculated for each \code{"lambda"} value in the path.
 }
 \examples{
 # specify a grouping structure
@@ -33,11 +33,13 @@ vFDR=0.1, gFDR=0.1, standardise = "l2", intercept = TRUE, verbose=FALSE)
 model_predictions = predict(model, x = data$X)
 }
 \seealso{
-\code{\link[=fit_sgs]{fit_sgs()}}, \code{\link[=fit_sgs_cv]{fit_sgs_cv()}}, \code{\link[=fit_gslope]{fit_gslope()}}, \code{\link[=fit_gslope_cv]{fit_gslope_cv()}}
+\code{\link[=fit_sgs]{fit_sgs()}}, \code{\link[=fit_sgs_cv]{fit_sgs_cv()}}, \code{\link[=fit_gslope]{fit_gslope()}}, \code{\link[=fit_gslope_cv]{fit_gslope_cv()}}, \code{\link[=fit_sgo]{fit_sgo()}}, \code{\link[=fit_sgo_cv]{fit_sgo_cv()}}, \code{\link[=fit_goscar]{fit_goscar()}}, \code{\link[=fit_goscar_cv]{fit_goscar_cv()}}
 
 Other SGS-methods: 
 \code{\link{as_sgs}()},
 \code{\link{coef.sgs}()},
+\code{\link{fit_sgo}()},
+\code{\link{fit_sgo_cv}()},
 \code{\link{fit_sgs}()},
 \code{\link{fit_sgs_cv}()},
 \code{\link{plot.sgs}()},
@@ -46,6 +48,8 @@ Other SGS-methods:
 
 Other gSLOPE-methods: 
 \code{\link{coef.sgs}()},
+\code{\link{fit_goscar}()},
+\code{\link{fit_goscar_cv}()},
 \code{\link{fit_gslope}()},
 \code{\link{fit_gslope_cv}()},
 \code{\link{plot.sgs}()},

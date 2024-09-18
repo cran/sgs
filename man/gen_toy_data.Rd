@@ -34,7 +34,7 @@ gen_toy_data(
 
 \item{groups}{If \code{grouped=TRUE}, the grouping structure is required. Each input variable should have a group id.}
 
-\item{noise_level}{Defines the level of noise (\eqn{sigma}) to be used in generating the response vector \eqn{y}.}
+\item{noise_level}{Defines the level of noise (\eqn{\sigma}) to be used in generating the response vector \eqn{y}.}
 
 \item{group_sparsity}{Defines the level of group sparsity. Must be in the range \eqn{[0,1]}.}
 
@@ -44,17 +44,17 @@ gen_toy_data(
 
 \item{data_mean}{Defines the mean of input predictors.}
 
-\item{data_sd}{Defines the standard deviation of the signal (\eqn{beta}).}
+\item{data_sd}{Defines the standard deviation of the signal (\eqn{\beta}).}
 
-\item{signal_mean}{Defines the mean of the signal (\eqn{beta}).}
+\item{signal_mean}{Defines the mean of the signal (\eqn{\beta}).}
 
-\item{signal_sd}{Defines the standard deviation of the signal (\eqn{beta}).}
+\item{signal_sd}{Defines the standard deviation of the signal (\eqn{\beta}).}
 }
 \value{
 A list containing:
 \item{y}{The response vector.}
 \item{X}{The input matrix.}
-\item{true_beta}{The true values of \eqn{beta} used to generate the response.}
+\item{true_beta}{The true values of \eqn{\beta} used to generate the response.}
 \item{true_grp_id}{Indices of which groups are non-zero in \code{true_beta}.}
 }
 \description{

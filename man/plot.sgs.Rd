@@ -19,7 +19,7 @@ A list containing:
 \item{class}{The predicted class assignments. Only returned if type = "logistic" in the model object.}
 }
 \description{
-Plots the pathwise solution of a cross-validation fit, from a call to one of the following: \code{\link[=fit_sgs]{fit_sgs()}}, \code{\link[=fit_sgs_cv]{fit_sgs_cv()}}, \code{\link[=fit_gslope]{fit_gslope()}}, \code{\link[=fit_gslope_cv]{fit_gslope_cv()}}.
+Plots the pathwise solution of a cross-validation fit, from a call to one of the following: \code{\link[=fit_sgs]{fit_sgs()}}, \code{\link[=fit_sgs_cv]{fit_sgs_cv()}}, \code{\link[=fit_gslope]{fit_gslope()}}, \code{\link[=fit_gslope_cv]{fit_gslope_cv()}}, \code{\link[=fit_sgo]{fit_sgo()}}, \code{\link[=fit_sgo_cv]{fit_sgo_cv()}}, \code{\link[=fit_goscar]{fit_goscar()}}, \code{\link[=fit_goscar_cv]{fit_goscar_cv()}}.
 }
 \examples{
 # specify a grouping structure
@@ -33,11 +33,13 @@ min_frac = 0.05, standardise="l2",intercept=TRUE,verbose=FALSE)
 plot(model, how_many = 10)
 }
 \seealso{
-\code{\link[=fit_sgs]{fit_sgs()}}, \code{\link[=fit_sgs_cv]{fit_sgs_cv()}}, \code{\link[=fit_gslope]{fit_gslope()}}, \code{\link[=fit_gslope_cv]{fit_gslope_cv()}}
+\code{\link[=fit_sgs]{fit_sgs()}}, \code{\link[=fit_sgs_cv]{fit_sgs_cv()}}, \code{\link[=fit_gslope]{fit_gslope()}}, \code{\link[=fit_gslope_cv]{fit_gslope_cv()}}, \code{\link[=fit_sgo]{fit_sgo()}}, \code{\link[=fit_sgo_cv]{fit_sgo_cv()}}, \code{\link[=fit_goscar]{fit_goscar()}}, \code{\link[=fit_goscar_cv]{fit_goscar_cv()}}
 
 Other SGS-methods: 
 \code{\link{as_sgs}()},
 \code{\link{coef.sgs}()},
+\code{\link{fit_sgo}()},
+\code{\link{fit_sgo_cv}()},
 \code{\link{fit_sgs}()},
 \code{\link{fit_sgs_cv}()},
 \code{\link{predict.sgs}()},
@@ -46,6 +48,8 @@ Other SGS-methods:
 
 Other gSLOPE-methods: 
 \code{\link{coef.sgs}()},
+\code{\link{fit_goscar}()},
+\code{\link{fit_goscar_cv}()},
 \code{\link{fit_gslope}()},
 \code{\link{fit_gslope_cv}()},
 \code{\link{predict.sgs}()},

@@ -25,7 +25,6 @@ run_atos <- function(X, y, groups, groupIDs, pen_slope, pen_gslope, x0, u, wt, n
   # set values
   inv_wt = 1/wt
   if (is.null(x0)) {x0 = rep(0,num_vars)}
-  success = 0 # checks whether convergence happened
   LS_EPS = .Machine$double.eps # R accuracy
 
   # initial fitting values
@@ -70,7 +69,6 @@ run_atos <- function(X, y, groups, groupIDs, pen_slope, pen_gslope, x0, u, wt, n
     certificate = norm_incr / step_size
     
     if (certificate < tol){ # Check for convergence
-      success = 1
       break
     }
   if (verbose==TRUE){print(paste0("Iteration: ", it,"/",max_iter, " done"))}
@@ -79,7 +77,7 @@ out=c()
 out$x = x
 out$u = u
 out$z = z
-out$success = success
+out$success = ifelse(it==max_iter,0,1)
 out$certificate = certificate
 out$it = it
 return(out)
@@ -90,7 +88,6 @@ run_atos_log_inter <- function(X, y, groups, groupIDs, pen_slope, pen_gslope, x0
   # set values
   inv_wt = 1/wt
   if (is.null(x0)) {x0 = rep(0,num_vars)}
-  success = 0 # checks whether convergence happened
   LS_EPS = .Machine$double.eps # R accuracy
   tX = Matrix::t(X)
   # initial fitting values
@@ -142,7 +139,6 @@ run_atos_log_inter <- function(X, y, groups, groupIDs, pen_slope, pen_gslope, x0
     certificate = norm_incr / step_size
 
     if (certificate < tol){ # Check for convergence
-      success = 1
       break
     }
   if (verbose==TRUE){print(paste0("Iteration: ", it,"/",max_iter, " done"))}
@@ -151,7 +147,7 @@ out=c()
 out$x = x
 out$u = u
 out$z = z
-out$success = success
+out$success = ifelse(it==max_iter,0,1)
 out$certificate = certificate
 out$it = it
 return(out)

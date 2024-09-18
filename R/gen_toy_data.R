@@ -30,19 +30,19 @@
 #' @param seed_id Seed to be used to generate the data matrix \eqn{X}.
 #' @param grouped A logical flag indicating whether grouped data is required.
 #' @param groups If \code{grouped=TRUE}, the grouping structure is required. Each input variable should have a group id.
-#' @param noise_level Defines the level of noise (\eqn{sigma}) to be used in generating the response vector \eqn{y}.
+#' @param noise_level Defines the level of noise (\eqn{\sigma}) to be used in generating the response vector \eqn{y}.
 #' @param group_sparsity Defines the level of group sparsity. Must be in the range \eqn{[0,1]}.
 #' @param var_sparsity Defines the level of variable sparsity. Must be in the range \eqn{[0,1]}. If \code{grouped=TRUE}, this defines the level of sparsity within each group, not globally.
 #' @param data_mean Defines the mean of input predictors.
-#' @param data_sd Defines the standard deviation of the signal (\eqn{beta}).
+#' @param data_sd Defines the standard deviation of the signal (\eqn{\beta}).
 #' @param orthogonal Logical flag as to whether the input matrix should be orthogonal.
-#' @param signal_mean Defines the mean of the signal (\eqn{beta}).
-#' @param signal_sd Defines the standard deviation of the signal (\eqn{beta}).
+#' @param signal_mean Defines the mean of the signal (\eqn{\beta}).
+#' @param signal_sd Defines the standard deviation of the signal (\eqn{\beta}).
 #' 
 #' @return A list containing:
 #' \item{y}{The response vector.}
 #' \item{X}{The input matrix.}
-#' \item{true_beta}{The true values of \eqn{beta} used to generate the response.}
+#' \item{true_beta}{The true values of \eqn{\beta} used to generate the response.}
 #' \item{true_grp_id}{Indices of which groups are non-zero in `true_beta`.}
 #'
 #' @examples

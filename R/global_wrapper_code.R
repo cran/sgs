@@ -240,7 +240,6 @@ general_fit <- function(X, y, groups, model, path_fcn, var_screen_fcn, grp_scree
     out = do.call(fit_path, c(list(X,y,groups, groupIDs, type, scale_pen*lambda_path, alpha, intercept, pen_slope_org, pen_gslope_org, X_scale, X_center, y_mean, wt, sqrt(table(groups)), model, num_vars, num_groups, path_length), fitting_options))
    }
     if (model == "gslope"){
-      out$pen_slope = c()
       out$screen_set = "no screening performed"
       out$epsilon_set = "no screening performed"
       out$kkt_violations = "no screening performed"
@@ -257,6 +256,13 @@ general_fit <- function(X, y, groups, model, path_fcn, var_screen_fcn, grp_scree
   # -------------------------------------------------------------
   # prepare output
   # ------------------------------------------------------------- 
+  if (model == "gslope"){
+    out$pen_slope = c()
+    out$pen_gslope = pen_gslope_org
+  } else {
+    out$pen_slope = pen_slope_org
+    out$pen_gslope = pen_gslope_org
+  }
   out$screen = screen
   out$type = type
   out$standardise = standardise
@@ -389,7 +395,7 @@ general_fit_cv = function(X, y, groups, model, path_fcn, type, lambda, path_leng
       }
 
     all_errors[, fold_id] = error_val
-    if (verbose == TRUE){print(paste0("Fold ", fold_id,"/",nfolds, " done. Error: ", error_val))}
+    if (verbose == TRUE){print(paste0("Fold ", fold_id,"/",nfolds, " done. Error: ", mean(error_val)))}
   }
 
   # -------------------------------------------------------------

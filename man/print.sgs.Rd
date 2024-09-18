@@ -2,12 +2,12 @@
 % Please edit documentation in R/print.R
 \name{print.sgs}
 \alias{print.sgs}
-\title{Print a \code{"sgs"} object.}
+\title{Prints information for one of the following object types: \code{"sgs"}, \code{"sgs_cv"}, \code{"gslope"}, \code{"gslope_cv"}.}
 \usage{
 \method{print}{sgs}(x, ...)
 }
 \arguments{
-\item{x}{Object an object of class \code{"sgs"} from a call to \code{\link[=fit_sgs]{fit_sgs()}} or \code{\link[=fit_sgs_cv]{fit_sgs_cv()}}.}
+\item{x}{Object of one of the following classes: \code{"sgs"}, \code{"sgs_cv"}, \code{"gslope"}, \code{"gslope_cv"}.}
 
 \item{...}{further arguments passed to base function.}
 }
@@ -15,7 +15,7 @@
 A summary of the model fit(s).
 }
 \description{
-Performs prediction from an \code{\link[=fit_sgs]{fit_sgs()}} model fit.
+Prints out useful metric from a model fit.
 }
 \examples{
 # specify a grouping structure
@@ -33,11 +33,13 @@ vFDR=0.1, gFDR=0.1, standardise = "l2", intercept = TRUE, verbose=FALSE)
 print(model)
 }
 \seealso{
-\code{\link[=fit_sgs]{fit_sgs()}}, \code{\link[=fit_sgs_cv]{fit_sgs_cv()}}, \code{\link[=fit_gslope]{fit_gslope()}}, \code{\link[=fit_gslope_cv]{fit_gslope_cv()}}
+\code{\link[=fit_sgs]{fit_sgs()}}, \code{\link[=fit_sgs_cv]{fit_sgs_cv()}}, \code{\link[=fit_gslope]{fit_gslope()}}, \code{\link[=fit_gslope_cv]{fit_gslope_cv()}}, \code{\link[=fit_sgo]{fit_sgo()}}, \code{\link[=fit_sgo_cv]{fit_sgo_cv()}}, \code{\link[=fit_goscar]{fit_goscar()}}, \code{\link[=fit_goscar_cv]{fit_goscar_cv()}}
 
 Other SGS-methods: 
 \code{\link{as_sgs}()},
 \code{\link{coef.sgs}()},
+\code{\link{fit_sgo}()},
+\code{\link{fit_sgo_cv}()},
 \code{\link{fit_sgs}()},
 \code{\link{fit_sgs_cv}()},
 \code{\link{plot.sgs}()},
@@ -46,6 +48,8 @@ Other SGS-methods:
 
 Other gSLOPE-methods: 
 \code{\link{coef.sgs}()},
+\code{\link{fit_goscar}()},
+\code{\link{fit_goscar_cv}()},
 \code{\link{fit_gslope}()},
 \code{\link{fit_gslope_cv}()},
 \code{\link{plot.sgs}()},

@@ -20,7 +20,8 @@
 
 #' Extracts coefficients for one of the following object types: `"sgs"`, `"sgs_cv"`, `"gslope"`, `"gslope_cv"`.
 #'
-#' Print the coefficients using model fitted with one of the following functions: [fit_sgs()], [fit_sgs_cv()], [fit_gslope()], [fit_gslope_cv()]. The predictions are calculated for each \code{"lambda"} value in the path.
+#' Print the coefficients using model fitted with one of the following functions: [fit_sgs()], [fit_sgs_cv()], [fit_gslope()], [fit_gslope_cv()], [fit_sgo()], [fit_sgo_cv()], [fit_goscar()], [fit_goscar_cv()].
+#' The predictions are calculated for each \code{"lambda"} value in the path.
 #'
 #' @param object Object of one of the following classes: \code{"sgs"}, \code{"sgs_cv"}, \code{"gslope"}, \code{"gslope_cv"}.
 #' @param ... further arguments passed to stats function.

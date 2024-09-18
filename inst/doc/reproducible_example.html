@@ -12,7 +12,7 @@
 
 <meta name="author" content="Fabio Feser" />
 
-<meta name="date" content="2024-07-13" />
+<meta name="date" content="2024-09-18" />
 
 <title>sgs reproducible example</title>
 
@@ -340,7 +340,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">sgs reproducible example</h1>
 <h4 class="author">Fabio Feser</h4>
-<h4 class="date">2024-07-13</h4>
+<h4 class="date">2024-09-18</h4>
 
 
 
@@ -477,206 +477,16 @@ rule (as in the package) is used to choose the optimal model.</p>
 <span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;linear&quot;</span>, <span class="at">path_length =</span> <span class="dv">20</span>, <span class="at">nfolds =</span> <span class="dv">10</span>, <span class="at">alpha =</span> <span class="fl">0.95</span>,</span>
 <span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>    <span class="at">vFDR =</span> <span class="fl">0.1</span>, <span class="at">gFDR =</span> <span class="fl">0.1</span>, <span class="at">min_frac =</span> <span class="fl">0.05</span>, <span class="at">standardise =</span> <span class="st">&quot;l2&quot;</span>,</span>
 <span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">TRUE</span>, <span class="at">screen =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>##  [1] &quot;Fold 1/10 done. Error: 10556.1875568791&quot;
-##  [2] &quot;Fold 1/10 done. Error: 10176.3075312482&quot;
-##  [3] &quot;Fold 1/10 done. Error: 9594.76270583567&quot;
-##  [4] &quot;Fold 1/10 done. Error: 8927.68806554738&quot;
-##  [5] &quot;Fold 1/10 done. Error: 8258.45089987855&quot;
-##  [6] &quot;Fold 1/10 done. Error: 7300.23189665579&quot;
-##  [7] &quot;Fold 1/10 done. Error: 5632.95350477924&quot;
-##  [8] &quot;Fold 1/10 done. Error: 4297.15577778921&quot;
-##  [9] &quot;Fold 1/10 done. Error: 3297.94689016112&quot;
-## [10] &quot;Fold 1/10 done. Error: 2552.59512158659&quot;
-## [11] &quot;Fold 1/10 done. Error: 1966.64378517332&quot;
-## [12] &quot;Fold 1/10 done. Error: 1488.63381602324&quot;
-## [13] &quot;Fold 1/10 done. Error: 1117.25280329421&quot;
-## [14] &quot;Fold 1/10 done. Error: 846.029195120426&quot;
-## [15] &quot;Fold 1/10 done. Error: 648.663435142151&quot;
-## [16] &quot;Fold 1/10 done. Error: 491.946844991723&quot;
-## [17] &quot;Fold 1/10 done. Error: 372.100964214661&quot;
-## [18] &quot;Fold 1/10 done. Error: 283.271603105957&quot;
-## [19] &quot;Fold 1/10 done. Error: 220.055000961875&quot;
-## [20] &quot;Fold 1/10 done. Error: 173.002145611579&quot;
-##  [1] &quot;Fold 2/10 done. Error: 9701.5337813471&quot; 
-##  [2] &quot;Fold 2/10 done. Error: 9327.9632666549&quot; 
-##  [3] &quot;Fold 2/10 done. Error: 8515.37096726923&quot;
-##  [4] &quot;Fold 2/10 done. Error: 7730.98407526827&quot;
-##  [5] &quot;Fold 2/10 done. Error: 6954.61096532999&quot;
-##  [6] &quot;Fold 2/10 done. Error: 6084.91002790858&quot;
-##  [7] &quot;Fold 2/10 done. Error: 4640.4911961945&quot; 
-##  [8] &quot;Fold 2/10 done. Error: 3518.28844172758&quot;
-##  [9] &quot;Fold 2/10 done. Error: 2682.35798174033&quot;
-## [10] &quot;Fold 2/10 done. Error: 2074.0985691893&quot; 
-## [11] &quot;Fold 2/10 done. Error: 1600.0457464207&quot; 
-## [12] &quot;Fold 2/10 done. Error: 1201.21077110527&quot;
-## [13] &quot;Fold 2/10 done. Error: 907.519555401387&quot;
-## [14] &quot;Fold 2/10 done. Error: 693.062982682486&quot;
-## [15] &quot;Fold 2/10 done. Error: 532.020606657758&quot;
-## [16] &quot;Fold 2/10 done. Error: 414.085312963308&quot;
-## [17] &quot;Fold 2/10 done. Error: 325.101634094595&quot;
-## [18] &quot;Fold 2/10 done. Error: 255.817644750413&quot;
-## [19] &quot;Fold 2/10 done. Error: 204.450581281332&quot;
-## [20] &quot;Fold 2/10 done. Error: 165.863886563115&quot;
-##  [1] &quot;Fold 3/10 done. Error: 8933.04777724514&quot;
-##  [2] &quot;Fold 3/10 done. Error: 8570.34645083006&quot;
-##  [3] &quot;Fold 3/10 done. Error: 7787.05616993491&quot;
-##  [4] &quot;Fold 3/10 done. Error: 6950.61817164697&quot;
-##  [5] &quot;Fold 3/10 done. Error: 6165.5026457958&quot; 
-##  [6] &quot;Fold 3/10 done. Error: 5012.13323372854&quot;
-##  [7] &quot;Fold 3/10 done. Error: 3999.42239272502&quot;
-##  [8] &quot;Fold 3/10 done. Error: 3123.6709338521&quot; 
-##  [9] &quot;Fold 3/10 done. Error: 2465.4201557276&quot; 
-## [10] &quot;Fold 3/10 done. Error: 1965.61776389263&quot;
-## [11] &quot;Fold 3/10 done. Error: 1548.0319946035&quot; 
-## [12] &quot;Fold 3/10 done. Error: 1184.69549543653&quot;
-## [13] &quot;Fold 3/10 done. Error: 912.275358953856&quot;
-## [14] &quot;Fold 3/10 done. Error: 709.432475321353&quot;
-## [15] &quot;Fold 3/10 done. Error: 557.533573418488&quot;
-## [16] &quot;Fold 3/10 done. Error: 430.036049657087&quot;
-## [17] &quot;Fold 3/10 done. Error: 330.342085692851&quot;
-## [18] &quot;Fold 3/10 done. Error: 253.391638672593&quot;
-## [19] &quot;Fold 3/10 done. Error: 195.043122409481&quot;
-## [20] &quot;Fold 3/10 done. Error: 152.408529288772&quot;
-##  [1] &quot;Fold 4/10 done. Error: 10447.1219276337&quot;
-##  [2] &quot;Fold 4/10 done. Error: 10160.9993436738&quot;
-##  [3] &quot;Fold 4/10 done. Error: 9563.86072998723&quot;
-##  [4] &quot;Fold 4/10 done. Error: 8826.81026023373&quot;
-##  [5] &quot;Fold 4/10 done. Error: 7889.70074457788&quot;
-##  [6] &quot;Fold 4/10 done. Error: 6741.96561308748&quot;
-##  [7] &quot;Fold 4/10 done. Error: 5374.76551609077&quot;
-##  [8] &quot;Fold 4/10 done. Error: 4182.3609752351&quot; 
-##  [9] &quot;Fold 4/10 done. Error: 3264.44160220578&quot;
-## [10] &quot;Fold 4/10 done. Error: 2573.51835514238&quot;
-## [11] &quot;Fold 4/10 done. Error: 2039.20607228275&quot;
-## [12] &quot;Fold 4/10 done. Error: 1592.21708242753&quot;
-## [13] &quot;Fold 4/10 done. Error: 1198.30261062227&quot;
-## [14] &quot;Fold 4/10 done. Error: 910.928513043909&quot;
-## [15] &quot;Fold 4/10 done. Error: 693.396868636509&quot;
-## [16] &quot;Fold 4/10 done. Error: 533.675122500809&quot;
-## [17] &quot;Fold 4/10 done. Error: 416.531934070464&quot;
-## [18] &quot;Fold 4/10 done. Error: 318.765958323353&quot;
-## [19] &quot;Fold 4/10 done. Error: 246.79697595908&quot; 
-## [20] &quot;Fold 4/10 done. Error: 193.907644941551&quot;
-##  [1] &quot;Fold 5/10 done. Error: 7348.93447972298&quot;
-##  [2] &quot;Fold 5/10 done. Error: 7084.02742456543&quot;
-##  [3] &quot;Fold 5/10 done. Error: 6484.93419843303&quot;
-##  [4] &quot;Fold 5/10 done. Error: 5710.58799293503&quot;
-##  [5] &quot;Fold 5/10 done. Error: 5032.16053019211&quot;
-##  [6] &quot;Fold 5/10 done. Error: 4093.52749333715&quot;
-##  [7] &quot;Fold 5/10 done. Error: 3192.87606426484&quot;
-##  [8] &quot;Fold 5/10 done. Error: 2503.55047741129&quot;
-##  [9] &quot;Fold 5/10 done. Error: 2005.57925174851&quot;
-## [10] &quot;Fold 5/10 done. Error: 1644.10226091624&quot;
-## [11] &quot;Fold 5/10 done. Error: 1285.41228246945&quot;
-## [12] &quot;Fold 5/10 done. Error: 1006.42768966073&quot;
-## [13] &quot;Fold 5/10 done. Error: 759.301423714843&quot;
-## [14] &quot;Fold 5/10 done. Error: 578.076488783258&quot;
-## [15] &quot;Fold 5/10 done. Error: 444.607646100111&quot;
-## [16] &quot;Fold 5/10 done. Error: 339.87419820333&quot; 
-## [17] &quot;Fold 5/10 done. Error: 263.086500284417&quot;
-## [18] &quot;Fold 5/10 done. Error: 204.145389120758&quot;
-## [19] &quot;Fold 5/10 done. Error: 160.79435990752&quot; 
-## [20] &quot;Fold 5/10 done. Error: 128.764425644495&quot;
-##  [1] &quot;Fold 6/10 done. Error: 11876.2011690611&quot;
-##  [2] &quot;Fold 6/10 done. Error: 11584.1155930641&quot;
-##  [3] &quot;Fold 6/10 done. Error: 11041.8870591511&quot;
-##  [4] &quot;Fold 6/10 done. Error: 9964.99368626758&quot;
-##  [5] &quot;Fold 6/10 done. Error: 8950.04746639382&quot;
-##  [6] &quot;Fold 6/10 done. Error: 7485.12307515559&quot;
-##  [7] &quot;Fold 6/10 done. Error: 5870.82801499167&quot;
-##  [8] &quot;Fold 6/10 done. Error: 4642.42850063496&quot;
-##  [9] &quot;Fold 6/10 done. Error: 3718.24939933727&quot;
-## [10] &quot;Fold 6/10 done. Error: 3019.80647995502&quot;
-## [11] &quot;Fold 6/10 done. Error: 2407.43347297786&quot;
-## [12] &quot;Fold 6/10 done. Error: 1865.49907660826&quot;
-## [13] &quot;Fold 6/10 done. Error: 1425.59039541041&quot;
-## [14] &quot;Fold 6/10 done. Error: 1099.87311555504&quot;
-## [15] &quot;Fold 6/10 done. Error: 854.062276685889&quot;
-## [16] &quot;Fold 6/10 done. Error: 666.747537258937&quot;
-## [17] &quot;Fold 6/10 done. Error: 526.701048800189&quot;
-## [18] &quot;Fold 6/10 done. Error: 414.174683252046&quot;
-## [19] &quot;Fold 6/10 done. Error: 327.372999613192&quot;
-## [20] &quot;Fold 6/10 done. Error: 262.561009883553&quot;
-##  [1] &quot;Fold 7/10 done. Error: 10049.7155169484&quot;
-##  [2] &quot;Fold 7/10 done. Error: 9740.24047520683&quot;
-##  [3] &quot;Fold 7/10 done. Error: 8906.86209977837&quot;
-##  [4] &quot;Fold 7/10 done. Error: 8044.07831496467&quot;
-##  [5] &quot;Fold 7/10 done. Error: 7033.63538123545&quot;
-##  [6] &quot;Fold 7/10 done. Error: 5823.40115836027&quot;
-##  [7] &quot;Fold 7/10 done. Error: 4428.58306914515&quot;
-##  [8] &quot;Fold 7/10 done. Error: 3327.11000137871&quot;
-##  [9] &quot;Fold 7/10 done. Error: 2524.13716080726&quot;
-## [10] &quot;Fold 7/10 done. Error: 1924.9606420577&quot; 
-## [11] &quot;Fold 7/10 done. Error: 1423.63263296581&quot;
-## [12] &quot;Fold 7/10 done. Error: 1040.4532686365&quot; 
-## [13] &quot;Fold 7/10 done. Error: 765.319912646728&quot;
-## [14] &quot;Fold 7/10 done. Error: 568.862001569514&quot;
-## [15] &quot;Fold 7/10 done. Error: 424.744842531921&quot;
-## [16] &quot;Fold 7/10 done. Error: 322.723240003498&quot;
-## [17] &quot;Fold 7/10 done. Error: 249.844629559846&quot;
-## [18] &quot;Fold 7/10 done. Error: 195.736838599198&quot;
-## [19] &quot;Fold 7/10 done. Error: 156.695072359077&quot;
-## [20] &quot;Fold 7/10 done. Error: 127.699521295209&quot;
-##  [1] &quot;Fold 8/10 done. Error: 8398.02089705292&quot;
-##  [2] &quot;Fold 8/10 done. Error: 8057.58572752561&quot;
-##  [3] &quot;Fold 8/10 done. Error: 7199.67225395134&quot;
-##  [4] &quot;Fold 8/10 done. Error: 6567.96505373682&quot;
-##  [5] &quot;Fold 8/10 done. Error: 5986.43402477515&quot;
-##  [6] &quot;Fold 8/10 done. Error: 5070.2112726879&quot; 
-##  [7] &quot;Fold 8/10 done. Error: 3964.99476337378&quot;
-##  [8] &quot;Fold 8/10 done. Error: 3092.5870482136&quot; 
-##  [9] &quot;Fold 8/10 done. Error: 2431.62606021511&quot;
-## [10] &quot;Fold 8/10 done. Error: 1916.1887879502&quot; 
-## [11] &quot;Fold 8/10 done. Error: 1498.56344382699&quot;
-## [12] &quot;Fold 8/10 done. Error: 1143.15792873192&quot;
-## [13] &quot;Fold 8/10 done. Error: 875.22284327683&quot; 
-## [14] &quot;Fold 8/10 done. Error: 678.831028531544&quot;
-## [15] &quot;Fold 8/10 done. Error: 532.332734739539&quot;
-## [16] &quot;Fold 8/10 done. Error: 409.717175846945&quot;
-## [17] &quot;Fold 8/10 done. Error: 314.806027294298&quot;
-## [18] &quot;Fold 8/10 done. Error: 245.302334713172&quot;
-## [19] &quot;Fold 8/10 done. Error: 194.111722075755&quot;
-## [20] &quot;Fold 8/10 done. Error: 156.213909406013&quot;
-##  [1] &quot;Fold 9/10 done. Error: 9906.21445729386&quot;
-##  [2] &quot;Fold 9/10 done. Error: 9673.5778494729&quot; 
-##  [3] &quot;Fold 9/10 done. Error: 8706.89778059913&quot;
-##  [4] &quot;Fold 9/10 done. Error: 7584.62067191002&quot;
-##  [5] &quot;Fold 9/10 done. Error: 6647.70010944011&quot;
-##  [6] &quot;Fold 9/10 done. Error: 5364.96198079038&quot;
-##  [7] &quot;Fold 9/10 done. Error: 4073.04118845149&quot;
-##  [8] &quot;Fold 9/10 done. Error: 3091.26225184671&quot;
-##  [9] &quot;Fold 9/10 done. Error: 2363.48436038567&quot;
-## [10] &quot;Fold 9/10 done. Error: 1809.92401484567&quot;
-## [11] &quot;Fold 9/10 done. Error: 1354.2041418273&quot; 
-## [12] &quot;Fold 9/10 done. Error: 1005.11124242728&quot;
-## [13] &quot;Fold 9/10 done. Error: 746.035216936631&quot;
-## [14] &quot;Fold 9/10 done. Error: 558.360925053933&quot;
-## [15] &quot;Fold 9/10 done. Error: 420.292826392314&quot;
-## [16] &quot;Fold 9/10 done. Error: 319.054427302379&quot;
-## [17] &quot;Fold 9/10 done. Error: 242.538120035674&quot;
-## [18] &quot;Fold 9/10 done. Error: 182.15600632965&quot; 
-## [19] &quot;Fold 9/10 done. Error: 139.192579186823&quot;
-## [20] &quot;Fold 9/10 done. Error: 107.500742305331&quot;
-##  [1] &quot;Fold 10/10 done. Error: 8020.37927493245&quot;
-##  [2] &quot;Fold 10/10 done. Error: 7697.88346726543&quot;
-##  [3] &quot;Fold 10/10 done. Error: 7031.12374296387&quot;
-##  [4] &quot;Fold 10/10 done. Error: 6294.32718409467&quot;
-##  [5] &quot;Fold 10/10 done. Error: 5615.5007155595&quot; 
-##  [6] &quot;Fold 10/10 done. Error: 4459.8208525311&quot; 
-##  [7] &quot;Fold 10/10 done. Error: 3321.47838394126&quot;
-##  [8] &quot;Fold 10/10 done. Error: 2497.98978127158&quot;
-##  [9] &quot;Fold 10/10 done. Error: 1915.64625146079&quot;
-## [10] &quot;Fold 10/10 done. Error: 1487.13968831616&quot;
-## [11] &quot;Fold 10/10 done. Error: 1124.67389999549&quot;
-## [12] &quot;Fold 10/10 done. Error: 847.217759120669&quot;
-## [13] &quot;Fold 10/10 done. Error: 644.045437152742&quot;
-## [14] &quot;Fold 10/10 done. Error: 497.475319279266&quot;
-## [15] &quot;Fold 10/10 done. Error: 387.312978726709&quot;
-## [16] &quot;Fold 10/10 done. Error: 306.915855797651&quot;
-## [17] &quot;Fold 10/10 done. Error: 246.216858492722&quot;
-## [18] &quot;Fold 10/10 done. Error: 196.936936931074&quot;
-## [19] &quot;Fold 10/10 done. Error: 160.103168436104&quot;
-## [20] &quot;Fold 10/10 done. Error: 133.417302410296&quot;</code></pre>
+<pre><code>## [1] &quot;Fold 1/10 done. Error: 3910.0939772&quot;
+## [1] &quot;Fold 2/10 done. Error: 3376.48939972751&quot;
+## [1] &quot;Fold 3/10 done. Error: 3062.30130094166&quot;
+## [1] &quot;Fold 4/10 done. Error: 3858.4636925338&quot;
+## [1] &quot;Fold 5/10 done. Error: 2513.53852887078&quot;
+## [1] &quot;Fold 6/10 done. Error: 4400.18480300288&quot;
+## [1] &quot;Fold 7/10 done. Error: 3353.92178900251&quot;
+## [1] &quot;Fold 8/10 done. Error: 2936.67725189627&quot;
+## [1] &quot;Fold 9/10 done. Error: 3214.80654464166&quot;
+## [1] &quot;Fold 10/10 done. Error: 2644.28024293398&quot;</code></pre>
 <p>The fitting verbose contains useful information, showing the error
 for each fold. Aside from the fitting verbose, we can see a more
 succinct summary by using the function</p>
@@ -684,27 +494,27 @@ succinct summary by using the function</p>
 <pre><code>## 
 ##  regression type:  
 ## 
-##          lambda     error estimated_non_zero
-##  [1,] 1.8885960 9523.7357                  0
-##  [2,] 1.6131093 9207.3047                  1
-##  [3,] 1.3778075 8483.2428                  2
-##  [4,] 1.1768288 7660.2673                  3
-##  [5,] 1.0051665 6853.3743                  4
-##  [6,] 0.8585444 5743.6287                 14
-##  [7,] 0.7333098 4449.9434                 15
-##  [8,] 0.6263430 3427.6404                 15
-##  [9,] 0.5349793 2666.8889                 15
-## [10,] 0.4569427 2096.7952                 16
-## [11,] 0.3902891 1624.7847                 22
-## [12,] 0.3333582 1237.4624                 22
-## [13,] 0.2847318  935.0866                 22
-## [14,] 0.2431984  714.0932                 22
-## [15,] 0.2077234  549.4968                 24
-## [16,] 0.1774231  423.4776                 24
-## [17,] 0.1515426  328.7270                 26
-## [18,] 0.1294373  254.9699                 26
-## [19,] 0.1105565  200.4616                 27
-## [20,] 0.0944298  160.1339                 27</code></pre>
+##          lambda     error num.nonzero
+##  [1,] 1.8885960 9523.7357           0
+##  [2,] 1.6131093 9207.3047           1
+##  [3,] 1.3778075 8483.2428           2
+##  [4,] 1.1768288 7660.2673           3
+##  [5,] 1.0051665 6853.3743           4
+##  [6,] 0.8585444 5743.6287          14
+##  [7,] 0.7333098 4449.9434          15
+##  [8,] 0.6263430 3427.6404          15
+##  [9,] 0.5349793 2666.8889          15
+## [10,] 0.4569427 2096.7952          16
+## [11,] 0.3902891 1624.7847          22
+## [12,] 0.3333582 1237.4624          22
+## [13,] 0.2847318  935.0866          22
+## [14,] 0.2431984  714.0932          22
+## [15,] 0.2077234  549.4968          24
+## [16,] 0.1774231  423.4776          24
+## [17,] 0.1515426  328.7270          26
+## [18,] 0.1294373  254.9699          26
+## [19,] 0.1105565  200.4616          27
+## [20,] 0.0944298  160.1339          27</code></pre>
 <p>The best model is found to be the one at the end of the path:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>cv_model<span class="sc">$</span>best_lambda_id</span></code></pre></div>
 <pre><code>## [1] 20</code></pre>
@@ -777,206 +587,16 @@ train and test to test the models classification performance.</p>
 <span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;logistic&quot;</span>, <span class="at">path_length =</span> <span class="dv">20</span>, <span class="at">nfolds =</span> <span class="dv">10</span>, <span class="at">alpha =</span> <span class="fl">0.95</span>,</span>
 <span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>    <span class="at">vFDR =</span> <span class="fl">0.1</span>, <span class="at">gFDR =</span> <span class="fl">0.1</span>, <span class="at">min_frac =</span> <span class="fl">0.05</span>, <span class="at">standardise =</span> <span class="st">&quot;l2&quot;</span>,</span>
 <span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">FALSE</span>, <span class="at">verbose =</span> <span class="cn">TRUE</span>, <span class="at">screen =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>##  [1] &quot;Fold 1/10 done. Error: 0.457142857142857&quot;
-##  [2] &quot;Fold 1/10 done. Error: 0.342857142857143&quot;
-##  [3] &quot;Fold 1/10 done. Error: 0.314285714285714&quot;
-##  [4] &quot;Fold 1/10 done. Error: 0.285714285714286&quot;
-##  [5] &quot;Fold 1/10 done. Error: 0.285714285714286&quot;
-##  [6] &quot;Fold 1/10 done. Error: 0.171428571428571&quot;
-##  [7] &quot;Fold 1/10 done. Error: 0.142857142857143&quot;
-##  [8] &quot;Fold 1/10 done. Error: 0.114285714285714&quot;
-##  [9] &quot;Fold 1/10 done. Error: 0.114285714285714&quot;
-## [10] &quot;Fold 1/10 done. Error: 0.114285714285714&quot;
-## [11] &quot;Fold 1/10 done. Error: 0.142857142857143&quot;
-## [12] &quot;Fold 1/10 done. Error: 0.142857142857143&quot;
-## [13] &quot;Fold 1/10 done. Error: 0.171428571428571&quot;
-## [14] &quot;Fold 1/10 done. Error: 0.171428571428571&quot;
-## [15] &quot;Fold 1/10 done. Error: 0.2&quot;              
-## [16] &quot;Fold 1/10 done. Error: 0.228571428571429&quot;
-## [17] &quot;Fold 1/10 done. Error: 0.228571428571429&quot;
-## [18] &quot;Fold 1/10 done. Error: 0.2&quot;              
-## [19] &quot;Fold 1/10 done. Error: 0.2&quot;              
-## [20] &quot;Fold 1/10 done. Error: 0.2&quot;              
-##  [1] &quot;Fold 2/10 done. Error: 0.4&quot;              
-##  [2] &quot;Fold 2/10 done. Error: 0.4&quot;              
-##  [3] &quot;Fold 2/10 done. Error: 0.342857142857143&quot;
-##  [4] &quot;Fold 2/10 done. Error: 0.285714285714286&quot;
-##  [5] &quot;Fold 2/10 done. Error: 0.285714285714286&quot;
-##  [6] &quot;Fold 2/10 done. Error: 0.314285714285714&quot;
-##  [7] &quot;Fold 2/10 done. Error: 0.285714285714286&quot;
-##  [8] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
-##  [9] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
-## [10] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
-## [11] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
-## [12] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
-## [13] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
-## [14] &quot;Fold 2/10 done. Error: 0.171428571428571&quot;
-## [15] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
-## [16] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
-## [17] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
-## [18] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
-## [19] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
-## [20] &quot;Fold 2/10 done. Error: 0.142857142857143&quot;
-##  [1] &quot;Fold 3/10 done. Error: 0.514285714285714&quot; 
-##  [2] &quot;Fold 3/10 done. Error: 0.314285714285714&quot; 
-##  [3] &quot;Fold 3/10 done. Error: 0.314285714285714&quot; 
-##  [4] &quot;Fold 3/10 done. Error: 0.285714285714286&quot; 
-##  [5] &quot;Fold 3/10 done. Error: 0.314285714285714&quot; 
-##  [6] &quot;Fold 3/10 done. Error: 0.257142857142857&quot; 
-##  [7] &quot;Fold 3/10 done. Error: 0.228571428571429&quot; 
-##  [8] &quot;Fold 3/10 done. Error: 0.171428571428571&quot; 
-##  [9] &quot;Fold 3/10 done. Error: 0.142857142857143&quot; 
-## [10] &quot;Fold 3/10 done. Error: 0.114285714285714&quot; 
-## [11] &quot;Fold 3/10 done. Error: 0.0857142857142857&quot;
-## [12] &quot;Fold 3/10 done. Error: 0.0857142857142857&quot;
-## [13] &quot;Fold 3/10 done. Error: 0.0857142857142857&quot;
-## [14] &quot;Fold 3/10 done. Error: 0.0857142857142857&quot;
-## [15] &quot;Fold 3/10 done. Error: 0.0857142857142857&quot;
-## [16] &quot;Fold 3/10 done. Error: 0.0857142857142857&quot;
-## [17] &quot;Fold 3/10 done. Error: 0.0857142857142857&quot;
-## [18] &quot;Fold 3/10 done. Error: 0.114285714285714&quot; 
-## [19] &quot;Fold 3/10 done. Error: 0.142857142857143&quot; 
-## [20] &quot;Fold 3/10 done. Error: 0.142857142857143&quot; 
-##  [1] &quot;Fold 4/10 done. Error: 0.542857142857143&quot;
-##  [2] &quot;Fold 4/10 done. Error: 0.314285714285714&quot;
-##  [3] &quot;Fold 4/10 done. Error: 0.285714285714286&quot;
-##  [4] &quot;Fold 4/10 done. Error: 0.342857142857143&quot;
-##  [5] &quot;Fold 4/10 done. Error: 0.314285714285714&quot;
-##  [6] &quot;Fold 4/10 done. Error: 0.257142857142857&quot;
-##  [7] &quot;Fold 4/10 done. Error: 0.285714285714286&quot;
-##  [8] &quot;Fold 4/10 done. Error: 0.257142857142857&quot;
-##  [9] &quot;Fold 4/10 done. Error: 0.257142857142857&quot;
-## [10] &quot;Fold 4/10 done. Error: 0.285714285714286&quot;
-## [11] &quot;Fold 4/10 done. Error: 0.257142857142857&quot;
-## [12] &quot;Fold 4/10 done. Error: 0.257142857142857&quot;
-## [13] &quot;Fold 4/10 done. Error: 0.257142857142857&quot;
-## [14] &quot;Fold 4/10 done. Error: 0.257142857142857&quot;
-## [15] &quot;Fold 4/10 done. Error: 0.228571428571429&quot;
-## [16] &quot;Fold 4/10 done. Error: 0.228571428571429&quot;
-## [17] &quot;Fold 4/10 done. Error: 0.228571428571429&quot;
-## [18] &quot;Fold 4/10 done. Error: 0.228571428571429&quot;
-## [19] &quot;Fold 4/10 done. Error: 0.2&quot;              
-## [20] &quot;Fold 4/10 done. Error: 0.2&quot;              
-##  [1] &quot;Fold 5/10 done. Error: 0.485714285714286&quot; 
-##  [2] &quot;Fold 5/10 done. Error: 0.314285714285714&quot; 
-##  [3] &quot;Fold 5/10 done. Error: 0.314285714285714&quot; 
-##  [4] &quot;Fold 5/10 done. Error: 0.314285714285714&quot; 
-##  [5] &quot;Fold 5/10 done. Error: 0.228571428571429&quot; 
-##  [6] &quot;Fold 5/10 done. Error: 0.171428571428571&quot; 
-##  [7] &quot;Fold 5/10 done. Error: 0.2&quot;               
-##  [8] &quot;Fold 5/10 done. Error: 0.171428571428571&quot; 
-##  [9] &quot;Fold 5/10 done. Error: 0.0857142857142857&quot;
-## [10] &quot;Fold 5/10 done. Error: 0.114285714285714&quot; 
-## [11] &quot;Fold 5/10 done. Error: 0.114285714285714&quot; 
-## [12] &quot;Fold 5/10 done. Error: 0.142857142857143&quot; 
-## [13] &quot;Fold 5/10 done. Error: 0.114285714285714&quot; 
-## [14] &quot;Fold 5/10 done. Error: 0.142857142857143&quot; 
-## [15] &quot;Fold 5/10 done. Error: 0.142857142857143&quot; 
-## [16] &quot;Fold 5/10 done. Error: 0.142857142857143&quot; 
-## [17] &quot;Fold 5/10 done. Error: 0.142857142857143&quot; 
-## [18] &quot;Fold 5/10 done. Error: 0.142857142857143&quot; 
-## [19] &quot;Fold 5/10 done. Error: 0.142857142857143&quot; 
-## [20] &quot;Fold 5/10 done. Error: 0.142857142857143&quot; 
-##  [1] &quot;Fold 6/10 done. Error: 0.4&quot;               
-##  [2] &quot;Fold 6/10 done. Error: 0.4&quot;               
-##  [3] &quot;Fold 6/10 done. Error: 0.314285714285714&quot; 
-##  [4] &quot;Fold 6/10 done. Error: 0.257142857142857&quot; 
-##  [5] &quot;Fold 6/10 done. Error: 0.228571428571429&quot; 
-##  [6] &quot;Fold 6/10 done. Error: 0.171428571428571&quot; 
-##  [7] &quot;Fold 6/10 done. Error: 0.142857142857143&quot; 
-##  [8] &quot;Fold 6/10 done. Error: 0.142857142857143&quot; 
-##  [9] &quot;Fold 6/10 done. Error: 0.114285714285714&quot; 
-## [10] &quot;Fold 6/10 done. Error: 0.0857142857142857&quot;
-## [11] &quot;Fold 6/10 done. Error: 0.0857142857142857&quot;
-## [12] &quot;Fold 6/10 done. Error: 0.0857142857142857&quot;
-## [13] &quot;Fold 6/10 done. Error: 0.0857142857142857&quot;
-## [14] &quot;Fold 6/10 done. Error: 0.0857142857142857&quot;
-## [15] &quot;Fold 6/10 done. Error: 0.0857142857142857&quot;
-## [16] &quot;Fold 6/10 done. Error: 0.0857142857142857&quot;
-## [17] &quot;Fold 6/10 done. Error: 0.0857142857142857&quot;
-## [18] &quot;Fold 6/10 done. Error: 0.114285714285714&quot; 
-## [19] &quot;Fold 6/10 done. Error: 0.114285714285714&quot; 
-## [20] &quot;Fold 6/10 done. Error: 0.114285714285714&quot; 
-##  [1] &quot;Fold 7/10 done. Error: 0.428571428571429&quot; 
-##  [2] &quot;Fold 7/10 done. Error: 0.285714285714286&quot; 
-##  [3] &quot;Fold 7/10 done. Error: 0.285714285714286&quot; 
-##  [4] &quot;Fold 7/10 done. Error: 0.314285714285714&quot; 
-##  [5] &quot;Fold 7/10 done. Error: 0.228571428571429&quot; 
-##  [6] &quot;Fold 7/10 done. Error: 0.2&quot;               
-##  [7] &quot;Fold 7/10 done. Error: 0.2&quot;               
-##  [8] &quot;Fold 7/10 done. Error: 0.171428571428571&quot; 
-##  [9] &quot;Fold 7/10 done. Error: 0.0571428571428572&quot;
-## [10] &quot;Fold 7/10 done. Error: 0.0571428571428572&quot;
-## [11] &quot;Fold 7/10 done. Error: 0.0857142857142857&quot;
-## [12] &quot;Fold 7/10 done. Error: 0.0857142857142857&quot;
-## [13] &quot;Fold 7/10 done. Error: 0.0857142857142857&quot;
-## [14] &quot;Fold 7/10 done. Error: 0.114285714285714&quot; 
-## [15] &quot;Fold 7/10 done. Error: 0.0857142857142857&quot;
-## [16] &quot;Fold 7/10 done. Error: 0.0857142857142857&quot;
-## [17] &quot;Fold 7/10 done. Error: 0.0857142857142857&quot;
-## [18] &quot;Fold 7/10 done. Error: 0.0857142857142857&quot;
-## [19] &quot;Fold 7/10 done. Error: 0.114285714285714&quot; 
-## [20] &quot;Fold 7/10 done. Error: 0.0857142857142857&quot;
-##  [1] &quot;Fold 8/10 done. Error: 0.457142857142857&quot; 
-##  [2] &quot;Fold 8/10 done. Error: 0.314285714285714&quot; 
-##  [3] &quot;Fold 8/10 done. Error: 0.371428571428571&quot; 
-##  [4] &quot;Fold 8/10 done. Error: 0.371428571428571&quot; 
-##  [5] &quot;Fold 8/10 done. Error: 0.342857142857143&quot; 
-##  [6] &quot;Fold 8/10 done. Error: 0.257142857142857&quot; 
-##  [7] &quot;Fold 8/10 done. Error: 0.2&quot;               
-##  [8] &quot;Fold 8/10 done. Error: 0.171428571428571&quot; 
-##  [9] &quot;Fold 8/10 done. Error: 0.142857142857143&quot; 
-## [10] &quot;Fold 8/10 done. Error: 0.142857142857143&quot; 
-## [11] &quot;Fold 8/10 done. Error: 0.142857142857143&quot; 
-## [12] &quot;Fold 8/10 done. Error: 0.142857142857143&quot; 
-## [13] &quot;Fold 8/10 done. Error: 0.114285714285714&quot; 
-## [14] &quot;Fold 8/10 done. Error: 0.0857142857142857&quot;
-## [15] &quot;Fold 8/10 done. Error: 0.0857142857142857&quot;
-## [16] &quot;Fold 8/10 done. Error: 0.0857142857142857&quot;
-## [17] &quot;Fold 8/10 done. Error: 0.0857142857142857&quot;
-## [18] &quot;Fold 8/10 done. Error: 0.0857142857142857&quot;
-## [19] &quot;Fold 8/10 done. Error: 0.114285714285714&quot; 
-## [20] &quot;Fold 8/10 done. Error: 0.114285714285714&quot; 
-##  [1] &quot;Fold 9/10 done. Error: 0.4&quot;              
-##  [2] &quot;Fold 9/10 done. Error: 0.4&quot;              
-##  [3] &quot;Fold 9/10 done. Error: 0.371428571428571&quot;
-##  [4] &quot;Fold 9/10 done. Error: 0.342857142857143&quot;
-##  [5] &quot;Fold 9/10 done. Error: 0.314285714285714&quot;
-##  [6] &quot;Fold 9/10 done. Error: 0.2&quot;              
-##  [7] &quot;Fold 9/10 done. Error: 0.228571428571429&quot;
-##  [8] &quot;Fold 9/10 done. Error: 0.2&quot;              
-##  [9] &quot;Fold 9/10 done. Error: 0.171428571428571&quot;
-## [10] &quot;Fold 9/10 done. Error: 0.171428571428571&quot;
-## [11] &quot;Fold 9/10 done. Error: 0.142857142857143&quot;
-## [12] &quot;Fold 9/10 done. Error: 0.142857142857143&quot;
-## [13] &quot;Fold 9/10 done. Error: 0.142857142857143&quot;
-## [14] &quot;Fold 9/10 done. Error: 0.171428571428571&quot;
-## [15] &quot;Fold 9/10 done. Error: 0.2&quot;              
-## [16] &quot;Fold 9/10 done. Error: 0.171428571428571&quot;
-## [17] &quot;Fold 9/10 done. Error: 0.171428571428571&quot;
-## [18] &quot;Fold 9/10 done. Error: 0.171428571428571&quot;
-## [19] &quot;Fold 9/10 done. Error: 0.171428571428571&quot;
-## [20] &quot;Fold 9/10 done. Error: 0.171428571428571&quot;
-##  [1] &quot;Fold 10/10 done. Error: 0.457142857142857&quot;
-##  [2] &quot;Fold 10/10 done. Error: 0.285714285714286&quot;
-##  [3] &quot;Fold 10/10 done. Error: 0.285714285714286&quot;
-##  [4] &quot;Fold 10/10 done. Error: 0.314285714285714&quot;
-##  [5] &quot;Fold 10/10 done. Error: 0.257142857142857&quot;
-##  [6] &quot;Fold 10/10 done. Error: 0.142857142857143&quot;
-##  [7] &quot;Fold 10/10 done. Error: 0.171428571428571&quot;
-##  [8] &quot;Fold 10/10 done. Error: 0.114285714285714&quot;
-##  [9] &quot;Fold 10/10 done. Error: 0.142857142857143&quot;
-## [10] &quot;Fold 10/10 done. Error: 0.142857142857143&quot;
-## [11] &quot;Fold 10/10 done. Error: 0.171428571428571&quot;
-## [12] &quot;Fold 10/10 done. Error: 0.2&quot;              
-## [13] &quot;Fold 10/10 done. Error: 0.2&quot;              
-## [14] &quot;Fold 10/10 done. Error: 0.2&quot;              
-## [15] &quot;Fold 10/10 done. Error: 0.2&quot;              
-## [16] &quot;Fold 10/10 done. Error: 0.2&quot;              
-## [17] &quot;Fold 10/10 done. Error: 0.2&quot;              
-## [18] &quot;Fold 10/10 done. Error: 0.171428571428571&quot;
-## [19] &quot;Fold 10/10 done. Error: 0.171428571428571&quot;
-## [20] &quot;Fold 10/10 done. Error: 0.171428571428571&quot;</code></pre>
+<pre><code>## [1] &quot;Fold 1/10 done. Error: 0.211428571428571&quot;
+## [1] &quot;Fold 2/10 done. Error: 0.21&quot;
+## [1] &quot;Fold 3/10 done. Error: 0.182857142857143&quot;
+## [1] &quot;Fold 4/10 done. Error: 0.274285714285714&quot;
+## [1] &quot;Fold 5/10 done. Error: 0.188571428571429&quot;
+## [1] &quot;Fold 6/10 done. Error: 0.16&quot;
+## [1] &quot;Fold 7/10 done. Error: 0.157142857142857&quot;
+## [1] &quot;Fold 8/10 done. Error: 0.191428571428571&quot;
+## [1] &quot;Fold 9/10 done. Error: 0.222857142857143&quot;
+## [1] &quot;Fold 10/10 done. Error: 0.21&quot;</code></pre>
 <p>and again, use the predict function</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>predictions <span class="ot">=</span> <span class="fu">predict</span>(cv_model, test_X)</span></code></pre></div>
 <p>For logistic regression, the function returns both the predicted
@@ -1027,10 +647,10 @@ rules by looking at the speed improvement they provide. For SGS:</p>
 <span id="cb44-8"><a href="#cb44-8" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>, <span class="at">screen =</span> <span class="cn">FALSE</span>))</span>
 <span id="cb44-9"><a href="#cb44-9" tabindex="-1"></a>screen_time</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##    8.67    0.16    9.18</code></pre>
+##   12.31    0.13   13.65</code></pre>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a>no_screen_time</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   10.86    0.09   12.28</code></pre>
+##   17.83    0.26   20.03</code></pre>
 <p>and for gSLOPE:</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a>screen_time <span class="ot">=</span> <span class="fu">system.time</span>(model_screen <span class="ot">&lt;-</span> <span class="fu">fit_gslope</span>(<span class="at">X =</span> data<span class="sc">$</span>X,</span>
 <span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a>    <span class="at">y =</span> data<span class="sc">$</span>y, <span class="at">groups =</span> groups, <span class="at">type =</span> <span class="st">&quot;linear&quot;</span>, <span class="at">path_length =</span> <span class="dv">100</span>,</span>
@@ -1042,10 +662,10 @@ rules by looking at the speed improvement they provide. For SGS:</p>
 <span id="cb48-8"><a href="#cb48-8" tabindex="-1"></a>    <span class="at">screen =</span> <span class="cn">FALSE</span>))</span>
 <span id="cb48-9"><a href="#cb48-9" tabindex="-1"></a>screen_time</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##    4.23    0.12    5.06</code></pre>
+##    6.08    0.04    6.53</code></pre>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a>no_screen_time</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   11.25    0.13   12.13</code></pre>
+##   16.11    0.21   17.33</code></pre>
 <div id="reference" class="section level2">
 <h2>Reference</h2>
 <ul>

@@ -40,7 +40,7 @@
 #' @param prox_1_opts Optional argument for first proximal operator. For the group lasso, this would be the group IDs. Note: this must be inserted as a list.
 #' @param prox_2_opts Optional argument for second proximal operator. 
 #' @param max_iter Maximum number of ATOS iterations to perform. 
-#' @param backtracking The backtracking parameter, \eqn{\tau}, as defined in Pedregosa et. al. (2018).
+#' @param backtracking The backtracking parameter, \eqn{\tau}, as defined in Pedregosa and Gidel (2018).
 #' @param max_iter_backtracking Maximum number of backtracking line search iterations to perform per global iteration.
 #' @param tol Convergence tolerance for the stopping criteria.
 #' @param standardise Type of standardisation to perform on \code{X}: 
@@ -55,9 +55,9 @@
 #'
 #' @return An object of class \code{"atos"} containing:
 #' \item{beta}{The fitted values from the regression. Taken to be the more stable fit between \code{x} and \code{u}, which is usually the former.}
-#' \item{x}{The solution to the original problem (see Pedregosa et. al. (2018)).}
-#' \item{u}{The solution to the dual problem (see Pedregosa et. al. (2018)).}
-#' \item{z}{The updated values from applying the first proximal operator (see Pedregosa et. al. (2018)).}
+#' \item{x}{The solution to the original problem (see Pedregosa and Gidel (2018)).}
+#' \item{u}{The solution to the dual problem (see Pedregosa and Gidel (2018)).}
+#' \item{z}{The updated values from applying the first proximal operator (see Pedregosa and Gidel (2018)).}
 #' \item{type}{Indicates which type of regression was performed.}
 #' \item{success}{Logical flag indicating whether ATOS converged, according to \code{tol}.}
 #' \item{num_it}{Number of iterations performed. If convergence is not reached, this will be \code{max_iter}.}

@@ -15,7 +15,8 @@
 The fitted coefficients
 }
 \description{
-Print the coefficients using model fitted with one of the following functions: \code{\link[=fit_sgs]{fit_sgs()}}, \code{\link[=fit_sgs_cv]{fit_sgs_cv()}}, \code{\link[=fit_gslope]{fit_gslope()}}, \code{\link[=fit_gslope_cv]{fit_gslope_cv()}}. The predictions are calculated for each \code{"lambda"} value in the path.
+Print the coefficients using model fitted with one of the following functions: \code{\link[=fit_sgs]{fit_sgs()}}, \code{\link[=fit_sgs_cv]{fit_sgs_cv()}}, \code{\link[=fit_gslope]{fit_gslope()}}, \code{\link[=fit_gslope_cv]{fit_gslope_cv()}}, \code{\link[=fit_sgo]{fit_sgo()}}, \code{\link[=fit_sgo_cv]{fit_sgo_cv()}}, \code{\link[=fit_goscar]{fit_goscar()}}, \code{\link[=fit_goscar_cv]{fit_goscar_cv()}}.
+The predictions are calculated for each \code{"lambda"} value in the path.
 }
 \examples{
 # specify a grouping structure
@@ -33,6 +34,8 @@ model_coef = coef(model)
 
 Other SGS-methods: 
 \code{\link{as_sgs}()},
+\code{\link{fit_sgo}()},
+\code{\link{fit_sgo_cv}()},
 \code{\link{fit_sgs}()},
 \code{\link{fit_sgs_cv}()},
 \code{\link{plot.sgs}()},
@@ -41,6 +44,8 @@ Other SGS-methods:
 \code{\link{scaled_sgs}()}
 
 Other gSLOPE-methods: 
+\code{\link{fit_goscar}()},
+\code{\link{fit_goscar_cv}()},
 \code{\link{fit_gslope}()},
 \code{\link{fit_gslope_cv}()},
 \code{\link{plot.sgs}()},
