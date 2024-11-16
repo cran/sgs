@@ -132,7 +132,7 @@ plot_path <- function(beta_matrix, lambdas, how_many,main){
   }
 }
 
-# lambdas of Theorem 2.5 and equation (2.16) in Brzyski et. al. (2016) - from grpSLOPE package, which is no longer available on CRAN
+# lambdas of Theorem 2.5 and equation (2.16) in Brzyski et al. (2016) - from grpSLOPE package, which is no longer available on CRAN
 lambdaChiOrtho <- function(fdr, n.group, group.sizes, wt, method) {
   lambda.max <- rep(NA, n.group)
   lambda.min <- rep(NA, n.group)

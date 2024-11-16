@@ -12,7 +12,7 @@
 
 <meta name="author" content="Fabio Feser" />
 
-<meta name="date" content="2024-09-18" />
+<meta name="date" content="2024-11-16" />
 
 <title>sgs reproducible example</title>
 
@@ -62,7 +62,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -340,7 +340,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">sgs reproducible example</h1>
 <h4 class="author">Fabio Feser</h4>
-<h4 class="date">2024-09-18</h4>
+<h4 class="date">2024-11-16</h4>
 
 
 
@@ -477,16 +477,16 @@ rule (as in the package) is used to choose the optimal model.</p>
 <span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;linear&quot;</span>, <span class="at">path_length =</span> <span class="dv">20</span>, <span class="at">nfolds =</span> <span class="dv">10</span>, <span class="at">alpha =</span> <span class="fl">0.95</span>,</span>
 <span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>    <span class="at">vFDR =</span> <span class="fl">0.1</span>, <span class="at">gFDR =</span> <span class="fl">0.1</span>, <span class="at">min_frac =</span> <span class="fl">0.05</span>, <span class="at">standardise =</span> <span class="st">&quot;l2&quot;</span>,</span>
 <span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">TRUE</span>, <span class="at">screen =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## [1] &quot;Fold 1/10 done. Error: 3910.0939772&quot;
-## [1] &quot;Fold 2/10 done. Error: 3376.48939972751&quot;
-## [1] &quot;Fold 3/10 done. Error: 3062.30130094166&quot;
-## [1] &quot;Fold 4/10 done. Error: 3858.4636925338&quot;
-## [1] &quot;Fold 5/10 done. Error: 2513.53852887078&quot;
-## [1] &quot;Fold 6/10 done. Error: 4400.18480300288&quot;
-## [1] &quot;Fold 7/10 done. Error: 3353.92178900251&quot;
-## [1] &quot;Fold 8/10 done. Error: 2936.67725189627&quot;
-## [1] &quot;Fold 9/10 done. Error: 3214.80654464166&quot;
-## [1] &quot;Fold 10/10 done. Error: 2644.28024293398&quot;</code></pre>
+<pre><code>## [1] &quot;Fold 1/10 done. Error: 3593.46913744139&quot;
+## [1] &quot;Fold 2/10 done. Error: 2399.84476769036&quot;
+## [1] &quot;Fold 3/10 done. Error: 3250.66880473304&quot;
+## [1] &quot;Fold 4/10 done. Error: 3269.74553706449&quot;
+## [1] &quot;Fold 5/10 done. Error: 3191.93471414357&quot;
+## [1] &quot;Fold 6/10 done. Error: 2779.0603182328&quot;
+## [1] &quot;Fold 7/10 done. Error: 3236.41489481627&quot;
+## [1] &quot;Fold 8/10 done. Error: 4483.21248839556&quot;
+## [1] &quot;Fold 9/10 done. Error: 3454.59020729246&quot;
+## [1] &quot;Fold 10/10 done. Error: 3716.7940975706&quot;</code></pre>
 <p>The fitting verbose contains useful information, showing the error
 for each fold. Aside from the fitting verbose, we can see a more
 succinct summary by using the function</p>
@@ -495,26 +495,26 @@ succinct summary by using the function</p>
 ##  regression type:  
 ## 
 ##          lambda     error num.nonzero
-##  [1,] 1.8885960 9523.7357           0
-##  [2,] 1.6131093 9207.3047           1
-##  [3,] 1.3778075 8483.2428           2
-##  [4,] 1.1768288 7660.2673           3
-##  [5,] 1.0051665 6853.3743           4
-##  [6,] 0.8585444 5743.6287          14
-##  [7,] 0.7333098 4449.9434          15
-##  [8,] 0.6263430 3427.6404          15
-##  [9,] 0.5349793 2666.8889          15
-## [10,] 0.4569427 2096.7952          16
-## [11,] 0.3902891 1624.7847          22
-## [12,] 0.3333582 1237.4624          22
-## [13,] 0.2847318  935.0866          22
-## [14,] 0.2431984  714.0932          22
-## [15,] 0.2077234  549.4968          24
-## [16,] 0.1774231  423.4776          24
-## [17,] 0.1515426  328.7270          26
-## [18,] 0.1294373  254.9699          26
-## [19,] 0.1105565  200.4616          27
-## [20,] 0.0944298  160.1339          27</code></pre>
+##  [1,] 1.8885960 9524.4889           0
+##  [2,] 1.6131093 9277.9900           1
+##  [3,] 1.3778075 8544.5941           2
+##  [4,] 1.1768288 7690.9591           3
+##  [5,] 1.0051665 6921.4515           4
+##  [6,] 0.8585444 5766.8107          14
+##  [7,] 0.7333098 4444.6505          15
+##  [8,] 0.6263430 3418.5571          15
+##  [9,] 0.5349793 2663.9599          15
+## [10,] 0.4569427 2091.6795          16
+## [11,] 0.3902891 1626.3300          22
+## [12,] 0.3333582 1232.3194          22
+## [13,] 0.2847318  931.3590          22
+## [14,] 0.2431984  710.5062          22
+## [15,] 0.2077234  547.4188          24
+## [16,] 0.1774231  422.2216          24
+## [17,] 0.1515426  326.3720          26
+## [18,] 0.1294373  252.6180          26
+## [19,] 0.1105565  198.4320          27
+## [20,] 0.0944298  158.7516          27</code></pre>
 <p>The best model is found to be the one at the end of the path:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>cv_model<span class="sc">$</span>best_lambda_id</span></code></pre></div>
 <pre><code>## [1] 20</code></pre>
@@ -552,7 +552,7 @@ values.</p>
 <h3>Plot</h3>
 <p>We can visualise the solution using the plot function:</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">plot</span>(cv_model, <span class="at">how_many =</span> <span class="dv">10</span>)</span></code></pre></div>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
 </div>
 <div id="prediction" class="section level3">
 <h3>Prediction</h3>
@@ -587,16 +587,16 @@ train and test to test the models classification performance.</p>
 <span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;logistic&quot;</span>, <span class="at">path_length =</span> <span class="dv">20</span>, <span class="at">nfolds =</span> <span class="dv">10</span>, <span class="at">alpha =</span> <span class="fl">0.95</span>,</span>
 <span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>    <span class="at">vFDR =</span> <span class="fl">0.1</span>, <span class="at">gFDR =</span> <span class="fl">0.1</span>, <span class="at">min_frac =</span> <span class="fl">0.05</span>, <span class="at">standardise =</span> <span class="st">&quot;l2&quot;</span>,</span>
 <span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">FALSE</span>, <span class="at">verbose =</span> <span class="cn">TRUE</span>, <span class="at">screen =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## [1] &quot;Fold 1/10 done. Error: 0.211428571428571&quot;
-## [1] &quot;Fold 2/10 done. Error: 0.21&quot;
-## [1] &quot;Fold 3/10 done. Error: 0.182857142857143&quot;
-## [1] &quot;Fold 4/10 done. Error: 0.274285714285714&quot;
-## [1] &quot;Fold 5/10 done. Error: 0.188571428571429&quot;
-## [1] &quot;Fold 6/10 done. Error: 0.16&quot;
-## [1] &quot;Fold 7/10 done. Error: 0.157142857142857&quot;
-## [1] &quot;Fold 8/10 done. Error: 0.191428571428571&quot;
-## [1] &quot;Fold 9/10 done. Error: 0.222857142857143&quot;
-## [1] &quot;Fold 10/10 done. Error: 0.21&quot;</code></pre>
+<pre><code>## [1] &quot;Fold 1/10 done. Error: 0.241428571428571&quot;
+## [1] &quot;Fold 2/10 done. Error: 0.187142857142857&quot;
+## [1] &quot;Fold 3/10 done. Error: 0.252857142857143&quot;
+## [1] &quot;Fold 4/10 done. Error: 0.194285714285714&quot;
+## [1] &quot;Fold 5/10 done. Error: 0.164285714285714&quot;
+## [1] &quot;Fold 6/10 done. Error: 0.204285714285714&quot;
+## [1] &quot;Fold 7/10 done. Error: 0.194285714285714&quot;
+## [1] &quot;Fold 8/10 done. Error: 0.111428571428571&quot;
+## [1] &quot;Fold 9/10 done. Error: 0.21&quot;
+## [1] &quot;Fold 10/10 done. Error: 0.221428571428571&quot;</code></pre>
 <p>and again, use the predict function</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>predictions <span class="ot">=</span> <span class="fu">predict</span>(cv_model, test_X)</span></code></pre></div>
 <p>For logistic regression, the function returns both the predicted
@@ -604,11 +604,11 @@ class probabilities (<code>response</code>) and the predicted class
 (<code>class</code>). We can use this to check the prediction accuracy,
 given as <span class="math inline">\(82\%\)</span>.</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a>predictions<span class="sc">$</span>response[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, cv_model<span class="sc">$</span>best_lambda_id]</span></code></pre></div>
-<pre><code>## [1] 0.4090457 0.6485261 0.1668541 0.1466649 0.3901439</code></pre>
+<pre><code>## [1] 0.48078832 0.50438355 0.09077354 0.11937906 0.35681848</code></pre>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a>predictions<span class="sc">$</span>class[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, cv_model<span class="sc">$</span>best_lambda_id]</span></code></pre></div>
 <pre><code>## [1] 0 1 0 0 0</code></pre>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="fu">sum</span>(predictions<span class="sc">$</span>class[, cv_model<span class="sc">$</span>best_lambda_id] <span class="sc">==</span> test_y)<span class="sc">/</span><span class="fu">length</span>(test_y)</span></code></pre></div>
-<pre><code>## [1] 0.82</code></pre>
+<pre><code>## [1] 0.86</code></pre>
 </div>
 </div>
 </div>
@@ -647,10 +647,10 @@ rules by looking at the speed improvement they provide. For SGS:</p>
 <span id="cb44-8"><a href="#cb44-8" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>, <span class="at">screen =</span> <span class="cn">FALSE</span>))</span>
 <span id="cb44-9"><a href="#cb44-9" tabindex="-1"></a>screen_time</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   12.31    0.13   13.65</code></pre>
+##    6.26    0.04    6.35</code></pre>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a>no_screen_time</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   17.83    0.26   20.03</code></pre>
+##    7.34    0.03    7.39</code></pre>
 <p>and for gSLOPE:</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a>screen_time <span class="ot">=</span> <span class="fu">system.time</span>(model_screen <span class="ot">&lt;-</span> <span class="fu">fit_gslope</span>(<span class="at">X =</span> data<span class="sc">$</span>X,</span>
 <span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a>    <span class="at">y =</span> data<span class="sc">$</span>y, <span class="at">groups =</span> groups, <span class="at">type =</span> <span class="st">&quot;linear&quot;</span>, <span class="at">path_length =</span> <span class="dv">100</span>,</span>
@@ -662,10 +662,10 @@ rules by looking at the speed improvement they provide. For SGS:</p>
 <span id="cb48-8"><a href="#cb48-8" tabindex="-1"></a>    <span class="at">screen =</span> <span class="cn">FALSE</span>))</span>
 <span id="cb48-9"><a href="#cb48-9" tabindex="-1"></a>screen_time</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##    6.08    0.04    6.53</code></pre>
+##    2.96    0.02    2.97</code></pre>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a>no_screen_time</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   16.11    0.21   17.33</code></pre>
+##    7.31    0.06    7.39</code></pre>
 <div id="reference" class="section level2">
 <h2>Reference</h2>
 <ul>

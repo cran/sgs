@@ -28,11 +28,9 @@ bibentry(bibtype = "Article",
 
 bibentry(bibtype = "Manual",
   title        = "sgs",
-  author       = c(person("Fabio", "Feser",
+  author       = person("Fabio", "Feser",
    email = "ff120@ic.ac.uk",
    comment = c(ORCID = "0009-0007-3088-9727")),
-   person("Marina", "Evangelou",
-   comment = c(ORCID = "0000-0003-0789-8944"))),
   year         = "2023",
   url          = "https://CRAN.R-project.org/package=sgs",
   header       = "To cite the sgs R package in publications use:"

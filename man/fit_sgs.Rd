@@ -110,7 +110,10 @@ It solves the convex optimisation problem given by
 \deqn{
   \frac{1}{2n} f(b ; y, \mathbf{X}) + \lambda \alpha \sum_{i=1}^{p}v_i |b|_{(i)} + \lambda (1-\alpha)\sum_{g=1}^{m}w_g \sqrt{p_g} \|b^{(g)}\|_2,
 }
-where the penalty sequences are sorted and \eqn{f(\cdot)} is the loss function. In the case of the linear model, the loss function is given by the mean-squared error loss:
+where \eqn{f(\cdot)} is the loss function and \eqn{p_g} are the group sizes. The penalty parameters in SGS are sorted so that the largest coefficients are matched with the largest penalties, to reduce the FDR.
+For the variables: \eqn{|\beta|_{(1)}\geq \ldots \geq |\beta|_{(p)}} and \eqn{v_1 \geq \ldots \geq v_p \geq 0}.
+For the groups: \eqn{\sqrt{p_1}\|\beta^{(1)}\|_2 \geq \ldots\geq \sqrt{p_m}\|\beta^{(m)}\|_2} and \eqn{w_1\geq \ldots \geq w_g \geq 0}.
+In the case of the linear model, the loss function is given by the mean-squared error loss:
 \deqn{
  f(b; y, \mathbf{X}) = \left\|y-\mathbf{X}b \right\|_2^2.
 }
@@ -132,7 +135,7 @@ where \eqn{F_\mathcal{N}} is the cumulative distribution functions of a standard
 \deqn{
 v_i^{\text{max}} = \max_{j=1,\dots,m} \left\{ \frac{1}{\alpha} F_{\mathcal{N}}^{-1} \left(1 - \frac{q_v i}{2p}\right) - \frac{1}{3\alpha}(1-\alpha) a_j w_j \right\},
 }
-The BH SLOPE sequence (\code{pen_method=3}) (Bogdan et. al. (2015)) is given by
+The BH SLOPE sequence (\code{pen_method=3}) (Bogdan et al. (2015)) is given by
 \deqn{
 v_i = z(1-i q_v/2p),
 }

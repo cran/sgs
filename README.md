@@ -4,7 +4,7 @@
 [![CRAN status](https://www.r-pkg.org/badges/last-release/sgs)](https://CRAN.R-project.org/package=sgs)
 [![CRAN downloads this month](https://cranlogs.r-pkg.org/badges/sgs)](https://cran.r-project.org/package=sgs)
 
-Implementation of Sparse-group SLOPE (SGS), a sparse-group penalisation regression approach. SGS performs adaptive bi-level selection, controlling the FDR under orthogonal designs. The package also has an implementation of Group SLOPE (gSLOPE), which performs group selection and controls the group FDR under orthogonal designs. Linear and logistic regression are supported, both with dense and sparse matrix implementations. Both models have strong screening rules to improve computational speed. Cross-validation functionality is also supported. Both models are implemented using adaptive three operator splitting (ATOS) and the package also contains a general implementation of ATOS.
+Implementation of Sparse-group SLOPE (SGS), a sparse-group penalisation regression approach. SGS performs adaptive bi-level selection, controlling the FDR under orthogonal designs. The package also has an implementation of Group SLOPE (gSLOPE), which performs group selection and controls the group FDR under orthogonal designs, as well as group-based OSCAR models. Linear and logistic regression are supported, both with dense and sparse matrix implementations. Both models have strong screening rules to improve computational speed. Cross-validation functionality is also supported. Both models are implemented using adaptive three operator splitting (ATOS) and the package also contains a general implementation of ATOS.
 
 A detailed description of SGS can be found in [Feser, F., Evangelou, M. (2023). "Sparse-group SLOPE: adaptive bi-level selection with FDR-control"](https://arxiv.org/abs/2305.09467).
 
@@ -45,7 +45,7 @@ plot(model)
 
 where `X` is the input matrix, `y` the response vector, `groups` a vector containing indices for the groups of the predictors, and `vFDR` and `gFDR` are the the target variable/group false discovery rates. 
 
-For gSLOPE, run
+For gSLOPE, run:
 
 ``` r
 library(sgs)

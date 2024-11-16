@@ -32,7 +32,7 @@
 #' 
 #' @return A list containing:
 #' \item{response}{The predicted response. In the logistic case, this represents the predicted class probabilities.}
-#' \item{class}{The predicted class assignments. Only returned if type = "logistic" in the \code{"sgs"} object.}
+#' \item{class}{The predicted class assignments. Only returned if type = "logistic" in the model object.}
 #'
 #' @examples
 #' # specify a grouping structure

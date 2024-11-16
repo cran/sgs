@@ -51,7 +51,7 @@
 print.sgs <- function(x, ...){ 
   num.nonzero <- if(x$intercept){apply(x$beta,2, function(z){sum(z != 0)-1})}else{apply(x$beta,2, function(z){sum(z != 0)})}
   cat("\n regression type: ", x$type, "\n\n")
-  print(cbind(lambda = x$lambdas, num.nonzero = num.nonzero, convergence = x$success))
+  print(cbind(lambda = x$lambda, num.nonzero = num.nonzero, convergence = x$success))
 }
 
 #' @method print sgs_cv
@@ -66,7 +66,7 @@ print.sgs_cv <- function(x, ...){
 print.gslope <- function(x, ...){ 
   num.nonzero <- if(x$intercept){apply(x$beta,2, function(z){sum(z != 0)-1})}else{apply(x$beta,2, function(z){sum(z != 0)})}
   cat("\n regression type: ", x$type, "\n\n")
-  print(cbind(lambda = x$lambdas, num.nonzero = num.nonzero, convergence = x$success))
+  print(cbind(lambda = x$lambda, num.nonzero = num.nonzero, convergence = x$success))
 }
 
 #' @method print gslope_cv

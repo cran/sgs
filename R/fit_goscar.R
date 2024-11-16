@@ -22,7 +22,7 @@
 #' 
 #' Group OSCAR (gOSCAR) main fitting function. Supports both linear and logistic regression, both with dense and sparse matrix implementations.
 #' 
-#' \code{fit_goscar()} fits a gOSCAR model (Feser and Evangelou (2024)) using adaptive three operator splitting (ATOS). gOSCAR uses the same model set-up as for gSLOPE, but with different weights (see Bao et. al. (2020) and Feser and Evangelou (2024)).
+#' \code{fit_goscar()} fits a gOSCAR model (Feser and Evangelou (2024)) using adaptive three operator splitting (ATOS). gOSCAR uses the same model set-up as for gSLOPE, but with different weights (see Bao et al. (2020) and Feser and Evangelou (2024)).
 #' The penalties are given by (for a group \eqn{g} with \eqn{m} groups):
 #' \deqn{
 #'  w_g = \sigma_1 + \sigma_3(m-g),

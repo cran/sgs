@@ -78,7 +78,7 @@ test_that("solution reduces to grpslope when alpha=0 for uneven groups with inte
   )
 })
 
-test_that("solution reduces to grpslope when alpha=0 for even groups with intercept but no standardisation", { # not sure why there is a slight difference here
+test_that("solution reduces to grpslope when alpha=0 for even groups with intercept but no standardisation", { 
   skip_if_not_installed("grpSLOPE")
   groups = rep(1:20,each=5)
   num_groups = length(unique(groups))
@@ -98,6 +98,195 @@ test_that("solution reduces to grpslope when alpha=0 for even groups with interc
 
   expect_equivalent(grpslope$beta,
     as.matrix(sgs$beta)[-1],
+    tol = 1e-3
+  )
+})
+
+test_that("sgs solution reduces to gslope when alpha=0 for uneven groups with no standardisation or intercept", {
+  groups = c(rep(1:5, each=3),
+           rep(6:11, each=4),
+           rep(12:16, each=5), 
+           rep(17:22,each=6))
+  num_groups = length(unique(groups))
+
+  data = gen_toy_data(p=100,n=50,rho = 0,seed_id = 3,grouped = TRUE,group_sparsity=0.1,groups = groups,var_sparsity=1,orthogonal = FALSE)
+  X = data$X
+  y = data$y
+  lambda=0.8
+
+  gslope = fit_gslope(X=X,y=y, groups=groups, type="linear", lambda=lambda, gFDR=0.1, standardise="none", intercept=FALSE)  
+  sgs = fit_sgs(X=X,y=y, groups=groups, type="linear", lambda=lambda, gFDR=0.1, alpha=0, standardise="none", intercept=FALSE)  
+  
+  sgs_cost = sgs_convex_opt(X=X,y=y,beta=as.matrix(sgs$beta),num_obs=1,gslope_seq=sgs$pen_gslope,slope_seq=sgs$pen_slope,groups=groups,intercept=FALSE)
+  grpslope_cost = sgs_convex_opt(X=X,y=y,beta=as.matrix(gslope$beta),num_obs=1,gslope_seq=gslope$pen_gslope,slope_seq=gslope$pen_slope,groups=groups,intercept=FALSE)
+
+  expect_equivalent(as.matrix(gslope$beta),
+    as.matrix(sgs$beta),
+    tol = 1e-3
+  )
+
+  expect_equivalent(grpslope_cost,sgs_cost,tol=1e-3)
+})
+
+test_that("sgs solution reduces to gslope when alpha=0 for even groups with no standardisation or intercept", {
+  groups = rep(1:20,each=5)
+  num_groups = length(unique(groups))
+
+  data = gen_toy_data(p=100,n=50,rho = 0,seed_id = 3,grouped = TRUE,group_sparsity=0.1,groups = groups,var_sparsity=1,orthogonal = FALSE)
+  X = data$X
+  y = data$y
+  lambda=0.8
+
+  gslope = fit_gslope(X=X,y=y, groups=groups, type="linear", lambda=lambda, gFDR=0.1, intercept=FALSE,standardise="none") 
+  sgs = fit_sgs(X=X,y=y, groups=groups, type="linear", lambda=lambda, gFDR=0.1, alpha=0, standardise="none", intercept=FALSE)  
+  
+  sgs_cost = sgs_convex_opt(X=X,y=y,beta=as.matrix(sgs$beta),num_obs=1,gslope_seq=sgs$pen_gslope,slope_seq=sgs$pen_slope,groups=groups,intercept=FALSE)
+  grpslope_cost = sgs_convex_opt(X=X,y=y,beta=as.matrix(gslope$beta),num_obs=1,gslope_seq=gslope$pen_gslope,slope_seq=gslope$pen_slope,groups=groups,intercept=FALSE)
+
+  expect_equivalent(as.matrix(gslope$beta),
+    as.matrix(sgs$beta),
+    tol = 1e-3
+  )
+  expect_equivalent(grpslope_cost,sgs_cost,tol=1e-3)
+})
+
+test_that("sgs solution reduces to gslope when alpha=0 for uneven groups with intercept but no standardisation", {
+  groups = c(rep(1:5, each=3),
+           rep(6:11, each=4),
+           rep(12:16, each=5), 
+           rep(17:22,each=6))
+  num_groups = length(unique(groups))
+
+  data = gen_toy_data(p=100,n=50,rho = 0,seed_id = 3,grouped = TRUE,group_sparsity=0.1,groups = groups,var_sparsity=1,orthogonal = FALSE)
+  X = data$X
+  y = data$y
+  lambda=0.8
+  
+  gslope = fit_gslope(X=X,y=y, groups=groups, type="linear", lambda=lambda, gFDR=0.1, intercept=TRUE,standardise="none") 
+  sgs = fit_sgs(X=X,y=y, groups=groups, type="linear", lambda=lambda, gFDR=0.1, alpha=0, standardise="none", intercept=TRUE)  
+  
+  expect_equivalent(as.matrix(gslope$beta),
+    as.matrix(sgs$beta),
+    tol = 1e-3
+  )
+})
+
+test_that("sgs solution reduces to gslope when alpha=0 for even groups with intercept but no standardisation", {
+  groups = rep(1:20,each=5)
+  num_groups = length(unique(groups))
+
+  data = gen_toy_data(p=100,n=50,rho = 0,seed_id = 3,grouped = TRUE,group_sparsity=0.1,groups = groups,var_sparsity=1,orthogonal = FALSE)
+  X = data$X
+  y = data$y
+  lambda=0.8
+
+  gslope = fit_gslope(X=X,y=y, groups=groups, type="linear", lambda=lambda, gFDR=0.1, intercept=TRUE,standardise="none") 
+  sgs = fit_sgs(X=X,y=y, groups=groups, type="linear", lambda=lambda, gFDR=0.1, alpha=0, standardise="none", intercept=TRUE)  
+  
+  expect_equivalent(as.matrix(gslope$beta),
+    as.matrix(sgs$beta),
+    tol = 1e-3
+  )
+})
+
+test_that("sgs solution reduces to gslope when alpha=0 for uneven groups with intercept and standardisation", {
+  groups = c(rep(1:5, each=3),
+           rep(6:11, each=4),
+           rep(12:16, each=5), 
+           rep(17:22,each=6))
+  num_groups = length(unique(groups))
+
+  data = gen_toy_data(p=100,n=50,rho = 0,seed_id = 3,grouped = TRUE,group_sparsity=0.1,groups = groups,var_sparsity=1,orthogonal = FALSE)
+  X = data$X
+  y = data$y
+  lambda=0.8
+
+  gslope = fit_gslope(X=X,y=y, groups=groups, type="linear", lambda=lambda, gFDR=0.1, intercept=TRUE,standardise="l2") 
+  sgs = fit_sgs(X=X,y=y, groups=groups, type="linear", lambda=lambda, gFDR=0.1, alpha=0, standardise="l2", intercept=TRUE)  
+  
+  expect_equivalent(as.matrix(gslope$beta),
+    as.matrix(sgs$beta),
+    tol = 1e-3
+  )
+})
+
+test_that("sgs solution reduces to gslope when alpha=0 for even groups with intercept and standardisation", {
+  groups = rep(1:20,each=5)
+  num_groups = length(unique(groups))
+
+  data = gen_toy_data(p=100,n=50,rho = 0,seed_id = 3,grouped = TRUE,group_sparsity=0.1,groups = groups,var_sparsity=1,orthogonal = FALSE)
+  X = data$X
+  y = data$y
+  lambda=0.8
+
+  gslope = fit_gslope(X=X,y=y, groups=groups, type="linear", lambda=lambda, gFDR=0.1, intercept=TRUE,standardise="l2") 
+  sgs = fit_sgs(X=X,y=y, groups=groups, type="linear", lambda=lambda, gFDR=0.1, alpha=0, standardise="l2", intercept=TRUE)  
+  
+  expect_equivalent(as.matrix(gslope$beta),
+    as.matrix(sgs$beta),
+    tol = 1e-3
+  )
+})
+
+test_that("sgs solution reduces to gslope when alpha=0 under logistic regression", {
+  groups = rep(1:20,each=5)
+  num_groups = length(unique(groups))
+
+  n = 50
+  p = 100
+  X = MASS::mvrnorm(n=n,mu=rep(0,p),Sigma=diag(1,p))
+  y = 1/(1+exp(-(X %*%rnorm(p,mean=0,sd=sqrt(10)) + rnorm(n,mean=0,sd=4))))
+  y = ifelse(y>0.5,1,0)
+  lambda=0.01
+
+  gslope = fit_gslope(X=X,y=y, groups=groups, type="logistic", lambda=lambda, gFDR=0.1, standardise="l2", intercept=FALSE)  
+  sgs = fit_sgs(X=X,y=y, groups=groups, type="logistic", lambda=lambda, gFDR=0.1, alpha=0, standardise="l2", intercept=FALSE)  
+  
+  expect_equivalent(as.matrix(gslope$beta),
+    as.matrix(sgs$beta),
+    tol = 1e-3
+  )
+
+})
+
+test_that("sgs solution reduces to gslope when alpha=0 under logistic regression with no screening", {
+  groups = c(rep(1:5, each=3),
+           rep(6:11, each=4),
+           rep(12:16, each=5), 
+           rep(17:22,each=6))
+  num_groups = length(unique(groups))
+
+  n = 50
+  p = 100
+  X = MASS::mvrnorm(n=n,mu=rep(0,p),Sigma=diag(1,p))
+  y = 1/(1+exp(-(X %*%rnorm(p,mean=0,sd=sqrt(10)) + rnorm(n,mean=0,sd=4))))
+  y = ifelse(y>0.5,1,0)
+  lambda=0.8
+
+  gslope = fit_gslope(X=X,y=y, groups=groups, type="logistic", lambda=lambda, gFDR=0.1, standardise="l2", intercept=FALSE, screen = FALSE)  
+  sgs = fit_sgs(X=X,y=y, groups=groups, type="logistic", lambda=lambda, gFDR=0.1, alpha=0, standardise="l2", intercept=FALSE, screen = FALSE)  
+  
+  expect_equivalent(as.matrix(gslope$beta),
+    as.matrix(sgs$beta),
+    tol = 1e-3
+  )
+
+})
+
+test_that("sgs solution reduces to gslope when alpha=0 under linear regression with no screening", {
+  groups = rep(1:20,each=5)
+  num_groups = length(unique(groups))
+
+  data = gen_toy_data(p=100,n=50,rho = 0,seed_id = 3,grouped = TRUE,group_sparsity=0.1,groups = groups,var_sparsity=1,orthogonal = FALSE)
+  X = data$X
+  y = data$y
+  lambda=0.8
+
+  gslope = fit_gslope(X=X,y=y, groups=groups, type="linear", lambda=lambda, gFDR=0.1, intercept=TRUE,standardise="l2", screen = FALSE) 
+  sgs = fit_sgs(X=X,y=y, groups=groups, type="linear", lambda=lambda, gFDR=0.1, alpha=0, standardise="l2", intercept=TRUE, screen = FALSE)  
+  
+  expect_equivalent(as.matrix(gslope$beta),
+    as.matrix(sgs$beta),
     tol = 1e-3
   )
 })

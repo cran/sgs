@@ -56,7 +56,7 @@ scaled_sgs(
 An object of type \code{"sgs"} containing model fit information (see \code{\link[=fit_sgs]{fit_sgs()}}).
 }
 \description{
-Fits an SGS model using the noise estimation procedure (Algorithm 5 from Bogdan et. al. (2015)). This estimates \eqn{\lambda} and then fits the model using the estimated value. It is an alternative approach to cross-validation (\code{\link[=fit_sgs_cv]{fit_sgs_cv()}}).
+Fits an SGS model using the noise estimation procedure (Algorithm 5 from Bogdan et al. (2015)). This estimates \eqn{\lambda} and then fits the model using the estimated value. It is an alternative approach to cross-validation (\code{\link[=fit_sgs_cv]{fit_sgs_cv()}}).
 }
 \examples{
 # specify a grouping structure

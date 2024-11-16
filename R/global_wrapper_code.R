@@ -49,6 +49,9 @@ general_fit <- function(X, y, groups, model, path_fcn, var_screen_fcn, grp_scree
   if (any(lambda<0)){
     stop("lambda can not be negative")
   }
+  if (alpha < 0 | alpha > 1){
+    stop("alpha must be in [0,1]")
+  }
   if (gFDR<=0 | gFDR>=1){
     stop("FDR must be in (0,1)")
   }
@@ -341,15 +344,14 @@ general_fit_cv = function(X, y, groups, model, path_fcn, type, lambda, path_leng
   # ------------------------------------------------------------- 
   # initialise CV variable for storing results
   all_data = data.frame(y,X)
-  set.seed(5)
   folds = createFolds(y, k = nfolds, list=TRUE)
   all_errors = matrix(0,nrow=path_length,ncol=nfolds)
   output_errors = data.frame(lambda=lambda_path,error_criteria=rep(0,path_length), num_non_zero = rep(0,path_length))
 
   if (model == "sgs"){
-    lambda_model = fit_sgs(X=X, y=y, groups=groups, type=type, lambda=lambda_path, alpha=alpha, max_iter = max_iter, backtracking = backtracking, max_iter_backtracking = max_iter_backtracking, tol = tol, standardise=standardise, intercept=intercept, screen = screen, verbose = FALSE, v_weights = pen_slope_org, w_weights = pen_gslope_org)
+    lambda_model = fit_sgs(X=X, y=y, groups=groups, type=type, lambda=lambda_path, path_length=path_length, alpha=alpha, max_iter = max_iter, backtracking = backtracking, max_iter_backtracking = max_iter_backtracking, tol = tol, standardise=standardise, intercept=intercept, screen = screen, verbose = FALSE, v_weights = pen_slope_org, w_weights = pen_gslope_org)
   } else if (model == "gslope"){
-    lambda_model = fit_gslope(X=X, y=y, groups=groups, type=type, lambda=lambda_path, max_iter=max_iter, backtracking=backtracking, max_iter_backtracking=max_iter_backtracking, tol=tol, standardise=standardise, intercept=intercept, w_weights=pen_gslope_org, screen=screen, verbose=FALSE)
+    lambda_model = fit_gslope(X=X, y=y, groups=groups, type=type, lambda=lambda_path, path_length=path_length,max_iter=max_iter, backtracking=backtracking, max_iter_backtracking=max_iter_backtracking, tol=tol, standardise=standardise, intercept=intercept, w_weights=pen_gslope_org, screen=screen, verbose=FALSE)
   }
 
   # -------------------------------------------------------------

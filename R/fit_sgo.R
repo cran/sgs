@@ -22,7 +22,7 @@
 #' 
 #' Sparse-group OSCAR (SGO) main fitting function. Supports both linear and logistic regression, both with dense and sparse matrix implementations.
 #' 
-#' \code{fit_sgo()} fits an SGO model (Feser and Evangelou (2024)) using adaptive three operator splitting (ATOS). SGO uses the same model set-up as for SGS, but with different weights (see Bao et. al. (2020) and Feser and Evangelou (2024)).
+#' \code{fit_sgo()} fits an SGO model (Feser and Evangelou (2024)) using adaptive three operator splitting (ATOS). SGO uses the same model set-up as for SGS, but with different weights (see Bao et al. (2020) and Feser and Evangelou (2024)).
 #' The penalties are given by (for a group \eqn{g} and variable \eqn{i}, with \eqn{p} variables and \eqn{m} groups):
 #' \deqn{
 #'   v_i = \sigma_1 + \sigma_2(p-i), \; w_g = \sigma_1 + \sigma_3(m-g),
