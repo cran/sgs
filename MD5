@@ -1,4 +1,4 @@
-8e03373760f47320c47b1c9e928c782a *DESCRIPTION
+569d30a930f9abe32bef94f8b6d3e4f6 *DESCRIPTION
 558986ceaea74cf545d8193922e9dde9 *NAMESPACE
 352cd125b1144bfdd43ed845e47f1ec8 *R/RcppExports.R
 44bf298c10b0610c3474bfbe48814215 *R/as_sgs.R
@@ -15,7 +15,7 @@ a4cc35f76e46acc9790c4f0f933aa68e *R/fit_gslope_cv.R
 55c3ab2ac2dceda7d22a75c174deb8b1 *R/fitting_code.R
 be90d3405363e136d798a1f84d7297d0 *R/gen_pens.R
 f5ddbcb2de721e70b43c20a5f7694e56 *R/gen_toy_data.R
-23da6592f718094a48adba5ec3984d8d *R/global_wrapper_code.R
+81614877456cba3ff73792ae087e4b67 *R/global_wrapper_code.R
 67ada2b924ea30eadf0d45e936d3194b *R/plot.R
 baabaa4e390a83da058072fc27478e04 *R/predict.R
 85184f02a0080e9a6627bce0101aa713 *R/print.R
@@ -30,7 +30,7 @@ b943a1546a1e17be4eea235ec7b4616b *build/partial.rdb
 db65e6d7a2b6ee5ec6d3a1a269d9e380 *inst/CITATION
 c950fd9c140ae8aeca013f0bc29e2016 *inst/doc/reproducible_example.R
 f8fff4e6dc263f3dcad7df24536c215c *inst/doc/reproducible_example.Rmd
-24f6517470dbe451e9f3a652b29d65d5 *inst/doc/reproducible_example.html
+2a8e59fd845e4ab064ae5777aff9a9b2 *inst/doc/reproducible_example.html
 487d2370e75dbe87f9b49248539304de *man/arma_mv.Rd
 4c130eed8f19f0b6332c5b391dace25e *man/arma_sparse.Rd
 933d4bf08860190f5c180e64a6c2042b *man/as_sgs.Rd
