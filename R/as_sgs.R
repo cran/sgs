@@ -64,7 +64,6 @@ as_sgs <- function(X, y, groups, type="linear", pen_method = 2, alpha=0.95, vFDR
     selected_prev = 1000
     attempts = 0
     repeat {
-        selected_prev_2 = selected_prev
         selected_prev = selected
         
         noise_est = estimateNoise(X_2[, selected], y_1, intercept)
@@ -72,12 +71,9 @@ as_sgs <- function(X, y, groups, type="linear", pen_method = 2, alpha=0.95, vFDR
         
         fit = fit_sgs(X=X, y=y, groups=groups, pen_method=pen_method, type, lambda=noise_est*out$scale_pen, alpha=alpha, vFDR=vFDR, gFDR=gFDR,intercept=intercept,
                        v_weights=pens_out$pen_slope_org,w_weights=pens_out$pen_gslope_org,standardise=standardise, screen = FALSE)
-        
-        if (intercept) {
-            selected = union(1, selected+1)
-        }
-        
-        if (identical(selected, selected_prev) | identical(selected, selected_prev_2)) {
+        selected = fit$selected_var
+
+        if (identical(selected, selected_prev)) {
             break
         }
         if (length(selected) + 1 >= num_obs) {
