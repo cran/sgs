@@ -12,7 +12,7 @@
 
 <meta name="author" content="Fabio Feser" />
 
-<meta name="date" content="2025-04-22" />
+<meta name="date" content="2025-05-06" />
 
 <title>sgs reproducible example</title>
 
@@ -340,7 +340,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">sgs reproducible example</h1>
 <h4 class="author">Fabio Feser</h4>
-<h4 class="date">2025-04-22</h4>
+<h4 class="date">2025-05-06</h4>
 
 
 
@@ -647,10 +647,10 @@ rules by looking at the speed improvement they provide. For SGS:</p>
 <span id="cb44-8"><a href="#cb44-8" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>, <span class="at">screen =</span> <span class="cn">FALSE</span>))</span>
 <span id="cb44-9"><a href="#cb44-9" tabindex="-1"></a>screen_time</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##    8.39    0.08   12.84</code></pre>
+##    8.11    0.14    8.72</code></pre>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a>no_screen_time</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##    9.82    0.31   17.03</code></pre>
+##   10.34    0.32   11.53</code></pre>
 <p>and for gSLOPE:</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a>screen_time <span class="ot">=</span> <span class="fu">system.time</span>(model_screen <span class="ot">&lt;-</span> <span class="fu">fit_gslope</span>(<span class="at">X =</span> data<span class="sc">$</span>X,</span>
 <span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a>    <span class="at">y =</span> data<span class="sc">$</span>y, <span class="at">groups =</span> groups, <span class="at">type =</span> <span class="st">&quot;linear&quot;</span>, <span class="at">path_length =</span> <span class="dv">100</span>,</span>
@@ -662,10 +662,10 @@ rules by looking at the speed improvement they provide. For SGS:</p>
 <span id="cb48-8"><a href="#cb48-8" tabindex="-1"></a>    <span class="at">screen =</span> <span class="cn">FALSE</span>))</span>
 <span id="cb48-9"><a href="#cb48-9" tabindex="-1"></a>screen_time</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##    5.42    0.27    9.04</code></pre>
+##    4.77    0.24    5.58</code></pre>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a>no_screen_time</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##    8.58    0.16    9.95</code></pre>
+##   11.69    0.47   13.72</code></pre>
 <div id="reference" class="section level2">
 <h2>Reference</h2>
 <ul>
