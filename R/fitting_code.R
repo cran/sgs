@@ -86,7 +86,7 @@ fit_path <- function(X,y,groups, groupIDs, type, lambda_path, alpha, intercept, 
     }
 
     if (type == "logistic" & intercept){
-      X = X[,-1]
+      # X = X[,-1]
       log_intercept = beta_tmp[1]
       beta_tmp = beta_tmp[-1]
       groups = groups[-1]-1

@@ -12,7 +12,7 @@
 
 <meta name="author" content="Fabio Feser" />
 
-<meta name="date" content="2025-05-06" />
+<meta name="date" content="2025-06-12" />
 
 <title>sgs reproducible example</title>
 
@@ -340,7 +340,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">sgs reproducible example</h1>
 <h4 class="author">Fabio Feser</h4>
-<h4 class="date">2025-05-06</h4>
+<h4 class="date">2025-06-12</h4>
 
 
 
@@ -404,15 +404,16 @@ The vector shows the fitted values (note the intercept). We can also
 recover the indices of the non-zero variables and groups, which are
 indexed from the first variable, not the intercept.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>model<span class="sc">$</span>beta[model<span class="sc">$</span>selected_var <span class="sc">+</span> <span class="dv">1</span>]  <span class="co"># the +1 is to account for the intercept</span></span></code></pre></div>
-<pre><code>##  [1] -1.6734720 -1.4893849  3.1678789  1.6350236  5.0369209 -1.4619740
-##  [7]  1.2779414 -0.9364065  4.9809334 -0.6548784 -1.4470782 -2.2343330
-## [13]  1.6188817 -1.6665858 -0.7298015</code></pre>
+<pre><code>##  [1] -1.70359057 -1.51619035  3.19485206 -0.03116136  1.66521214  5.06316228
+##  [7] -1.48582935  1.30402890 -0.94992292  5.02074891 -0.67249170 -1.47281080
+## [13] -2.26324184  1.64877215 -1.69735702 -0.74801830</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>model<span class="sc">$</span>group_effects[model<span class="sc">$</span>selected_grp]</span></code></pre></div>
-<pre><code>## [1] 3.879978 5.295647 1.461974 1.277941 5.068190 1.588364 2.234333 2.435343</code></pre>
+<pre><code>## [1] 3.92531956 0.03116136 5.32996658 1.48582935 1.30402890 5.10982125 1.61907897
+## [8] 2.26324184 2.48173363</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>model<span class="sc">$</span>selected_var</span></code></pre></div>
-<pre><code>##  [1]  97  99 100 133 136 170 217 231 234 260 263 334 391 393 394</code></pre>
+<pre><code>##  [1]  97  99 100 109 133 136 170 217 231 234 260 263 334 391 393 394</code></pre>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>model<span class="sc">$</span>selected_grp</span></code></pre></div>
-<pre><code>## [1] 30 39 46 56 59 64 76 85</code></pre>
+<pre><code>## [1] 30 33 39 46 56 59 64 76 85</code></pre>
 <p>Defining a function that lets us calculate various metrics (including
 the FDR and sensitivity):</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>fdr_sensitivity <span class="ot">=</span> <span class="cf">function</span>(fitted_ids, true_ids, num_coef) {</span>
@@ -444,26 +445,26 @@ the FDR and sensitivity):</p>
 ## [1] 0
 ## 
 ## $sensitivity
-## [1] 0.5357143
+## [1] 0.5714286
 ## 
 ## $fpr
 ## [1] 0
 ## 
 ## $f1
-## [1] 0.6976744</code></pre>
+## [1] 0.7272727</code></pre>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">fdr_sensitivity</span>(<span class="at">fitted_ids =</span> model<span class="sc">$</span>selected_grp, <span class="at">true_ids =</span> data<span class="sc">$</span>true_grp_id,</span>
 <span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>    <span class="at">num_coef =</span> <span class="dv">100</span>)</span></code></pre></div>
 <pre><code>## $fdr
 ## [1] 0
 ## 
 ## $sensitivity
-## [1] 0.8
+## [1] 0.9
 ## 
 ## $fpr
 ## [1] 0
 ## 
 ## $f1
-## [1] 0.8888889</code></pre>
+## [1] 0.9473684</code></pre>
 <p>The model is currently too sparse, as our choice of <span class="math inline">\(\lambda\)</span> is too high. We can instead use
 cross-validation.</p>
 </div>
@@ -477,16 +478,16 @@ rule (as in the package) is used to choose the optimal model.</p>
 <span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;linear&quot;</span>, <span class="at">path_length =</span> <span class="dv">20</span>, <span class="at">nfolds =</span> <span class="dv">10</span>, <span class="at">alpha =</span> <span class="fl">0.95</span>,</span>
 <span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>    <span class="at">vFDR =</span> <span class="fl">0.1</span>, <span class="at">gFDR =</span> <span class="fl">0.1</span>, <span class="at">min_frac =</span> <span class="fl">0.05</span>, <span class="at">standardise =</span> <span class="st">&quot;l2&quot;</span>,</span>
 <span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">TRUE</span>, <span class="at">screen =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## [1] &quot;Fold 1/10 done. Error: 3593.46913744139&quot;
-## [1] &quot;Fold 2/10 done. Error: 2399.84476769036&quot;
-## [1] &quot;Fold 3/10 done. Error: 3250.66880473304&quot;
-## [1] &quot;Fold 4/10 done. Error: 3269.74553706449&quot;
-## [1] &quot;Fold 5/10 done. Error: 3191.93471414357&quot;
-## [1] &quot;Fold 6/10 done. Error: 2779.0603182328&quot;
-## [1] &quot;Fold 7/10 done. Error: 3236.41489481627&quot;
-## [1] &quot;Fold 8/10 done. Error: 4483.21248839556&quot;
-## [1] &quot;Fold 9/10 done. Error: 3454.59020729246&quot;
-## [1] &quot;Fold 10/10 done. Error: 3716.7940975706&quot;</code></pre>
+<pre><code>## [1] &quot;Fold 1/10 done. Error: 3587.46352973189&quot;
+## [1] &quot;Fold 2/10 done. Error: 2396.37451004873&quot;
+## [1] &quot;Fold 3/10 done. Error: 3244.98656447063&quot;
+## [1] &quot;Fold 4/10 done. Error: 3264.25029382017&quot;
+## [1] &quot;Fold 5/10 done. Error: 3187.48670434299&quot;
+## [1] &quot;Fold 6/10 done. Error: 2773.26771142741&quot;
+## [1] &quot;Fold 7/10 done. Error: 3231.2422676838&quot;
+## [1] &quot;Fold 8/10 done. Error: 4476.62268630096&quot;
+## [1] &quot;Fold 9/10 done. Error: 3449.11503742538&quot;
+## [1] &quot;Fold 10/10 done. Error: 3710.53353879839&quot;</code></pre>
 <p>The fitting verbose contains useful information, showing the error
 for each fold. Aside from the fitting verbose, we can see a more
 succinct summary by using the function</p>
@@ -494,27 +495,27 @@ succinct summary by using the function</p>
 <pre><code>## 
 ##  regression type:  
 ## 
-##          lambda     error num.nonzero
-##  [1,] 1.8885960 9524.4889           0
-##  [2,] 1.6131093 9277.9900           1
-##  [3,] 1.3778075 8544.5941           2
-##  [4,] 1.1768288 7690.9591           3
-##  [5,] 1.0051665 6921.4515           4
-##  [6,] 0.8585444 5766.8107          14
-##  [7,] 0.7333098 4444.6505          15
-##  [8,] 0.6263430 3418.5571          15
-##  [9,] 0.5349793 2663.9599          15
-## [10,] 0.4569427 2091.6795          16
-## [11,] 0.3902891 1626.3300          22
-## [12,] 0.3333582 1232.3194          22
-## [13,] 0.2847318  931.3590          22
-## [14,] 0.2431984  710.5062          22
-## [15,] 0.2077234  547.4188          24
-## [16,] 0.1774231  422.2216          24
-## [17,] 0.1515426  326.3720          26
-## [18,] 0.1294373  252.6180          26
-## [19,] 0.1105565  198.4320          27
-## [20,] 0.0944298  158.7516          27</code></pre>
+##           lambda     error num.nonzero
+##  [1,] 1.91363372 9524.4888           0
+##  [2,] 1.63449483 9277.7401           1
+##  [3,] 1.39607352 8542.7212           2
+##  [4,] 1.19243036 7687.9926           3
+##  [5,] 1.01849233 6915.9635           4
+##  [6,] 0.86992638 5746.3576          14
+##  [7,] 0.74303152 4427.2188          15
+##  [8,] 0.63464662 3405.7949          15
+##  [9,] 0.54207167 2654.6456          15
+## [10,] 0.46300049 2084.2636          16
+## [11,] 0.39546330 1618.8663          22
+## [12,] 0.33777766 1226.0384          22
+## [13,] 0.28850654  926.7801          22
+## [14,] 0.24642252  707.1735          22
+## [15,] 0.21047724  544.7951          24
+## [16,] 0.17977524  420.1590          24
+## [17,] 0.15355169  324.7006          26
+## [18,] 0.13115334  251.3890          26
+## [19,] 0.11202220  197.5157          27
+## [20,] 0.09568169  158.0814          27</code></pre>
 <p>The best model is found to be the one at the end of the path:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>cv_model<span class="sc">$</span>best_lambda_id</span></code></pre></div>
 <pre><code>## [1] 20</code></pre>
@@ -552,7 +553,7 @@ values.</p>
 <h3>Plot</h3>
 <p>We can visualise the solution using the plot function:</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">plot</span>(cv_model, <span class="at">how_many =</span> <span class="dv">10</span>)</span></code></pre></div>
-<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
 </div>
 <div id="prediction" class="section level3">
 <h3>Prediction</h3>
@@ -560,7 +561,7 @@ values.</p>
 prediction. The predict function can be used on regular and CV model
 fits.</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">predict</span>(model, data<span class="sc">$</span>X)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code></pre></div>
-<pre><code>## [1]  7.5631945 -2.5428616  7.8497662  0.8790488 -4.8362971</code></pre>
+<pre><code>## [1]  7.5669801 -2.5809301  7.9012955  0.7832665 -4.9043138</code></pre>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">dim</span>(<span class="fu">predict</span>(cv_model, data<span class="sc">$</span>X))</span></code></pre></div>
 <pre><code>## [1] 400  20</code></pre>
 </div>
@@ -587,16 +588,16 @@ train and test to test the models classification performance.</p>
 <span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;logistic&quot;</span>, <span class="at">path_length =</span> <span class="dv">20</span>, <span class="at">nfolds =</span> <span class="dv">10</span>, <span class="at">alpha =</span> <span class="fl">0.95</span>,</span>
 <span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>    <span class="at">vFDR =</span> <span class="fl">0.1</span>, <span class="at">gFDR =</span> <span class="fl">0.1</span>, <span class="at">min_frac =</span> <span class="fl">0.05</span>, <span class="at">standardise =</span> <span class="st">&quot;l2&quot;</span>,</span>
 <span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">FALSE</span>, <span class="at">verbose =</span> <span class="cn">TRUE</span>, <span class="at">screen =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## [1] &quot;Fold 1/10 done. Error: 0.241428571428571&quot;
+<pre><code>## [1] &quot;Fold 1/10 done. Error: 0.244285714285714&quot;
 ## [1] &quot;Fold 2/10 done. Error: 0.187142857142857&quot;
 ## [1] &quot;Fold 3/10 done. Error: 0.252857142857143&quot;
 ## [1] &quot;Fold 4/10 done. Error: 0.194285714285714&quot;
 ## [1] &quot;Fold 5/10 done. Error: 0.164285714285714&quot;
-## [1] &quot;Fold 6/10 done. Error: 0.204285714285714&quot;
+## [1] &quot;Fold 6/10 done. Error: 0.205714285714286&quot;
 ## [1] &quot;Fold 7/10 done. Error: 0.194285714285714&quot;
-## [1] &quot;Fold 8/10 done. Error: 0.111428571428571&quot;
+## [1] &quot;Fold 8/10 done. Error: 0.112857142857143&quot;
 ## [1] &quot;Fold 9/10 done. Error: 0.21&quot;
-## [1] &quot;Fold 10/10 done. Error: 0.221428571428571&quot;</code></pre>
+## [1] &quot;Fold 10/10 done. Error: 0.218571428571429&quot;</code></pre>
 <p>and again, use the predict function</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>predictions <span class="ot">=</span> <span class="fu">predict</span>(cv_model, test_X)</span></code></pre></div>
 <p>For logistic regression, the function returns both the predicted
@@ -604,7 +605,7 @@ class probabilities (<code>response</code>) and the predicted class
 (<code>class</code>). We can use this to check the prediction accuracy,
 given as <span class="math inline">\(82\%\)</span>.</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a>predictions<span class="sc">$</span>response[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, cv_model<span class="sc">$</span>best_lambda_id]</span></code></pre></div>
-<pre><code>## [1] 0.48078832 0.50438355 0.09077354 0.11937906 0.35681848</code></pre>
+<pre><code>## [1] 0.47968400 0.50407223 0.09066721 0.11938235 0.35718582</code></pre>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a>predictions<span class="sc">$</span>class[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, cv_model<span class="sc">$</span>best_lambda_id]</span></code></pre></div>
 <pre><code>## [1] 0 1 0 0 0</code></pre>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="fu">sum</span>(predictions<span class="sc">$</span>class[, cv_model<span class="sc">$</span>best_lambda_id] <span class="sc">==</span> test_y)<span class="sc">/</span><span class="fu">length</span>(test_y)</span></code></pre></div>
@@ -647,10 +648,10 @@ rules by looking at the speed improvement they provide. For SGS:</p>
 <span id="cb44-8"><a href="#cb44-8" tabindex="-1"></a>    <span class="at">intercept =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>, <span class="at">screen =</span> <span class="cn">FALSE</span>))</span>
 <span id="cb44-9"><a href="#cb44-9" tabindex="-1"></a>screen_time</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##    8.11    0.14    8.72</code></pre>
+##   16.34    0.61   30.55</code></pre>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a>no_screen_time</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   10.34    0.32   11.53</code></pre>
+##    9.87    0.43   22.85</code></pre>
 <p>and for gSLOPE:</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a>screen_time <span class="ot">=</span> <span class="fu">system.time</span>(model_screen <span class="ot">&lt;-</span> <span class="fu">fit_gslope</span>(<span class="at">X =</span> data<span class="sc">$</span>X,</span>
 <span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a>    <span class="at">y =</span> data<span class="sc">$</span>y, <span class="at">groups =</span> groups, <span class="at">type =</span> <span class="st">&quot;linear&quot;</span>, <span class="at">path_length =</span> <span class="dv">100</span>,</span>
@@ -662,10 +663,10 @@ rules by looking at the speed improvement they provide. For SGS:</p>
 <span id="cb48-8"><a href="#cb48-8" tabindex="-1"></a>    <span class="at">screen =</span> <span class="cn">FALSE</span>))</span>
 <span id="cb48-9"><a href="#cb48-9" tabindex="-1"></a>screen_time</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##    4.77    0.24    5.58</code></pre>
+##    5.05    0.09   10.94</code></pre>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a>no_screen_time</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   11.69    0.47   13.72</code></pre>
+##   10.52    0.57   22.25</code></pre>
 <div id="reference" class="section level2">
 <h2>Reference</h2>
 <ul>

@@ -44,20 +44,6 @@ is.decreasing <- function(x){ # checks if a sequence is decreasing
   return(state)
 }
 
-is.strictly.decreasing <- function(x){ # checks if a sequence is decreasing
-  if (length(x) == 1){
-    state = TRUE
-  } else {
-  state = TRUE
-  for (i in 2:length(x)){
-    if (x[i] >= x[i-1]){
-      state = FALSE
-    }
-  }
-  }
-  return(state)
-}
-
 sigmoid = function(x) {
    1 / (1 + exp(-x))
 }
@@ -264,7 +250,7 @@ soft_thresholding_operator <- function(x,thres){
 
 path_shape <- function(lambda_max, path_length, min_frac){
   min_lambda = min_frac*lambda_max
-  lambda_seq = exp(seq(log(lambda_max),log(min_lambda), (log(min_lambda) - log(lambda_max))/(path_length-1))) 
+  lambda_seq = exp(seq(from = log(lambda_max),to = log(min_lambda), length.out = path_length))
   return(lambda_seq)
 }
 
@@ -416,8 +402,8 @@ return(p_sequence)
 }
 
 sgs_var_penalty <- function(q, pen_g, p, lambda, alpha, m, group.sizes, method){
-    lambda.max = rep(0, m)
-    lambda.min = rep(0, m)
+    lambda.max = rep(0, p)
+    lambda.min = rep(0, p)
     group.sizes = sort(group.sizes, decreasing = TRUE)
     for (i in 1:p) {
         p_sequence = rep(0, m)
@@ -431,7 +417,7 @@ sgs_var_penalty <- function(q, pen_g, p, lambda, alpha, m, group.sizes, method){
         cdfMean <- function(x) {
             p.seq <- rep(0, m)
             for (i in 1:m) {
-                p.seq[i] <- pnorm((alpha * lambda * x + (1 / 3) * floor(alpha * group.sizes[j]) * (1 - alpha) * lambda * pen_g[i]))
+                p.seq[i] <- pnorm((alpha * lambda * x + (1 / 3) * floor(alpha * group.sizes[i]) * (1 - alpha) * lambda * pen_g[i]))
             }
             return(mean(p.seq))
         }
@@ -488,8 +474,13 @@ gen_pens_as_sgs <- function(gFDR, vFDR, pen_method,groups,alpha,lambda){
     pen_slope_org = ifelse(pen_slope_org < 0, 0, pen_slope_org)
     pen_gslope_org = grp_pen_as_sgs_max(q=gFDR,pen_v=pen_slope_org,repeats=1e5,lambda=lambda,alpha=alpha,m=num_groups,group.sizes=len_each_grp)
     pen_gslope_org = ifelse(pen_gslope_org < 0, 0, pen_gslope_org)
+  } else {stop("method choice not valid")}
+  if (!is.decreasing(pen_slope_org)){
+    pen_slope_org = sort(pen_slope_org,decreasing=TRUE)
   }
-  else {stop("method choice not valid")}
+  if (!is.decreasing(pen_gslope_org)){
+    pen_gslope_org = sort(pen_gslope_org,decreasing=TRUE)
+  }
   out=c()
   out$pen_slope_org = pen_slope_org
   out$pen_gslope_org = pen_gslope_org
@@ -554,8 +545,8 @@ grp_pen_as_sgs_mean <- function(q, pen_v, repeats, lambda, alpha, m, group.sizes
             p.seq = rep(0, m)
             counter2 = 0
             for (i in 1:m) {
-                p.seq[i] = z_fn(sum(abs(x)) * (1 - alpha) * lambda * group.sizes[j] + alpha * lambda * sum(pen_v[(counter2 + 1):(counter2 + group.sizes[j])]))
-                counter2 = counter2 + group.sizes[j]
+                p.seq[i] = z_fn(sum(abs(x)) * (1 - alpha) * lambda * group.sizes[i] + alpha * lambda * sum(pen_v[(counter2 + 1):(counter2 + group.sizes[i])]))
+                counter2 = counter2 + group.sizes[i]
             }
             return(mean(p.seq))
         }
@@ -720,7 +711,7 @@ init_lipschitz <- function(f, f_grad, mult_fcn, x0, X, y, num_obs, tX, crossprod
   return(L0)
 }
 
-proxGroupSortedL1 <- function(y, lambda,group, group_id, num_groups) {
+proxGroupSortedL1 <- function(y, lambda, group, group_id, num_groups) {
   # proximal operator for group SLOPE - adapted so that the 0/0 = NaN error doesn't occur
   # adapted from grpSLOPE package, which is no longer available on CRAN
   if (length(lambda) != num_groups) {
@@ -735,7 +726,7 @@ proxGroupSortedL1 <- function(y, lambda,group, group_id, num_groups) {
   }
 
   # get Euclidean norms of the solution vector
-  prox_norm <- sortedL1Prox(x=group_norm, lambda=lambda, method="stack")
+  prox_norm <- sortedL1Prox(x=group_norm, lambda=lambda)
 
   # compute the solution
   prox_solution <- rep(NA, length(y))
